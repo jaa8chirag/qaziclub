@@ -93,53 +93,54 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Social Media & Contact Links (Outline Style: Border + Matching Icon Color, Transparent Background) */}
+        {/* Social Media & Contact Links */}
         <div className="flex items-center gap-2">
+          {/* Desktop Only Social Media Icons (Hidden on mobile) */}
+          <div className="hidden lg:flex items-center gap-2">
+            {/* Instagram - Outline Style */}
+            <a
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              title="Follow Qazi on Instagram"
+              className="w-9 h-9 rounded-full border-2 border-[#E1306C] text-[#E1306C] bg-transparent hover:bg-[#E1306C]/15 hover:scale-110 transition-all duration-200 flex items-center justify-center shrink-0"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
 
+            {/* Facebook - Outline Style */}
+            <a
+              href="https://www.facebook.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              title="Follow Qazi on Facebook"
+              className="w-9 h-9 rounded-full border-2 border-[#1877F2] text-[#1877F2] bg-transparent hover:bg-[#1877F2]/15 hover:scale-110 transition-all duration-200 flex items-center justify-center shrink-0"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+              </svg>
+            </a>
 
-          {/* Instagram - Outline Style */}
-          <a
-            href="https://www.instagram.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram"
-            title="Follow Qazi on Instagram"
-            className="w-9 h-9 rounded-full border-2 border-[#E1306C] text-[#E1306C] bg-transparent hover:bg-[#E1306C]/15 hover:scale-110 transition-all duration-200 flex items-center justify-center shrink-0"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-            </svg>
-          </a>
-
-          {/* Facebook - Outline Style */}
-          <a
-            href="https://www.facebook.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Facebook"
-            title="Follow Qazi on Facebook"
-            className="w-9 h-9 rounded-full border-2 border-[#1877F2] text-[#1877F2] bg-transparent hover:bg-[#1877F2]/15 hover:scale-110 transition-all duration-200 flex items-center justify-center shrink-0"
-          >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-            </svg>
-          </a>
-
-          {/* YouTube - Outline Style */}
-          <a
-            href="https://www.youtube.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="YouTube"
-            title="Subscribe to Qazi on YouTube"
-            className="w-9 h-9 rounded-full border-2 border-[#FF0000] text-[#FF0000] bg-transparent hover:bg-[#FF0000]/15 hover:scale-110 transition-all duration-200 flex items-center justify-center shrink-0"
-          >
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-            </svg>
-          </a>
+            {/* YouTube - Outline Style */}
+            <a
+              href="https://www.youtube.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="YouTube"
+              title="Subscribe to Qazi on YouTube"
+              className="w-9 h-9 rounded-full border-2 border-[#FF0000] text-[#FF0000] bg-transparent hover:bg-[#FF0000]/15 hover:scale-110 transition-all duration-200 flex items-center justify-center shrink-0"
+            >
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+              </svg>
+            </a>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -159,7 +160,7 @@ export default function Navbar() {
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
         <div
-          className={`lg:hidden border-b px-6 py-4 space-y-3 shadow-lg ${
+          className={`lg:hidden border-b px-6 py-5 space-y-4 shadow-xl ${
             isDark
               ? 'bg-[#09080C] border-[#2A2418]'
               : 'bg-white border-[#D8AE56]/30'
@@ -184,6 +185,7 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
+
           <div className="pt-2">
             <Link
               href="/book-me"
@@ -193,6 +195,60 @@ export default function Navbar() {
             >
               Book Me Now
             </Link>
+          </div>
+
+          {/* Social Icons Inside Mobile Drawer */}
+          <div className={`pt-4 border-t flex flex-col items-center gap-2.5 ${isDark ? 'border-[#2A2418]' : 'border-[#D8AE56]/20'}`}>
+            <span
+              className={`text-xs uppercase tracking-[0.2em] font-extrabold ${
+                isDark ? 'text-gray-400' : 'text-[#87672D]'
+              }`}
+              style={{ fontFamily: 'Space Grotesk, monospace' }}
+            >
+              Connect With Qazi
+            </span>
+            <div className="flex items-center justify-center gap-4 pt-1">
+              {/* Instagram */}
+              <a
+                href="https://www.instagram.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="w-10 h-10 rounded-full border-2 border-[#E1306C] text-[#E1306C] bg-[#E1306C]/10 flex items-center justify-center transition-transform hover:scale-110"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
+
+              {/* Facebook */}
+              <a
+                href="https://www.facebook.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="w-10 h-10 rounded-full border-2 border-[#1877F2] text-[#1877F2] bg-[#1877F2]/10 flex items-center justify-center transition-transform hover:scale-110"
+              >
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                </svg>
+              </a>
+
+              {/* YouTube */}
+              <a
+                href="https://www.youtube.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube"
+                className="w-10 h-10 rounded-full border-2 border-[#FF0000] text-[#FF0000] bg-[#FF0000]/10 flex items-center justify-center transition-transform hover:scale-110"
+              >
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       )}
