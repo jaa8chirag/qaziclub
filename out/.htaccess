@@ -1,7 +1,10 @@
 RewriteEngine On
 RewriteBase /
 
-# Force HTTPS
+# Allow AutoSSL / Let's Encrypt DCV checks without HTTPS redirect
+RewriteCond %{REQUEST_URI} !^/\.well-known
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
