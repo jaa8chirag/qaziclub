@@ -122,9 +122,9 @@ export default function Home() {
                 >
                   <div>
                     {/* Card Image */}
-                    <div className="relative h-52 w-full overflow-hidden">
+                    <div className="relative w-full aspect-[840/460] overflow-hidden bg-[#111111]">
                       <img
-                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                         alt={item.title}
                         src={item.image}
                       />
