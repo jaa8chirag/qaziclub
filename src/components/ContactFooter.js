@@ -119,8 +119,9 @@ export default function ContactFooter() {
               <h3 className="text-2xl sm:text-3xl font-black text-[#141312] mt-1" style={{ fontFamily: 'Bodoni Moda, serif' }}>
                 Contact Qazi Management
               </h3>
-              <p className="text-xs text-[#524E46] mt-1">
-                Fill in your details for prompt booking clearance and queries.
+              <p className="text-xs text-[#524E46] mt-1 flex items-center justify-center gap-1.5 font-medium">
+                <span className="material-symbols-outlined text-[15px] text-[#9B7018]">mail</span>
+                <a href="mailto:info@qaziclub.com" className="text-[#9B7018] hover:underline font-bold">info@qaziclub.com</a>
               </p>
             </div>
 

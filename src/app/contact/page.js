@@ -329,6 +329,27 @@ export default function ContactPage() {
                 </div>
 
                 <div className="space-y-3.5">
+                  {/* Primary Official Email Desk */}
+                  <div className="p-4 rounded-2xl bg-gradient-to-r from-[#D8AE56]/15 via-white to-transparent border-2 border-[#D8AE56] shadow-sm">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="material-symbols-outlined text-[#9B7018] text-[20px]">verified</span>
+                      <h4
+                        className="text-base font-bold text-[#111111] uppercase tracking-wider"
+                        style={{ fontFamily: 'Space Grotesk, monospace' }}
+                      >
+                        Official Artist Desk
+                      </h4>
+                    </div>
+                    <a
+                      href="mailto:info@qaziclub.com"
+                      className="inline-flex items-center gap-2 text-sm font-black text-[#9B7018] hover:underline transition-colors"
+                      style={{ fontFamily: 'Space Grotesk, monospace' }}
+                    >
+                      <span className="material-symbols-outlined text-[18px]">mail</span>
+                      <span>info@qaziclub.com</span>
+                    </a>
+                  </div>
+
                   {/* Mumbai */}
                   <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E6DFD1] hover:border-[#D8AE56] transition-all duration-200">
                     <div className="flex items-center gap-3 mb-2">
