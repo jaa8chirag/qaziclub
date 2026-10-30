@@ -355,36 +355,40 @@ function BookMeContent() {
                 </p>
               </div>
 
-              {/* Territory Switcher (Centered) - Hidden for Meet Qazi in Person */}
+              {/* Territory Switcher (Centered & Perfectly Aligned on Mobile) - Hidden for Meet Qazi in Person */}
               {selectedCat !== 'Meet Qazi in Person' && (
-                <div className="flex justify-center mb-8 px-2">
-                  <div className="bg-white p-1.5 rounded-full inline-flex items-center gap-2 shadow-lg border-2 border-[#D7CEBE] max-w-full overflow-x-auto">
+                <div className="flex justify-center mb-8 px-2 w-full">
+                  <div className="bg-white p-1.5 rounded-2xl sm:rounded-full grid grid-cols-2 sm:inline-flex items-center gap-1.5 sm:gap-2 shadow-lg border-2 border-[#D7CEBE] w-full max-w-sm sm:max-w-none sm:w-auto">
                     <button
                       type="button"
                       onClick={() => handleTerritorySwitch('domestic')}
-                      className={`px-4 sm:px-6 py-2.5 rounded-full text-xs md:text-sm uppercase font-bold tracking-wider transition-all duration-300 flex items-center gap-2 cursor-pointer whitespace-nowrap ${
+                      className={`px-2 sm:px-6 py-2.5 rounded-xl sm:rounded-full text-xs md:text-sm uppercase font-bold tracking-wider transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer text-center ${
                         territory === 'domestic'
-                          ? 'bg-[#D8AE56] text-[#261B04] shadow-[0_0_16px_rgba(216,174,86,0.5)]'
+                          ? 'bg-[#D8AE56] text-[#261B04] shadow-[0_0_16px_rgba(216,174,86,0.5)] font-extrabold'
                           : 'text-[#443E35] hover:text-[#111111]'
                       }`}
                       style={{ fontFamily: 'Space Grotesk, monospace' }}
                     >
-                      <span className="material-symbols-outlined text-[18px]">location_on</span>
-                      <span>Domestic / India Events</span>
+                      <span className="material-symbols-outlined text-[17px] sm:text-[18px] shrink-0">location_on</span>
+                      <span className="truncate">
+                        <span className="hidden sm:inline">Domestic / </span>India Events
+                      </span>
                     </button>
 
                     <button
                       type="button"
                       onClick={() => handleTerritorySwitch('intl')}
-                      className={`px-4 sm:px-6 py-2.5 rounded-full text-xs md:text-sm uppercase font-bold tracking-wider transition-all duration-300 flex items-center gap-2 cursor-pointer whitespace-nowrap ${
+                      className={`px-2 sm:px-6 py-2.5 rounded-xl sm:rounded-full text-xs md:text-sm uppercase font-bold tracking-wider transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer text-center ${
                         territory === 'intl'
-                          ? 'bg-[#D8AE56] text-[#261B04] shadow-[0_0_16px_rgba(216,174,86,0.5)]'
+                          ? 'bg-[#D8AE56] text-[#261B04] shadow-[0_0_16px_rgba(216,174,86,0.5)] font-extrabold'
                           : 'text-[#443E35] hover:text-[#111111]'
                       }`}
                       style={{ fontFamily: 'Space Grotesk, monospace' }}
                     >
-                      <span className="material-symbols-outlined text-[18px]">public</span>
-                      <span>International Tour / Global</span>
+                      <span className="material-symbols-outlined text-[17px] sm:text-[18px] shrink-0">public</span>
+                      <span className="truncate">
+                        International<span className="hidden sm:inline"> Tour / Global</span>
+                      </span>
                     </button>
                   </div>
                 </div>
