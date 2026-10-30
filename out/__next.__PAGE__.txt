@@ -1,7 +1,7 @@
 2:"$Sreact.fragment"
 3:"/_next/static/chunks/35ubvk2ivdjgs.js"
 4:I[47257,["$3"],"ClientPageRoot"]
-5:"/_next/static/chunks/1zc91iw0o3exk.js"
+5:"/_next/static/chunks/1ylg846o1c6ks.js"
 6:I[74647,["$3","$5"],"default"]
 9:I[97367,["$3"],"OutletBoundary"]
 a:"$Sreact.suspense"
@@ -11,8 +11,8 @@ f:I[97367,["$3"],"$e"]
 11:I[97367,["$3"],"$10"]
 12:I[27201,["$3"],"IconMark"]
 d:X
-1:[["children",{"s":"__PAGE__","h":128,"d":{"r":["$","$2","c",{"children":[["$","$L4",null,{"Component":"$6","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@7","$@8"]}}],[["$","script","script-0",{"src":"/_next/static/chunks/1zc91iw0o3exk.js","async":true}]],["$","$L9",null,{"children":["$","$a",null,{"name":"Next.MetadataOutlet","children":"$@b"}]}]]}],"p":"$@c","v":null,"s":"$d"}}]]
-0:{"t":{"t":{"s":"","h":16,"c":"$Q1"},"h":{"r":["$","$2","h",{"children":[null,["$","$Lf",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L11",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$a",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"QAZI CLUB | Actor • Performer • Singer | Official Artist Portal"}],["$","meta","1",{"name":"description","content":"Official booking portal for QAZI CLUB — Actor, Performer & Singer. Direct gateway for institutional buyers, festival syndicates, enterprise patrons, and university councils."}],["$","meta","2",{"name":"keywords","content":"Qazi Club,Qazi,Actor Performer Singer,Qazi singer,Qazi booking,College Fest singer,Live concerts,Meet Qazi"}],["$","link","3",{"rel":"icon","href":"/favicon.ico?favicon.117ezoe8m31dk.ico","sizes":"48x48","type":"image/x-icon"}],["$","$L12","4",{}]]}]}],null]}],null]}],"p":"$@13","v":null,"s":"$d"}},"a":"$@14","u":"$@15","b":"EkUMlfQFNsKkoKAkYyXVC"}
+1:[["children",{"s":"__PAGE__","h":128,"d":{"r":["$","$2","c",{"children":[["$","$L4",null,{"Component":"$6","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@7","$@8"]}}],[["$","script","script-0",{"src":"/_next/static/chunks/1ylg846o1c6ks.js","async":true}]],["$","$L9",null,{"children":["$","$a",null,{"name":"Next.MetadataOutlet","children":"$@b"}]}]]}],"p":"$@c","v":null,"s":"$d"}}]]
+0:{"t":{"t":{"s":"","h":16,"c":"$Q1"},"h":{"r":["$","$2","h",{"children":[null,["$","$Lf",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L11",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$a",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"QAZI CLUB | Actor • Performer • Singer | Official Artist Portal"}],["$","meta","1",{"name":"description","content":"Official booking portal for QAZI CLUB — Actor, Performer & Singer. Direct gateway for institutional buyers, festival syndicates, enterprise patrons, and university councils."}],["$","meta","2",{"name":"keywords","content":"Qazi Club,Qazi,Actor Performer Singer,Qazi singer,Qazi booking,College Fest singer,Live concerts,Meet Qazi"}],["$","link","3",{"rel":"icon","href":"/favicon.ico?favicon.117ezoe8m31dk.ico","sizes":"48x48","type":"image/x-icon"}],["$","$L12","4",{}]]}]}],null]}],null]}],"p":"$@13","v":null,"s":"$d"}},"a":"$@14","u":"$@15","b":"ihhKIMn5jKPoLE48Z0JIa"}
 7:{}
 8:"$1:0:1:d:r:props:children:0:props:serverProvidedParams:params"
 b:null

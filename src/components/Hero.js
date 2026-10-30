@@ -114,7 +114,7 @@ export default function Hero() {
           {/* ======================================================== */}
           {/* LEFT COLUMN: CLEAN, SIMPLE, LUXURY CELEBRITY IDENTITY   */}
           {/* ======================================================== */}
-          <div className="lg:col-span-7 space-y-5">
+          <div className="lg:col-span-7 space-y-5 text-center lg:text-left flex flex-col items-center lg:items-start">
             {/* Minimal Celebrity Status Chip */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-[#D8AE56]/20 to-transparent border-l-4 border-[#D8AE56]">
               <span className="live-pulse-gold" />
@@ -127,8 +127,8 @@ export default function Hero() {
             </div>
 
             {/* Monumental Headline */}
-            <div className="space-y-2">
-              <div className="flex items-baseline flex-wrap gap-x-4 gap-y-2">
+            <div className="space-y-2 w-full">
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start flex-wrap gap-x-4 gap-y-2">
                 <h1
                   className="text-5xl sm:text-7xl md:text-8xl tracking-tight font-extrabold leading-[0.92] gold-shimmer-hero"
                   style={{
@@ -136,13 +136,13 @@ export default function Hero() {
                     filter: 'drop-shadow(0 0 30px rgba(216,174,86,0.3))',
                   }}
                 >
-                  QAZI TOUKIR
+                  QAZI TOUQEER
                 </h1>
                 <span
-                  className="text-xs sm:text-base md:text-xl font-extrabold px-3 py-1 rounded bg-gradient-to-r from-red-600 to-rose-700 text-white tracking-wider shadow-[0_0_15px_rgba(225,29,72,0.4)]"
+                  className="text-xs sm:text-sm md:text-base font-extrabold px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-red-600 to-rose-700 text-white tracking-wider shadow-[0_0_15px_rgba(225,29,72,0.4)] inline-block"
                   style={{ fontFamily: 'Space Grotesk, monospace' }}
                 >
-                  LIVE &amp; UNFILTERED
+                  &ldquo;I am a Rockstar Baby Auuuuu….&rdquo;
                 </span>
               </div>
 
@@ -164,38 +164,20 @@ export default function Hero() {
             </div>
 
             {/* Clean, Simple Bio (No Clutter) */}
-            <p className="text-sm md:text-base text-gray-300 max-w-xl leading-relaxed">
+            <p className="text-sm md:text-base text-gray-300 max-w-xl leading-relaxed mx-auto lg:mx-0">
               The iconic singer and powerhouse stage performer. From winning national hearts to lighting up the stage with <strong className="text-white font-semibold">Salman Khan</strong>, Qazi delivers an adrenaline-fueled arena experience for College Fests, Stadium Arenas, Royal Sangeets, and VIP Events.
             </p>
 
-            {/* Primary Action Buttons */}
-            <div className="flex flex-wrap items-center gap-3.5 pt-3">
+            {/* Primary Action Button - Centered */}
+            <div className="w-full flex justify-center pt-4">
               <Link
                 href="/book-me"
-                className="inline-flex items-center gap-2.5 px-8 sm:px-9 py-4 rounded-xl bg-gradient-to-r from-[#D8AE56] via-[#F3D084] to-[#B68938] text-[#1A1203] text-sm uppercase font-extrabold tracking-wider hover:opacity-95 transition-all duration-300 shadow-[0_8px_30px_rgba(216,174,86,0.45)] hover:shadow-[0_12px_40px_rgba(216,174,86,0.65)] hover:scale-[1.02]"
+                className="inline-flex items-center gap-2.5 px-9 py-4 rounded-xl bg-gradient-to-r from-[#D8AE56] via-[#F3D084] to-[#B68938] text-[#1A1203] text-sm uppercase font-extrabold tracking-wider hover:opacity-95 transition-all duration-300 shadow-[0_8px_30px_rgba(216,174,86,0.45)] hover:shadow-[0_12px_40px_rgba(216,174,86,0.65)] hover:scale-[1.02]"
                 style={{ fontFamily: 'Space Grotesk, monospace' }}
               >
                 <span className="material-symbols-outlined text-[20px]">calendar_month</span>
                 <span>BOOK FOR AN EVENT</span>
                 <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
-              </Link>
-
-              <a
-                href="#disciplines"
-                className="inline-flex items-center gap-2 px-6 py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm uppercase font-bold tracking-wider backdrop-blur-md border border-white/20 transition-all hover:border-[#D8AE56]"
-                style={{ fontFamily: 'Space Grotesk, monospace' }}
-              >
-                <span className="material-symbols-outlined text-[20px]">theater_comedy</span>
-                <span>EXPLORE SHOWS</span>
-              </a>
-
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 px-4 py-4 rounded-xl text-gray-300 hover:text-[#F3D084] text-xs uppercase font-bold tracking-wider transition-colors"
-                style={{ fontFamily: 'Space Grotesk, monospace' }}
-              >
-                <span className="material-symbols-outlined text-[18px]">call</span>
-                <span>CONTACT ARTIST</span>
               </Link>
             </div>
           </div>

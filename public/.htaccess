@@ -1,8 +1,7 @@
 RewriteEngine On
 RewriteBase /
 
-# Force HTTPS (Excluding AutoSSL DCV validation)
-RewriteCond %{REQUEST_URI} !^/\.well-known/
+# Force HTTPS
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 

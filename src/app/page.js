@@ -95,26 +95,21 @@ export default function Home() {
         <Hero />
 
         {/* 7 PERFORMANCE DISCIPLINES SHOWCASE */}
-        <section id="disciplines" className="w-full py-20 bg-[#FAF8F5] border-b border-[#E6DFD1]">
+        <section id="disciplines" className="w-full py-16 md:py-20 bg-[#FAF8F5] border-b border-[#E6DFD1]">
           <div className="max-w-[1440px] mx-auto px-4 md:px-8 lg:px-16">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12">
-              <div>
-                <span
-                  className="text-sm uppercase tracking-[0.2em] text-[#9B7018] font-extrabold block"
-                  style={{ fontFamily: 'Space Grotesk, monospace' }}
-                >
-                  Curated Artist Disciplines
-                </span>
-                <h2
-                  className="text-3xl md:text-5xl text-[#111111] tracking-tight mt-2 font-black"
-                  style={{ fontFamily: 'Bodoni Moda, serif' }}
-                >
-                  Official Event Formats &amp; Production Scale
-                </h2>
-              </div>
-              <p className="text-sm md:text-base text-[#38342D] max-w-lg leading-relaxed font-medium">
-                Select your designated performance format below to automatically pre-configure the verified technical rider and escrow schedule.
-              </p>
+            <div className="pb-10 text-center md:text-left">
+              <span
+                className="text-sm uppercase tracking-[0.2em] text-[#9B7018] font-extrabold block"
+                style={{ fontFamily: 'Space Grotesk, monospace' }}
+              >
+                Curated Disciplines
+              </span>
+              <h2
+                className="text-3xl md:text-5xl text-[#111111] tracking-tight mt-2 font-black"
+                style={{ fontFamily: 'Bodoni Moda, serif' }}
+              >
+                Event Categories
+              </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
