@@ -31,15 +31,15 @@ function BookMeContent() {
 
   const eventCards = [
     {
-      id: 'College Fest',
+      id: 'Brand Collaborations & Endorsements',
       num: '01',
-      title: 'College Fest',
-      category: 'College Fest',
-      tag: 'Campus Headliner',
-      audience: '1,500 – 25,000+ Students',
-      desc: 'High-octane vocal sets, crowd anthems, campus festival headlining, and unforgettable youth engagement.',
-      specs: ['90-Min Live Concert Set', 'Sing-along Crowd Anthems', 'Student Council VIP Meet', 'Full Rider Tech Clearance'],
-      image: '/images/cards/card-01-college-fest.jpg',
+      title: 'Brand Collaborations & Endorsements',
+      category: 'Brand Collaboration',
+      tag: 'Brand Ambassador',
+      audience: 'Pan-India & Global Reach',
+      desc: 'Strategic brand ambassadorships, TV commercial shoots, digital ad campaigns, celebrity product launches, and viral social media promotions.',
+      specs: ['TVC & Digital Video Ad Campaigns', 'Official Brand Ambassador Rights', 'Product Launch Event Presence', 'Social Media Collabs & Viral Reels'],
+      image: '/images/cards/card-01-brand-collab.jpg',
     },
     {
       id: 'Live Concerts & Live Shows',
@@ -97,15 +97,15 @@ function BookMeContent() {
       image: '/images/cards/card-06-corporate-gala.jpg',
     },
     {
-      id: 'Brand Collaborations & Endorsements',
+      id: 'College Fest',
       num: '07',
-      title: 'Brand Collaborations & Endorsements',
-      category: 'Brand Collaboration',
-      tag: 'Brand Ambassador',
-      audience: 'Pan-India & Global Reach',
-      desc: 'Strategic brand ambassadorships, TV commercial shoots, digital ad campaigns, celebrity product launches, and viral social media promotions.',
-      specs: ['TVC & Digital Video Ad Campaigns', 'Official Brand Ambassador Rights', 'Product Launch Event Presence', 'Social Media Collabs & Viral Reels'],
-      image: '/images/cards/card-07-brand-collab.jpg',
+      title: 'College Fest',
+      category: 'College Fest',
+      tag: 'Campus Headliner',
+      audience: '1,500 – 25,000+ Students',
+      desc: 'High-octane vocal sets, crowd anthems, campus festival headlining, and unforgettable youth engagement.',
+      specs: ['90-Min Live Concert Set', 'Sing-along Crowd Anthems', 'Student Council VIP Meet', 'Full Rider Tech Clearance'],
+      image: '/images/cards/card-07-college-fest.jpg',
     },
   ];
 

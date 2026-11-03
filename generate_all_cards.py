@@ -250,18 +250,18 @@ def create_split_card(
 # Generate All 7 Cards with DIVERSE, AUTHENTIC REAL PHOTOS OF QAZI
 cards_config = [
     {
-        'filename': 'card-01-college-fest.jpg',
-        'qazi_img_path': 'public/images/qazi-mic-black.jpg',
-        'bg_img_path': 'public/images/events/fest_2.jpg',
-        'badge_text': '01 • CAMPUS HEADLINER',
-        'title_line1': 'COLLEGE FEST',
-        'title_line2': '',
-        'subtitle_text': 'HIGH-OCTANE VOCAL & CAMPUS ANTHEMS',
-        'spec1': '90-Min Live Concert Headline Set',
-        'spec2': 'Sing-Along Youth Anthems & Council VIP',
-        'icon_type': 'college',
-        'watermark_text': 'CAMPUS',
-        'qazi_crop_box': (0, 0, 680, 720)
+        'filename': 'card-01-brand-collab.jpg',
+        'qazi_img_path': 'public/images/qazi-brown-jacket.jpg',
+        'bg_img_path': 'public/images/events/brand_2.jpg',
+        'badge_text': '01 • BRAND AMBASSADOR',
+        'title_line1': 'BRAND COLLAB',
+        'title_line2': '& ENDORSEMENTS',
+        'subtitle_text': 'TVC SHOOTS • DIGITAL ADS • CAMPAIGN FACE',
+        'spec1': 'Official Brand Ambassador Media Rights',
+        'spec2': 'Commercial Video Shoots & Viral Social Repertoire',
+        'icon_type': 'brand',
+        'watermark_text': 'CAMPAIGN',
+        'qazi_crop_box': (60, 160, 520, 720)
     },
     {
         'filename': 'card-02-arena-concert.jpg',
@@ -334,18 +334,18 @@ cards_config = [
         'qazi_crop_box': (180, 160, 640, 780)
     },
     {
-        'filename': 'card-07-brand-collab.jpg',
-        'qazi_img_path': 'public/images/qazi-brown-jacket.jpg',
-        'bg_img_path': 'public/images/events/brand_2.jpg',
-        'badge_text': '07 • BRAND AMBASSADOR',
-        'title_line1': 'BRAND COLLAB',
-        'title_line2': '& ENDORSEMENTS',
-        'subtitle_text': 'TVC SHOOTS • DIGITAL ADS • CAMPAIGN FACE',
-        'spec1': 'Official Brand Ambassador Media Rights',
-        'spec2': 'Commercial Video Shoots & Viral Social Repertoire',
-        'icon_type': 'brand',
-        'watermark_text': 'CAMPAIGN',
-        'qazi_crop_box': (60, 160, 520, 720)
+        'filename': 'card-07-college-fest.jpg',
+        'qazi_img_path': 'public/images/qazi-mic-black.jpg',
+        'bg_img_path': 'public/images/events/fest_2.jpg',
+        'badge_text': '07 • CAMPUS HEADLINER',
+        'title_line1': 'COLLEGE FEST',
+        'title_line2': '',
+        'subtitle_text': 'HIGH-OCTANE VOCAL & CAMPUS ANTHEMS',
+        'spec1': '90-Min Live Concert Headline Set',
+        'spec2': 'Sing-Along Youth Anthems & Council VIP',
+        'icon_type': 'college',
+        'watermark_text': 'CAMPUS',
+        'qazi_crop_box': (0, 0, 680, 720)
     }
 ]
 
