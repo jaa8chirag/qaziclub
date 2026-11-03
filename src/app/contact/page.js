@@ -17,18 +17,6 @@ export default function ContactPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  // FAQ Accordion states
-  const [openFaqs, setOpenFaqs] = useState({
-    faq1: false,
-    faq2: false,
-    faq3: false,
-    faq4: false,
-  });
-
-  const toggleFaq = (key) => {
-    setOpenFaqs((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
-
   const handleTransmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
@@ -484,115 +472,6 @@ export default function ContactPage() {
               <p className="text-xs md:text-sm text-on-surface-variant">
                 Over 140 arena spectacles across 22 countries. Curated with proprietary quad-sound design and custom pyrotechnic choreography.
               </p>
-            </div>
-          </div>
-        </section>
-
-        {/* FAQ Accordion for Organizers & Promoters */}
-        <section className="max-w-[1440px] mx-auto px-4 md:px-8 lg:px-16 pb-16 w-full">
-          <div className="max-w-4xl mx-auto space-y-6">
-            <div className="text-center space-y-1">
-              <span
-                className="font-label-sm text-[10px] uppercase text-secondary tracking-widest font-semibold block"
-                style={{ fontFamily: 'Space Grotesk, monospace' }}
-              >
-                Organizer Knowledge Base
-              </span>
-              <h2
-                className="font-headline-md text-2xl md:text-3xl text-on-surface"
-                style={{ fontFamily: 'Bodoni Moda, serif' }}
-              >
-                Tour Promoter & Event FAQ
-              </h2>
-              <p className="text-xs md:text-sm text-on-surface-variant max-w-xl mx-auto">
-                Essential protocols for verified talent buyers, arena operators, and enterprise coordinators.
-              </p>
-            </div>
-
-            <div className="space-y-3 pt-4">
-              {/* FAQ 1 */}
-              <div className="bg-surface-container-low rounded-xl shadow-md overflow-hidden border border-outline-variant/30">
-                <button
-                  type="button"
-                  className="w-full text-left p-5 flex items-center justify-between text-on-surface hover:text-primary transition-colors focus:outline-none cursor-pointer"
-                  onClick={() => toggleFaq('faq1')}
-                >
-                  <span className="font-title-lg text-sm md:text-base font-semibold" style={{ fontFamily: 'Bodoni Moda, serif' }}>
-                    What is the standard booking confirmation turnaround time?
-                  </span>
-                  <span className={`material-symbols-outlined text-primary text-[24px] transform transition-transform duration-300 ${openFaqs.faq1 ? 'rotate-180' : ''}`}>
-                    expand_more
-                  </span>
-                </button>
-                {openFaqs.faq1 && (
-                  <div className="px-5 pb-5 text-xs text-on-surface-variant leading-relaxed border-t border-outline-variant/20 pt-3">
-                    For authenticated promoters and verified enterprise accounts, the direct calendar clearance turnaround is guaranteed under 4 hours. Once the date hold is granted, the rider acknowledgment and standard contract execution take 24–48 hours via our secure legal portal.
-                  </div>
-                )}
-              </div>
-
-              {/* FAQ 2 */}
-              <div className="bg-surface-container-low rounded-xl shadow-md overflow-hidden border border-outline-variant/30">
-                <button
-                  type="button"
-                  className="w-full text-left p-5 flex items-center justify-between text-on-surface hover:text-primary transition-colors focus:outline-none cursor-pointer"
-                  onClick={() => toggleFaq('faq2')}
-                >
-                  <span className="font-title-lg text-sm md:text-base font-semibold" style={{ fontFamily: 'Bodoni Moda, serif' }}>
-                    How does QAZI handle international visas, customs, and carnets?
-                  </span>
-                  <span className={`material-symbols-outlined text-primary text-[24px] transform transition-transform duration-300 ${openFaqs.faq2 ? 'rotate-180' : ''}`}>
-                    expand_more
-                  </span>
-                </button>
-                {openFaqs.faq2 && (
-                  <div className="px-5 pb-5 text-xs text-on-surface-variant leading-relaxed border-t border-outline-variant/20 pt-3">
-                    Our in-house logistics cell maintains expedited standing P-1/O-1 artist visas for the United States, multi-entry European Schengen work permits, and UAE golden artist visas. All technical backline flies under global ATA Carnet with dedicated tour cargo handlers, minimizing logistical friction at customs checkpoints.
-                  </div>
-                )}
-              </div>
-
-              {/* FAQ 3 */}
-              <div className="bg-surface-container-low rounded-xl shadow-md overflow-hidden border border-outline-variant/30">
-                <button
-                  type="button"
-                  className="w-full text-left p-5 flex items-center justify-between text-on-surface hover:text-primary transition-colors focus:outline-none cursor-pointer"
-                  onClick={() => toggleFaq('faq3')}
-                >
-                  <span className="font-title-lg text-sm md:text-base font-semibold" style={{ fontFamily: 'Bodoni Moda, serif' }}>
-                    What sound and technical specifications are strictly non-negotiable?
-                  </span>
-                  <span className={`material-symbols-outlined text-primary text-[24px] transform transition-transform duration-300 ${openFaqs.faq3 ? 'rotate-180' : ''}`}>
-                    expand_more
-                  </span>
-                </button>
-                {openFaqs.faq3 && (
-                  <div className="px-5 pb-5 text-xs text-on-surface-variant leading-relaxed border-t border-outline-variant/20 pt-3">
-                    To preserve the trademark QAZI cinematic sonic fidelity, headline productions require L-Acoustics (K1 / K2 series) or d&b audiotechnik (GSL / KSL series) systems calibrated by our touring system engineer. Shure Axient Digital wireless microphones and DiGiCo Quantum series consoles are mandatory on all riders without substitution.
-                  </div>
-                )}
-              </div>
-
-              {/* FAQ 4 */}
-              <div className="bg-surface-container-low rounded-xl shadow-md overflow-hidden border border-outline-variant/30">
-                <button
-                  type="button"
-                  className="w-full text-left p-5 flex items-center justify-between text-on-surface hover:text-primary transition-colors focus:outline-none cursor-pointer"
-                  onClick={() => toggleFaq('faq4')}
-                >
-                  <span className="font-title-lg text-sm md:text-base font-semibold" style={{ fontFamily: 'Bodoni Moda, serif' }}>
-                    What are the protocols for private VIP or ultra-exclusive events?
-                  </span>
-                  <span className={`material-symbols-outlined text-primary text-[24px] transform transition-transform duration-300 ${openFaqs.faq4 ? 'rotate-180' : ''}`}>
-                    expand_more
-                  </span>
-                </button>
-                {openFaqs.faq4 && (
-                  <div className="px-5 pb-5 text-xs text-on-surface-variant leading-relaxed border-t border-outline-variant/20 pt-3">
-                    Private performances require a mutual Non-Disclosure Agreement (NDA) executed prior to rider dispatch. For private estate or island locations, the promoter provides dedicated executive ground transport or private air logistics in line with our tier-1 security directive.
-                  </div>
-                )}
-              </div>
             </div>
           </div>
         </section>
