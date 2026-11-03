@@ -14,8 +14,24 @@ export default function ContactFooter() {
     message: '',
   });
 
-  const handleContactSubmit = (e) => {
+  const handleContactSubmit = async (e) => {
     e.preventDefault();
+    try {
+      await fetch('/api/inquiry.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: 'Footer Contact Inquiry',
+          name: contactForm.name,
+          email: contactForm.email,
+          phone: contactForm.phone,
+          message: contactForm.message,
+          category: 'Footer Quick Inquiry',
+        }),
+      });
+    } catch (err) {
+      console.warn('CRM API submission notice:', err);
+    }
     setContactSubmitted(true);
     setTimeout(() => {
       setContactSubmitted(false);
@@ -49,16 +65,15 @@ export default function ContactFooter() {
         {/* ======================================================== */}
         <div className="py-6 border-y border-[#DDD5C5] flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 text-center">
           
-          {/* TAB 1: Contact Us (Opens Modal Form) */}
-          <button
-            type="button"
-            onClick={() => setShowContactModal(true)}
+          {/* TAB 1: Contact Us (Navigates to Contact Page) */}
+          <Link
+            href="/contact"
             className="group inline-flex items-center gap-2 text-sm sm:text-base font-bold text-[#141312] hover:text-[#9B7018] transition-colors cursor-pointer"
             style={{ fontFamily: 'Space Grotesk, monospace' }}
           >
             <span className="material-symbols-outlined text-[#9B7018] text-[20px] group-hover:scale-110 transition-transform">mail</span>
             <span className="underline underline-offset-4 decoration-[#D8AE56]">Contact Us</span>
-          </button>
+          </Link>
 
           {/* TAB 2: Locations with Flags */}
           <div

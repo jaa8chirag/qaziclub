@@ -122,6 +122,11 @@ function BookMeContent() {
         setSelectedCat('Retro Bollywood');
       } else if (cat.toLowerCase().includes('meet') || cat.toLowerCase().includes('vip')) {
         setSelectedCat('Meet Qazi in Person');
+        setFormData((prev) => ({
+          ...prev,
+          timeSlot: '1 Hour Meeting',
+          expectedGuests: '1',
+        }));
       } else if (cat.toLowerCase().includes('brand') || cat.toLowerCase().includes('collab')) {
         setSelectedCat('Brand Collaborations & Endorsements');
       } else if (cat.toLowerCase().includes('corporate')) {
@@ -132,6 +137,18 @@ function BookMeContent() {
 
   const handleSelectCard = (card) => {
     setSelectedCat(card.id);
+    if (card.id === 'Meet Qazi in Person') {
+      setFormData((prev) => ({
+        ...prev,
+        timeSlot: '1 Hour Meeting',
+        expectedGuests: '1',
+      }));
+    } else if (formData.timeSlot.includes('Hour')) {
+      setFormData((prev) => ({
+        ...prev,
+        timeSlot: 'Evening Prime (7:00 PM – 10:00 PM)',
+      }));
+    }
     const formElement = document.getElementById('booking-form');
     if (formElement) {
       formElement.scrollIntoView({ behavior: 'smooth' });
@@ -232,11 +249,34 @@ function BookMeContent() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const hash = 'QAZI-ESCROW-' + Math.floor(1000 + Math.random() * 9000);
     setBookingHash(hash);
     setShowModal(true);
+
+    try {
+      await fetch('/api/inquiry.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: `Booking: ${selectedCat || 'General'}`,
+          name: formData.repName,
+          org_name: selectedCat === 'Meet Qazi in Person' ? '' : formData.orgName,
+          category: selectedCat || 'Booking Inquiry',
+          event_date: formData.perfDate,
+          slot_or_duration: formData.timeSlot,
+          city: formData.city,
+          phone: formData.phone,
+          email: formData.email,
+          expected_guests: selectedCat === 'Meet Qazi in Person' ? '1-on-1 VIP Interaction' : formData.expectedGuests,
+          budget: currency,
+          message: formData.notes,
+        }),
+      });
+    } catch (err) {
+      console.warn('CRM API submission notice:', err);
+    }
   };
 
   const activeCardInfo = eventCards.find((c) => c.id === selectedCat);
@@ -381,7 +421,7 @@ function BookMeContent() {
 
                   <form className="space-y-6 text-left" onSubmit={handleSubmit}>
                     {/* Row 1: Your Name & Dynamic Organization / College Name */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+                    <div className={`grid grid-cols-1 ${selectedCat !== 'Meet Qazi in Person' ? 'md:grid-cols-2' : ''} gap-5 sm:gap-6`}>
                       <div className="space-y-2 text-left">
                         <label
                           className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
@@ -399,22 +439,24 @@ function BookMeContent() {
                         />
                       </div>
 
-                      <div className="space-y-2 text-left">
-                        <label
-                          className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
-                          style={{ fontFamily: 'Space Grotesk, monospace' }}
-                        >
-                          {orgConfig.label} <span className="text-[#9B7018] font-black">*</span>
-                        </label>
-                        <input
-                          className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                          placeholder={orgConfig.placeholder}
-                          required
-                          type="text"
-                          value={formData.orgName}
-                          onChange={(e) => setFormData({ ...formData, orgName: e.target.value })}
-                        />
-                      </div>
+                      {selectedCat !== 'Meet Qazi in Person' && (
+                        <div className="space-y-2 text-left">
+                          <label
+                            className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+                            style={{ fontFamily: 'Space Grotesk, monospace' }}
+                          >
+                            {orgConfig.label} <span className="text-[#9B7018] font-black">*</span>
+                          </label>
+                          <input
+                            className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
+                            placeholder={orgConfig.placeholder}
+                            required={selectedCat !== 'Meet Qazi in Person'}
+                            type="text"
+                            value={formData.orgName}
+                            onChange={(e) => setFormData({ ...formData, orgName: e.target.value })}
+                          />
+                        </div>
+                      )}
                     </div>
 
                     {/* Row 2: Event Date & Time Slot */}
@@ -424,7 +466,7 @@ function BookMeContent() {
                           className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
                           style={{ fontFamily: 'Space Grotesk, monospace' }}
                         >
-                          Event Date <span className="text-[#9B7018] font-black">*</span>
+                          {selectedCat === 'Meet Qazi in Person' ? 'Meeting Date' : 'Event Date'} <span className="text-[#9B7018] font-black">*</span>
                         </label>
                         <input
                           className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
@@ -440,21 +482,35 @@ function BookMeContent() {
                           className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
                           style={{ fontFamily: 'Space Grotesk, monospace' }}
                         >
-                          Preferred Time Slot <span className="text-[#9B7018] font-black">*</span>
+                          {selectedCat === 'Meet Qazi in Person' ? 'Kitna Milna Hai / Meeting Duration' : 'Preferred Time Slot'} <span className="text-[#9B7018] font-black">*</span>
                         </label>
-                        <select
-                          className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
-                          required
-                          value={formData.timeSlot}
-                          onChange={(e) => setFormData({ ...formData, timeSlot: e.target.value })}
-                        >
-                          <option value="Evening Prime (7:00 PM – 10:00 PM)">Evening Prime (7:00 PM – 10:00 PM)</option>
-                          <option value="Night Headline (8:00 PM – 11:00 PM)">Night Headline (8:00 PM – 11:00 PM)</option>
-                          <option value="Late Night (10:00 PM – 1:00 AM)">Late Night (10:00 PM – 1:00 AM)</option>
-                          <option value="Sunset Show (4:00 PM – 7:00 PM)">Sunset Show (4:00 PM – 7:00 PM)</option>
-                          <option value="Afternoon / Day Fest (12:00 PM – 4:00 PM)">Afternoon / Day Fest (12:00 PM – 4:00 PM)</option>
-                          <option value="Flexible / Full Day Schedule">Flexible / Full Day Schedule</option>
-                        </select>
+                        {selectedCat === 'Meet Qazi in Person' ? (
+                          <select
+                            className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
+                            required
+                            value={formData.timeSlot}
+                            onChange={(e) => setFormData({ ...formData, timeSlot: e.target.value })}
+                          >
+                            <option value="1 Hour Meeting">1 Hour Meeting</option>
+                            <option value="2 Hours Meeting">2 Hours Meeting</option>
+                            <option value="3 Hours Meeting">3 Hours Meeting</option>
+                            <option value="Half Day / Custom Interaction">Half Day / Custom Interaction</option>
+                          </select>
+                        ) : (
+                          <select
+                            className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
+                            required
+                            value={formData.timeSlot}
+                            onChange={(e) => setFormData({ ...formData, timeSlot: e.target.value })}
+                          >
+                            <option value="Evening Prime (7:00 PM – 10:00 PM)">Evening Prime (7:00 PM – 10:00 PM)</option>
+                            <option value="Night Headline (8:00 PM – 11:00 PM)">Night Headline (8:00 PM – 11:00 PM)</option>
+                            <option value="Late Night (10:00 PM – 1:00 AM)">Late Night (10:00 PM – 1:00 AM)</option>
+                            <option value="Sunset Show (4:00 PM – 7:00 PM)">Sunset Show (4:00 PM – 7:00 PM)</option>
+                            <option value="Afternoon / Day Fest (12:00 PM – 4:00 PM)">Afternoon / Day Fest (12:00 PM – 4:00 PM)</option>
+                            <option value="Flexible / Full Day Schedule">Flexible / Full Day Schedule</option>
+                          </select>
+                        )}
                       </div>
                     </div>
 
@@ -528,8 +584,8 @@ function BookMeContent() {
                       </div>
                     </div>
 
-                    {/* Row 4: Email & Expected Guests (Simple Input Field) */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+                    {/* Row 4: Email & Expected Guests */}
+                    <div className={`grid grid-cols-1 ${selectedCat !== 'Meet Qazi in Person' ? 'md:grid-cols-2' : ''} gap-5 sm:gap-6`}>
                       <div className="space-y-2 text-left">
                         <label
                           className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
@@ -547,24 +603,25 @@ function BookMeContent() {
                         />
                       </div>
 
-                      {/* SIMPLE EXPECTED GUESTS INPUT FIELD */}
-                      <div className="space-y-2 text-left">
-                        <label
-                          className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
-                          style={{ fontFamily: 'Space Grotesk, monospace' }}
-                        >
-                          Expected Guests <span className="text-[#9B7018] font-black">*</span>
-                        </label>
-                        <input
-                          className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                          placeholder="e.g. 1500"
-                          required
-                          type="number"
-                          min="1"
-                          value={formData.expectedGuests}
-                          onChange={(e) => setFormData({ ...formData, expectedGuests: e.target.value })}
-                        />
-                      </div>
+                      {selectedCat !== 'Meet Qazi in Person' && (
+                        <div className="space-y-2 text-left">
+                          <label
+                            className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+                            style={{ fontFamily: 'Space Grotesk, monospace' }}
+                          >
+                            Expected Guests <span className="text-[#9B7018] font-black">*</span>
+                          </label>
+                          <input
+                            className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
+                            placeholder="e.g. 1500"
+                            required={selectedCat !== 'Meet Qazi in Person'}
+                            type="number"
+                            min="1"
+                            value={formData.expectedGuests}
+                            onChange={(e) => setFormData({ ...formData, expectedGuests: e.target.value })}
+                          />
+                        </div>
+                      )}
                     </div>
 
                     {/* Row 5: Preferred Currency */}

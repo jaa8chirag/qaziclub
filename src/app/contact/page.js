@@ -29,13 +29,30 @@ export default function ContactPage() {
     setOpenFaqs((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const handleTransmit = (e) => {
+  const handleTransmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
+    try {
+      await fetch('/api/inquiry.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: 'Contact Page Inquiry',
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          city: formData.address,
+          category: formData.subject || 'Direct Contact Query',
+          message: formData.message,
+        }),
+      });
+    } catch (err) {
+      console.warn('CRM API submission notice:', err);
+    }
     setTimeout(() => {
       setSubmitting(false);
       setSubmitted(true);
-    }, 900);
+    }, 700);
   };
 
   return (
