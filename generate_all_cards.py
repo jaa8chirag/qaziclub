@@ -239,10 +239,6 @@ def create_split_card(
     draw.text((tx, line_y + 46), '• ' + spec1, fill=(240, 235, 225), font=font_spec)
     draw.text((tx, line_y + 74), '• ' + spec2, fill=(240, 235, 225), font=font_spec)
 
-    # 5. Bottom Verified Badge
-    draw.rounded_rectangle([tx, 382, tx + 245, 414], radius=4, fill=(24, 20, 15), outline=(80, 65, 38), width=1)
-    draw.text((tx + 13, 390), 'OFFICIAL ARTIST CLEARANCE', fill=(195, 150, 65), font=font_stamp)
-
     # Subtle metallic outer rim
     draw.rectangle([(0, 0), (W-1, H-1)], outline=(65, 52, 35), width=1)
 
