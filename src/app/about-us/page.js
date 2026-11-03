@@ -40,9 +40,9 @@ export default function AboutUsPage() {
     {
       year: '2024–2025',
       tag: 'Television Spotlight',
-      title: 'Bigg Boss Fame & Salman Khan Bond',
+      title: 'Bigg Boss Season 20 Spotlight',
       description:
-        'Captivated television audiences nationwide on Bigg Boss with his candid charm, raw honesty, and magnetic screen presence, earning genuine mentorship and affection from Bollywood icon Salman Khan.',
+        'Captivated television audiences nationwide on Bigg Boss Season 20 with his candid charm, raw honesty, and magnetic screen presence, earning genuine mentorship and affection from Bollywood icon Salman Khan.',
       highlight: 'Prime-Time Sensation',
       badgeIcon: 'tv',
     },
@@ -212,7 +212,7 @@ export default function AboutUsPage() {
                 </div>
 
                 <p className="text-base sm:text-lg text-[#524E46] max-w-2xl leading-relaxed font-medium">
-                  From capturing over 50 million hearts as the historic winner of <strong className="text-[#141312] font-bold">Fame Gurukul</strong> to delivering Bollywood’s global chartbuster <strong className="text-[#141312] font-bold">“Afghan Jalebi”</strong>, and creating television history on <strong className="text-[#141312] font-bold">Bigg Boss</strong> with Salman Khan — Qazi Touqeer is a powerhouse of raw charisma, vocal adrenaline, and unforgettable live showmanship.
+                  From capturing over 50 million hearts as the historic winner of <strong className="text-[#141312] font-bold">Fame Gurukul</strong> to delivering Bollywood’s global chartbuster <strong className="text-[#141312] font-bold">“Afghan Jalebi”</strong>, and creating television history on <strong className="text-[#141312] font-bold">Bigg Boss Season 20</strong> with Salman Khan — Qazi Touqeer is a powerhouse of raw charisma, vocal adrenaline, and unforgettable live showmanship.
                 </p>
 
                 {/* Primary Action Buttons */}
@@ -334,82 +334,58 @@ export default function AboutUsPage() {
 
             {/* Quick Artist Milestones Row */}
             <div className="mt-14 pt-8 grid grid-cols-2 md:grid-cols-4 gap-4 border-t border-[#E6DFD1]">
-              <div className="p-5 bg-[#FFFFFF] rounded-xl flex flex-col justify-between hover:shadow-md transition-shadow border border-[#E6DFD1]">
+              <div className="p-5 bg-[#FFFFFF] rounded-2xl flex flex-col justify-between hover:shadow-md transition-all border border-[#E6DFD1]">
                 <div className="flex items-center justify-between">
-                  <span
-                    className="text-[11px] uppercase tracking-widest text-[#87672D] font-extrabold"
-                    style={{ fontFamily: 'Space Grotesk, monospace' }}
-                  >
-                    Fame Gurukul
-                  </span>
                   <span className="material-symbols-outlined text-[#B68938] text-[22px]">military_tech</span>
                 </div>
                 <div className="mt-4">
-                  <div className="text-3xl text-[#141312] font-black" style={{ fontFamily: 'Bodoni Moda, serif' }}>
+                  <div className="text-2xl sm:text-3xl text-[#141312] font-black" style={{ fontFamily: 'Bodoni Moda, serif' }}>
                     Winner
                   </div>
-                  <div className="text-[11px] text-[#524E46] uppercase tracking-wider mt-1 font-semibold">
-                    50M+ Public Votes
+                  <div className="text-xs text-[#87672D] font-bold uppercase tracking-wider mt-1" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                    Fame Gurukul
                   </div>
                 </div>
               </div>
 
-              <div className="p-5 bg-[#FFFFFF] rounded-xl flex flex-col justify-between hover:shadow-md transition-shadow border border-[#E6DFD1]">
+              <div className="p-5 bg-[#FFFFFF] rounded-2xl flex flex-col justify-between hover:shadow-md transition-all border border-[#E6DFD1]">
                 <div className="flex items-center justify-between">
-                  <span
-                    className="text-[11px] uppercase tracking-widest text-[#87672D] font-extrabold"
-                    style={{ fontFamily: 'Space Grotesk, monospace' }}
-                  >
-                    Bollywood Smash
-                  </span>
                   <span className="material-symbols-outlined text-[#B68938] text-[22px]">play_circle</span>
                 </div>
                 <div className="mt-4">
-                  <div className="text-3xl text-[#B68938] font-black" style={{ fontFamily: 'Bodoni Moda, serif' }}>
+                  <div className="text-2xl sm:text-3xl text-[#B68938] font-black" style={{ fontFamily: 'Bodoni Moda, serif' }}>
                     500M+
                   </div>
-                  <div className="text-[11px] text-[#524E46] uppercase tracking-wider mt-1 font-semibold">
-                    Afghan Jalebi Views
+                  <div className="text-xs text-[#87672D] font-bold uppercase tracking-wider mt-1" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                    Afghan Jalebi
                   </div>
                 </div>
               </div>
 
-              <div className="p-5 bg-[#FFFFFF] rounded-xl flex flex-col justify-between hover:shadow-md transition-shadow border border-[#E6DFD1]">
+              <div className="p-5 bg-[#FFFFFF] rounded-2xl flex flex-col justify-between hover:shadow-md transition-all border border-[#E6DFD1]">
                 <div className="flex items-center justify-between">
-                  <span
-                    className="text-[11px] uppercase tracking-widest text-[#87672D] font-extrabold"
-                    style={{ fontFamily: 'Space Grotesk, monospace' }}
-                  >
-                    Live Concerts
-                  </span>
                   <span className="material-symbols-outlined text-[#B68938] text-[22px]">stadium</span>
                 </div>
                 <div className="mt-4">
-                  <div className="text-3xl text-[#141312] font-black" style={{ fontFamily: 'Bodoni Moda, serif' }}>
+                  <div className="text-2xl sm:text-3xl text-[#141312] font-black" style={{ fontFamily: 'Bodoni Moda, serif' }}>
                     500+
                   </div>
-                  <div className="text-[11px] text-[#524E46] uppercase tracking-wider mt-1 font-semibold">
-                    Arenas & Campus Fests
+                  <div className="text-xs text-[#87672D] font-bold uppercase tracking-wider mt-1" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                    Live Shows
                   </div>
                 </div>
               </div>
 
-              <div className="p-5 bg-[#FFFFFF] rounded-xl flex flex-col justify-between hover:shadow-md transition-shadow border border-[#E6DFD1]">
+              <div className="p-5 bg-[#FFFFFF] rounded-2xl flex flex-col justify-between hover:shadow-md transition-all border border-[#E6DFD1]">
                 <div className="flex items-center justify-between">
-                  <span
-                    className="text-[11px] uppercase tracking-widest text-[#87672D] font-extrabold"
-                    style={{ fontFamily: 'Space Grotesk, monospace' }}
-                  >
-                    National TV
-                  </span>
                   <span className="material-symbols-outlined text-[#B68938] text-[22px]">tv</span>
                 </div>
                 <div className="mt-4">
-                  <div className="text-3xl text-[#B68938] font-black" style={{ fontFamily: 'Bodoni Moda, serif' }}>
+                  <div className="text-2xl sm:text-3xl text-[#B68938] font-black" style={{ fontFamily: 'Bodoni Moda, serif' }}>
                     Bigg Boss
                   </div>
-                  <div className="text-[11px] text-[#524E46] uppercase tracking-wider mt-1 font-semibold">
-                    With Salman Khan
+                  <div className="text-xs text-[#87672D] font-bold uppercase tracking-wider mt-1" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                    Season 20
                   </div>
                 </div>
               </div>
@@ -441,7 +417,7 @@ export default function AboutUsPage() {
                     </div>
 
                     <div className="absolute bottom-4 left-4 right-4 p-3 bg-black/80 backdrop-blur-md rounded-xl border border-white/10 text-xs">
-                      <div className="text-[#D8AE56] font-bold uppercase text-[10px]">National Television • Bigg Boss</div>
+                      <div className="text-[#D8AE56] font-bold uppercase text-[10px]">National Television • Bigg Boss Season 20</div>
                       <div className="text-white font-semibold">Salman Khan &amp; Qazi Touqeer</div>
                     </div>
                   </div>
@@ -463,7 +439,7 @@ export default function AboutUsPage() {
                   </h2>
 
                   <p className="text-sm sm:text-base text-[#D7D0C0] leading-relaxed font-normal">
-                    When Qazi stepped onto the prestigious stage of <strong className="text-white">Bigg Boss</strong>, his natural charm, razor-sharp wit, and fearless authenticity immediately won over the show&apos;s iconic host, <strong className="text-white">Salman Khan</strong>.
+                    When Qazi stepped onto the prestigious stage of <strong className="text-white">Bigg Boss Season 20</strong>, his natural charm, razor-sharp wit, and fearless authenticity immediately won over the show&apos;s iconic host, <strong className="text-white">Salman Khan</strong>.
                   </p>
 
                   <p className="text-sm sm:text-base text-[#D7D0C0] leading-relaxed font-normal">
