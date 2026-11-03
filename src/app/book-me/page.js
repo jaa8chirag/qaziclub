@@ -482,7 +482,7 @@ function BookMeContent() {
                           className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
                           style={{ fontFamily: 'Space Grotesk, monospace' }}
                         >
-                          {selectedCat === 'Meet Qazi in Person' ? 'Kitna Milna Hai / Meeting Duration' : 'Preferred Time Slot'} <span className="text-[#9B7018] font-black">*</span>
+                          {selectedCat === 'Meet Qazi in Person' ? 'Meeting Duration' : 'Preferred Time Slot'} <span className="text-[#9B7018] font-black">*</span>
                         </label>
                         {selectedCat === 'Meet Qazi in Person' ? (
                           <select

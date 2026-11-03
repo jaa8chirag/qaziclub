@@ -294,3 +294,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Default fallback
 header('Content-Type: application/json');
 echo json_encode(['status' => 'active', 'service' => 'Qazi Club CRM API v1.0']);
+
