@@ -86,7 +86,7 @@ export default function AboutUsPage() {
       src: '/images/qazi-white-shirt.jpg',
       title: 'The Voice of Emotion',
       category: 'Acoustic & Studio Sessions',
-      caption: 'Soulful Sufi melodies and heartfelt Bollywood ballads.',
+      caption: 'Golden Retro Bollywood classics and heartfelt ballads.',
     },
     {
       src: '/images/events/arena-concert.jpg',
@@ -108,10 +108,10 @@ export default function AboutUsPage() {
     {
       icon: 'music_note',
       pillar: 'Pillar 02',
-      title: 'Bollywood & Sufi Fusion Repertoire',
+      title: 'Bollywood & Retro Classics Repertoire',
       description:
-        'A masterfully balanced setlist spanning chartbuster Bollywood anthems like "Afghan Jalebi", heart-wrenching Sufi-rock melodies, booming Punjabi party tracks, and timeless retro tributes tailored to the event vibe.',
-      specs: ['Bollywood Dance Chartbusters', 'Soul-Stirring Sufi Anthems', 'Retro & Modern Mashups'],
+        'A masterfully balanced setlist spanning chartbuster Bollywood anthems like "Afghan Jalebi", iconic Retro Bollywood classics, booming Punjabi party tracks, and timeless golden era tributes tailored to the event vibe.',
+      specs: ['Bollywood Dance Chartbusters', 'Golden Retro Bollywood Anthems', 'Retro & Modern Mashups'],
     },
     {
       icon: 'verified',
