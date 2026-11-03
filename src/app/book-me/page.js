@@ -31,10 +31,10 @@ function BookMeContent() {
 
   const eventCards = [
     {
-      id: 'College Cultural Fest',
+      id: 'College Fest',
       num: '01',
-      title: 'College Cultural Fest & Star Night',
-      category: 'College Cultural Fest',
+      title: 'College Fest',
+      category: 'College Fest',
       tag: 'Campus Headliner',
       audience: '1,500 – 25,000+ Students',
       desc: 'High-octane vocal sets, crowd anthems, campus festival headlining, and unforgettable youth engagement.',
@@ -42,10 +42,10 @@ function BookMeContent() {
       image: '/images/cards/card-01-college-fest.jpg',
     },
     {
-      id: 'Stadium Arena Concert',
+      id: 'Live Concerts & Live Shows',
       num: '02',
-      title: 'Stadium Arena Concert & Global Tours',
-      category: 'Stadium Arena Concert',
+      title: 'Live Concerts & Live Shows',
+      category: 'Live Concerts & Live Shows',
       tag: 'Stadium Scale',
       audience: '5,000 – 50,000+ Fans',
       desc: 'Monumental public ticketed arena shows, festival mainstage concerts, and multi-city national tours.',
@@ -64,14 +64,14 @@ function BookMeContent() {
       image: '/images/cards/card-03-luxury-wedding.jpg',
     },
     {
-      id: 'Clubs & Superlounges',
+      id: 'Retro Bollywood',
       num: '04',
-      title: 'Clubs, Superlounges & Afterparties',
-      category: 'Clubs & Superlounges',
-      tag: 'High Energy Nightlife',
-      audience: '300 – 1,200+ Patrons',
-      desc: 'Late-night electronic Sufi club sets, VIP table engagement, explosive drops, and club night anthems.',
-      specs: ['Hybrid DJ + Live Vocal Rig', 'Late Night Schedule Clearance', 'VIP Table Photo Interludes', 'Club Sound Telemetry'],
+      title: 'Retro Bollywood',
+      category: 'Retro Bollywood',
+      tag: 'Timeless Classics',
+      audience: '300 – 2,500+ Guests',
+      desc: 'Iconic Retro Bollywood hits, high-energy dance anthems, vintage golden era classics, and electrifying crowd singing.',
+      specs: ['Retro Bollywood Vocal Set', 'Golden Era Classics & Mashups', 'Interactive Crowd Anthems', 'Full Stage Live Sound Sync'],
       image: '/images/cards/card-04-nightclub-party.jpg',
     },
     {
@@ -86,10 +86,10 @@ function BookMeContent() {
       image: '/images/cards/card-05-vip-meet.jpg',
     },
     {
-      id: 'Corporate Gala & Conclave',
+      id: 'Corporate Events',
       num: '06',
-      title: 'Corporate Gala & Global Conclave',
-      category: 'Corporate Gala & Conclave',
+      title: 'Corporate Events',
+      category: 'Corporate Events',
       tag: 'Enterprise Prestige',
       audience: '500 – 5,000+ Delegates',
       desc: 'Annual enterprise celebrations, leadership summits, high-profile awards galas, and brand launch headliners.',
@@ -113,19 +113,19 @@ function BookMeContent() {
     const cat = searchParams.get('cat');
     if (cat) {
       if (cat.toLowerCase().includes('fest') || cat.toLowerCase().includes('college')) {
-        setSelectedCat('College Cultural Fest');
-      } else if (cat.toLowerCase().includes('arena') || cat.toLowerCase().includes('tour') || cat.toLowerCase().includes('concert')) {
-        setSelectedCat('Stadium Arena Concert');
+        setSelectedCat('College Fest');
+      } else if (cat.toLowerCase().includes('concert') || cat.toLowerCase().includes('show') || cat.toLowerCase().includes('live') || cat.toLowerCase().includes('arena') || cat.toLowerCase().includes('tour')) {
+        setSelectedCat('Live Concerts & Live Shows');
       } else if (cat.toLowerCase().includes('wedding') || cat.toLowerCase().includes('milestone') || cat.toLowerCase().includes('royal')) {
         setSelectedCat('Royal Milestones & VIP');
-      } else if (cat.toLowerCase().includes('club') || cat.toLowerCase().includes('party')) {
-        setSelectedCat('Clubs & Superlounges');
+      } else if (cat.toLowerCase().includes('retro') || cat.toLowerCase().includes('bollywood') || cat.toLowerCase().includes('club') || cat.toLowerCase().includes('party')) {
+        setSelectedCat('Retro Bollywood');
       } else if (cat.toLowerCase().includes('meet') || cat.toLowerCase().includes('vip')) {
         setSelectedCat('Meet Qazi in Person');
       } else if (cat.toLowerCase().includes('brand') || cat.toLowerCase().includes('collab')) {
         setSelectedCat('Brand Collaborations & Endorsements');
       } else if (cat.toLowerCase().includes('corporate')) {
-        setSelectedCat('Corporate Gala & Conclave');
+        setSelectedCat('Corporate Events');
       }
     }
   }, [searchParams]);
@@ -189,12 +189,12 @@ function BookMeContent() {
   // Category specific organization / college label and placeholder
   const getOrgConfig = (cat) => {
     switch (cat) {
-      case 'College Cultural Fest':
+      case 'College Fest':
         return {
           label: 'College / University Name',
           placeholder: 'e.g. IIT Bombay, BITS Pilani, Delhi University',
         };
-      case 'Stadium Arena Concert':
+      case 'Live Concerts & Live Shows':
         return {
           label: 'Concert / Arena / Tour Name',
           placeholder: 'e.g. Sunburn Arena, Mumbai Stadium Festival',
@@ -204,17 +204,17 @@ function BookMeContent() {
           label: 'Couple / Family / Wedding Name',
           placeholder: 'e.g. Sharma & Verma Royal Sangeet',
         };
-      case 'Clubs & Superlounges':
+      case 'Retro Bollywood':
         return {
-          label: 'Club / Lounge / Venue Name',
-          placeholder: 'e.g. Club Mirage Mumbai, Toy Room Delhi',
+          label: 'Venue / Club / Event Name',
+          placeholder: 'e.g. Retro Bollywood Gala, Grand Lounge Mumbai',
         };
       case 'Meet Qazi in Person':
         return {
           label: 'Client / Occasion Name',
           placeholder: 'e.g. Private VIP Meeting / Masterclass',
         };
-      case 'Corporate Gala & Conclave':
+      case 'Corporate Events':
         return {
           label: 'Company / Organization Name',
           placeholder: 'e.g. Google India, Tata Enterprise Summit',

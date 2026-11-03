@@ -931,12 +931,13 @@ export default function AboutUsPage() {
                       Target Event Format
                     </label>
                     <select className="w-full bg-[#FAF8F5] text-[#141312] px-4 py-2.5 rounded-xl text-xs border border-[#D7D0C0] focus:outline-none focus:border-[#B68938] font-medium">
-                      <option>College Cultural Fest &amp; Star Night</option>
-                      <option>Stadium Arena Concert &amp; Public Tour</option>
-                      <option>Royal Sangeet &amp; Luxury Wedding</option>
-                      <option>Clubs, Superlounges &amp; Afterparties</option>
-                      <option>Corporate Gala &amp; Leadership Conclave</option>
-                      <option>Meet Qazi in Person (Exclusive VIP)</option>
+                      <option>College Fest</option>
+                      <option>Live Concerts &amp; Live Shows</option>
+                      <option>Royal Milestones &amp; Luxury Weddings</option>
+                      <option>Retro Bollywood</option>
+                      <option>Corporate Events</option>
+                      <option>Meet Qazi in Person</option>
+                      <option>Brand Collaborations &amp; Endorsements</option>
                     </select>
                   </div>
 
