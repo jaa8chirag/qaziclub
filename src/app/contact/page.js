@@ -151,7 +151,7 @@ export default function ContactPage() {
                       Your Name <span className="text-[#9B7018] font-black">*</span>
                     </label>
                     <input
-                      className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-base placeholder:text-[#7A7366] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
+                      className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-base placeholder:text-[#A8A29E] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
                       placeholder="e.g. Rahul Sharma"
                       required
                       type="text"
@@ -167,7 +167,7 @@ export default function ContactPage() {
                       Email Address <span className="text-[#9B7018] font-black">*</span>
                     </label>
                     <input
-                      className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-base placeholder:text-[#7A7366] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
+                      className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-base placeholder:text-[#A8A29E] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
                       placeholder="e.g. rahul@example.com"
                       required
                       type="email"
@@ -187,7 +187,7 @@ export default function ContactPage() {
                       Phone / WhatsApp Number <span className="text-[#9B7018] font-black">*</span>
                     </label>
                     <input
-                      className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-base placeholder:text-[#7A7366] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
+                      className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-base placeholder:text-[#A8A29E] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
                       placeholder="e.g. +91 98200 00000"
                       required
                       type="tel"
@@ -203,7 +203,7 @@ export default function ContactPage() {
                       City / Address <span className="text-[#9B7018] font-black">*</span>
                     </label>
                     <input
-                      className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-base placeholder:text-[#7A7366] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
+                      className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-base placeholder:text-[#A8A29E] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
                       placeholder="e.g. Mumbai, Maharashtra"
                       required
                       type="text"
@@ -222,7 +222,7 @@ export default function ContactPage() {
                     Subject / Purpose of Contact <span className="text-[#9B7018] font-black">*</span>
                   </label>
                   <input
-                    className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-base placeholder:text-[#7A7366] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
+                    className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-base placeholder:text-[#A8A29E] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
                     placeholder="e.g. Brand Partnership, Media Interview, Special Request, or General Query"
                     required
                     type="text"
@@ -240,7 +240,7 @@ export default function ContactPage() {
                     Your Message <span className="text-[#9B7018] font-black">*</span>
                   </label>
                   <textarea
-                    className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-medium text-base placeholder:text-[#7A7366] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none resize-none"
+                    className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-medium text-base placeholder:text-[#A8A29E] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none resize-none"
                     placeholder="Write your message or inquiry here..."
                     required
                     rows="4"

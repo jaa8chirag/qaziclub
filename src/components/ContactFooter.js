@@ -144,7 +144,7 @@ export default function ContactFooter() {
                     placeholder="e.g. Rahul Sharma"
                     value={contactForm.name}
                     onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border-2 border-[#DDD5C5] focus:border-[#9B7018] text-sm text-[#141312] outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl border-2 border-[#DDD5C5] focus:border-[#9B7018] text-sm text-[#141312] placeholder:text-[#A8A29E] outline-none"
                   />
                 </div>
 
@@ -159,7 +159,7 @@ export default function ContactFooter() {
                       placeholder="yourname@gmail.com"
                       value={contactForm.email}
                       onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl border-2 border-[#DDD5C5] focus:border-[#9B7018] text-sm text-[#141312] outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl border-2 border-[#DDD5C5] focus:border-[#9B7018] text-sm text-[#141312] placeholder:text-[#A8A29E] outline-none"
                     />
                   </div>
                   <div>
@@ -172,7 +172,7 @@ export default function ContactFooter() {
                       placeholder="+91 98765 43210"
                       value={contactForm.phone}
                       onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl border-2 border-[#DDD5C5] focus:border-[#9B7018] text-sm text-[#141312] outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl border-2 border-[#DDD5C5] focus:border-[#9B7018] text-sm text-[#141312] placeholder:text-[#A8A29E] outline-none"
                     />
                   </div>
                 </div>
@@ -186,7 +186,7 @@ export default function ContactFooter() {
                     placeholder="Please specify your event date, city, and requirements..."
                     value={contactForm.message}
                     onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border-2 border-[#DDD5C5] focus:border-[#9B7018] text-sm text-[#141312] outline-none resize-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl border-2 border-[#DDD5C5] focus:border-[#9B7018] text-sm text-[#141312] placeholder:text-[#A8A29E] outline-none resize-none"
                   />
                 </div>
 

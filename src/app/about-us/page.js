@@ -901,7 +901,7 @@ export default function AboutUsPage() {
                       College / Event / Festival Entity
                     </label>
                     <input
-                      className="w-full bg-[#FAF8F5] text-[#141312] px-4 py-2.5 rounded-xl text-xs border border-[#D7D0C0] focus:outline-none focus:border-[#B68938] font-medium"
+                      className="w-full bg-[#FAF8F5] text-[#141312] placeholder:text-[#A8A29E] px-4 py-2.5 rounded-xl text-xs border border-[#D7D0C0] focus:outline-none focus:border-[#B68938] font-medium"
                       placeholder="e.g. IIT Bombay Cultural Council or Luxury Events Group"
                       required
                       type="text"
@@ -916,7 +916,7 @@ export default function AboutUsPage() {
                       Official Talent Buyer Email
                     </label>
                     <input
-                      className="w-full bg-[#FAF8F5] text-[#141312] px-4 py-2.5 rounded-xl text-xs border border-[#D7D0C0] focus:outline-none focus:border-[#B68938] font-medium"
+                      className="w-full bg-[#FAF8F5] text-[#141312] placeholder:text-[#A8A29E] px-4 py-2.5 rounded-xl text-xs border border-[#D7D0C0] focus:outline-none focus:border-[#B68938] font-medium"
                       placeholder="buyer@domain.com"
                       required
                       type="email"
