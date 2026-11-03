@@ -33,7 +33,7 @@ export default function AboutUsPage() {
       tag: 'Bollywood Smash',
       title: 'Global Phenomenon: "Afghan Jalebi" (Phantom)',
       description:
-        'Lent his signature electrifying vocals to Bollywood maestro Pritam’s chart-shattering track in Kabir Khan’s film starring Katrina Kaif and Saif Ali Khan. The song became a worldwide dance sensation with over 500 million views.',
+        'Lent his signature electrifying vocals to Bollywood’s chart-shattering track in Kabir Khan’s film starring Katrina Kaif and Saif Ali Khan. The song became a worldwide dance sensation with over 500 million views.',
       highlight: '500M+ Global Streams',
       badgeIcon: 'music_note',
     },
@@ -212,7 +212,7 @@ export default function AboutUsPage() {
                 </div>
 
                 <p className="text-base sm:text-lg text-[#524E46] max-w-2xl leading-relaxed font-medium">
-                  From capturing over 50 million hearts as the historic winner of <strong className="text-[#141312] font-bold">Fame Gurukul</strong> to delivering Bollywood’s global chartbuster <strong className="text-[#141312] font-bold">“Afghan Jalebi”</strong> with Pritam, and creating television history on <strong className="text-[#141312] font-bold">Bigg Boss</strong> with Salman Khan — Qazi Touqeer is a powerhouse of raw charisma, vocal adrenaline, and unforgettable live showmanship.
+                  From capturing over 50 million hearts as the historic winner of <strong className="text-[#141312] font-bold">Fame Gurukul</strong> to delivering Bollywood’s global chartbuster <strong className="text-[#141312] font-bold">“Afghan Jalebi”</strong>, and creating television history on <strong className="text-[#141312] font-bold">Bigg Boss</strong> with Salman Khan — Qazi Touqeer is a powerhouse of raw charisma, vocal adrenaline, and unforgettable live showmanship.
                 </p>
 
                 {/* Primary Action Buttons */}
