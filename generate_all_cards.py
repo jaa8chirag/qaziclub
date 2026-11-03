@@ -182,12 +182,13 @@ def create_split_card(
     try:
         font_badge = ImageFont.truetype('C:/Windows/Fonts/segoeuib.ttf', 14)
         font_title = ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf', 29)
+        font_title_lg = ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf', 34)
         font_sub = ImageFont.truetype('C:/Windows/Fonts/segoeuib.ttf', 14)
         font_spec = ImageFont.truetype('C:/Windows/Fonts/segoeui.ttf', 14)
         font_stamp = ImageFont.truetype('C:/Windows/Fonts/segoeuib.ttf', 12)
         font_watermark = ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf', 56)
     except:
-        font_badge = font_title = font_sub = font_spec = font_stamp = font_watermark = ImageFont.load_default()
+        font_badge = font_title = font_title_lg = font_sub = font_spec = font_stamp = font_watermark = ImageFont.load_default()
 
     tx = 42
     icon_cx = 365
@@ -219,12 +220,13 @@ def create_split_card(
     draw.text((tx + 14, 42), badge_text, fill=(245, 215, 145), font=font_badge)
 
     # 2. Main Title Line 1 & Line 2
-    draw.text((tx, 84), title_line1, fill=(255, 255, 255), font=font_title)
     if title_line2:
+        draw.text((tx, 84), title_line1, fill=(255, 255, 255), font=font_title)
         draw.text((tx, 122), title_line2, fill=(216, 174, 86), font=font_title)
         line_y = 172
     else:
-        line_y = 138
+        draw.text((tx, 86), title_line1, fill=(255, 255, 255), font=font_title_lg)
+        line_y = 146
 
     # Gold divider line
     draw.line([(tx, line_y), (tx + 120, line_y)], fill=(216, 174, 86), width=3)
@@ -257,8 +259,8 @@ cards_config = [
         'bg_img_path': 'public/images/events/fest_2.jpg',
         'badge_text': '01 • CAMPUS HEADLINER',
         'title_line1': 'COLLEGE FEST',
-        'title_line2': '& CAMPUS NIGHTS',
-        'subtitle_text': 'HIGH-OCTANE VOCAL & CROWD ANTHEMS',
+        'title_line2': '',
+        'subtitle_text': 'HIGH-OCTANE VOCAL & CAMPUS ANTHEMS',
         'spec1': '90-Min Live Concert Headline Set',
         'spec2': 'Sing-Along Youth Anthems & Council VIP',
         'icon_type': 'college',
@@ -269,14 +271,14 @@ cards_config = [
         'filename': 'card-02-arena-concert.jpg',
         'qazi_img_path': 'public/images/qazi-salman-biggboss.jpg',
         'bg_img_path': 'public/images/events/arena_3.jpg',
-        'badge_text': '02 • STADIUM SCALE',
+        'badge_text': '02 • STADIUM & ARENA',
         'title_line1': 'LIVE CONCERTS',
         'title_line2': '& LIVE SHOWS',
         'subtitle_text': 'MONUMENTAL MULTI-CITY CONCERTS',
         'spec1': '5,000 – 50,000+ Fans Stadium Production',
         'spec2': 'L-Acoustics K1 Audio & DMX Pyrotechnics',
         'icon_type': 'arena',
-        'watermark_text': 'CONCERT',
+        'watermark_text': 'CONCERTS',
         'qazi_crop_box': (80, 140, 480, 780)
     },
     {
@@ -284,8 +286,8 @@ cards_config = [
         'qazi_img_path': 'public/images/qazi-brown-jacket.jpg',
         'bg_img_path': 'public/images/events/indian_wedding_2.jpg',
         'badge_text': '03 • PRIVATE LUXURY',
-        'title_line1': 'ROYAL SANGEET',
-        'title_line2': '& LUXURY WEDDING',
+        'title_line1': 'ROYAL MILESTONES',
+        'title_line2': '& LUXURY WEDDINGS',
         'subtitle_text': 'BESPOKE OPULENT CELEBRATIONS',
         'spec1': 'Curated Romantic & High-Energy Setlist',
         'spec2': 'VIP Family Stage Dedicated Moments',
@@ -299,12 +301,12 @@ cards_config = [
         'bg_img_path': 'public/images/events/club_1.jpg',
         'badge_text': '04 • TIMELESS CLASSICS',
         'title_line1': 'RETRO BOLLYWOOD',
-        'title_line2': '& DANCE ANTHEMS',
-        'subtitle_text': 'ICONIC BOLLYWOOD HITS & GOLDEN ERA',
+        'title_line2': '',
+        'subtitle_text': 'ICONIC BOLLYWOOD HITS & DANCE ANTHEMS',
         'spec1': 'Retro Bollywood Vocal Set & Dance Hits',
         'spec2': 'Interactive Crowd Anthems & Electrifying Energy',
         'icon_type': 'club',
-        'watermark_text': 'RETRO',
+        'watermark_text': 'BOLLYWOOD',
         'qazi_crop_box': (100, 30, 580, 620)
     },
     {
@@ -326,8 +328,8 @@ cards_config = [
         'qazi_img_path': 'public/images/qazi-salman-hug.jpg',
         'bg_img_path': 'public/images/events/gala_stage_real.jpg',
         'badge_text': '06 • ENTERPRISE PRESTIGE',
-        'title_line1': 'CORPORATE',
-        'title_line2': 'EVENTS',
+        'title_line1': 'CORPORATE EVENTS',
+        'title_line2': '',
         'subtitle_text': 'LEADERSHIP SUMMITS & AWARDS NIGHTS',
         'spec1': 'Sophisticated Thematic Repertoire & Billing',
         'spec2': 'Punctual Stage Run-Order & Keynote Headliner',
