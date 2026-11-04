@@ -99,7 +99,7 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center gap-2">
             {/* Instagram - Outline Style */}
             <a
-              href="https://www.instagram.com/"
+              href="https://www.instagram.com/qazitouqeer_official"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
@@ -115,7 +115,7 @@ export default function Navbar() {
 
             {/* Facebook - Outline Style */}
             <a
-              href="https://www.facebook.com/"
+              href="https://www.facebook.com/qazi.touqeer.7/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"
@@ -129,7 +129,7 @@ export default function Navbar() {
 
             {/* YouTube - Outline Style */}
             <a
-              href="https://www.youtube.com/"
+              href="https://www.youtube.com/@qazi459"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="YouTube"
@@ -210,7 +210,7 @@ export default function Navbar() {
             <div className="flex items-center justify-center gap-4 pt-1">
               {/* Instagram */}
               <a
-                href="https://www.instagram.com/"
+                href="https://www.instagram.com/qazitouqeer_official"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -225,7 +225,7 @@ export default function Navbar() {
 
               {/* Facebook */}
               <a
-                href="https://www.facebook.com/"
+                href="https://www.facebook.com/qazi.touqeer.7/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
@@ -238,7 +238,7 @@ export default function Navbar() {
 
               {/* YouTube */}
               <a
-                href="https://www.youtube.com/"
+                href="https://www.youtube.com/@qazi459"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="YouTube"
