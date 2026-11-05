@@ -126,7 +126,7 @@ function BookMeContent() {
           ...prev,
           timeSlot: '1 Hour Meeting',
           expectedGuests: '1',
-          city: 'Delhi / NCR',
+          city: 'Delhi',
         }));
       } else if (cat.toLowerCase().includes('brand') || cat.toLowerCase().includes('collab')) {
         setSelectedCat('Brand Collaborations & Endorsements');
@@ -143,7 +143,7 @@ function BookMeContent() {
         ...prev,
         timeSlot: '1 Hour Meeting',
         expectedGuests: '1',
-        city: prev.city && prev.city.includes('Delhi') ? prev.city : 'Delhi / NCR',
+        city: 'Delhi',
       }));
     } else if (formData.timeSlot.includes('Hour')) {
       setFormData((prev) => ({
@@ -525,19 +525,15 @@ function BookMeContent() {
                               className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
                               style={{ fontFamily: 'Space Grotesk, monospace' }}
                             >
-                              Location (Delhi / NCR) <span className="text-[#9B7018] font-black">*</span>
+                              Location (Delhi) <span className="text-[#9B7018] font-black">*</span>
                             </label>
                             <select
                               className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
                               required
-                              value={formData.city || 'Delhi / NCR'}
+                              value={formData.city || 'Delhi'}
                               onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                             >
-                              <option value="Delhi / NCR">Delhi / NCR</option>
-                              <option value="New Delhi">New Delhi</option>
-                              <option value="Noida / Greater Noida">Noida / Greater Noida</option>
-                              <option value="Gurugram (Gurgaon)">Gurugram (Gurgaon)</option>
-                              <option value="Ghaziabad / Faridabad">Ghaziabad / Faridabad</option>
+                              <option value="Delhi">Delhi</option>
                             </select>
                           </>
                         ) : (
