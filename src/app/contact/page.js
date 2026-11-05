@@ -312,8 +312,53 @@ export default function ContactPage() {
               </form>
             </div>
 
-            {/* Key Locations Column (5 Cols) */}
+            {/* Right Column: Managed By & Key Locations (5 Cols) */}
             <div className="lg:col-span-5 space-y-6">
+              {/* Managed By Card */}
+              <div className="bg-white rounded-3xl p-6 md:p-8 shadow-[0_20px_50px_rgba(20,19,18,0.08)] border-2 border-[#D7CEBE] space-y-4">
+                <div className="border-b border-[#E6DFD1] pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#9B7018]"></span>
+                    <span
+                      className="text-xs uppercase tracking-widest text-[#9B7018] font-extrabold"
+                      style={{ fontFamily: 'Space Grotesk, monospace' }}
+                    >
+                      Artist Representation
+                    </span>
+                  </div>
+                  <h3
+                    className="text-2xl text-[#111111] font-bold mt-1"
+                    style={{ fontFamily: 'Bodoni Moda, serif' }}
+                  >
+                    Managed By
+                  </h3>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-gradient-to-r from-[#D8AE56]/15 via-[#FAF8F5] to-transparent border-2 border-[#D8AE56] shadow-sm">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="material-symbols-outlined text-[#9B7018] text-[22px]">verified</span>
+                    <h4
+                      className="text-base font-bold text-[#111111] uppercase tracking-wider"
+                      style={{ fontFamily: 'Space Grotesk, monospace' }}
+                    >
+                      Qazi Touqeer Management
+                    </h4>
+                  </div>
+                  <p className="text-xs text-[#524E46] mb-2 font-medium">
+                    Official Global Management &amp; Direct Artist Desk
+                  </p>
+                  <a
+                    href="mailto:info@qaziclub.com"
+                    className="inline-flex items-center gap-2 text-sm font-black text-[#9B7018] hover:underline transition-colors"
+                    style={{ fontFamily: 'Space Grotesk, monospace' }}
+                  >
+                    <span className="material-symbols-outlined text-[18px]">mail</span>
+                    <span>info@qaziclub.com</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Key Locations Card */}
               <div className="bg-white rounded-3xl p-6 md:p-8 shadow-[0_20px_50px_rgba(20,19,18,0.08)] border-2 border-[#D7CEBE] space-y-6">
                 <div className="border-b border-[#E6DFD1] pb-4">
                   <div className="flex items-center gap-2">
@@ -333,31 +378,10 @@ export default function ContactPage() {
                   </h3>
                 </div>
 
-                <div className="space-y-3.5">
-                  {/* Primary Official Email Desk */}
-                  <div className="p-4 rounded-2xl bg-gradient-to-r from-[#D8AE56]/15 via-white to-transparent border-2 border-[#D8AE56] shadow-sm">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="material-symbols-outlined text-[#9B7018] text-[20px]">verified</span>
-                      <h4
-                        className="text-base font-bold text-[#111111] uppercase tracking-wider"
-                        style={{ fontFamily: 'Space Grotesk, monospace' }}
-                      >
-                        Official Artist Desk
-                      </h4>
-                    </div>
-                    <a
-                      href="mailto:info@qaziclub.com"
-                      className="inline-flex items-center gap-2 text-sm font-black text-[#9B7018] hover:underline transition-colors"
-                      style={{ fontFamily: 'Space Grotesk, monospace' }}
-                    >
-                      <span className="material-symbols-outlined text-[18px]">mail</span>
-                      <span>info@qaziclub.com</span>
-                    </a>
-                  </div>
-
+                <div className="space-y-3">
                   {/* Mumbai */}
                   <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E6DFD1] hover:border-[#D8AE56] transition-all duration-200">
-                    <div className="flex items-center gap-3 mb-2">
+                    <div className="flex items-center gap-3">
                       <div className="w-8 h-5 rounded overflow-hidden shadow-sm shrink-0 border border-black/10">
                         <svg className="w-full h-full object-cover" viewBox="0 0 640 480">
                           <path fill="#f93" d="M0 0h640v160H0z"/>
@@ -368,25 +392,17 @@ export default function ContactPage() {
                         </svg>
                       </div>
                       <h4
-                        className="text-lg font-bold text-[#111111] tracking-wide"
+                        className="text-base sm:text-lg font-bold text-[#111111] tracking-wide"
                         style={{ fontFamily: 'Space Grotesk, monospace' }}
                       >
                         Mumbai
                       </h4>
                     </div>
-                    <a
-                      href="mailto:mumbai@qaziclub.com"
-                      className="inline-flex items-center gap-2 text-xs font-bold text-[#87672D] hover:text-[#B68938] transition-colors"
-                      style={{ fontFamily: 'Space Grotesk, monospace' }}
-                    >
-                      <span className="material-symbols-outlined text-[16px] text-[#9B7018]">mail</span>
-                      <span>mumbai@qaziclub.com</span>
-                    </a>
                   </div>
 
                   {/* Greater Noida */}
                   <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E6DFD1] hover:border-[#D8AE56] transition-all duration-200">
-                    <div className="flex items-center gap-3 mb-2">
+                    <div className="flex items-center gap-3">
                       <div className="w-8 h-5 rounded overflow-hidden shadow-sm shrink-0 border border-black/10">
                         <svg className="w-full h-full object-cover" viewBox="0 0 640 480">
                           <path fill="#f93" d="M0 0h640v160H0z"/>
@@ -397,25 +413,17 @@ export default function ContactPage() {
                         </svg>
                       </div>
                       <h4
-                        className="text-lg font-bold text-[#111111] tracking-wide"
+                        className="text-base sm:text-lg font-bold text-[#111111] tracking-wide"
                         style={{ fontFamily: 'Space Grotesk, monospace' }}
                       >
                         Greater Noida
                       </h4>
                     </div>
-                    <a
-                      href="mailto:noida@qaziclub.com"
-                      className="inline-flex items-center gap-2 text-xs font-bold text-[#87672D] hover:text-[#B68938] transition-colors"
-                      style={{ fontFamily: 'Space Grotesk, monospace' }}
-                    >
-                      <span className="material-symbols-outlined text-[16px] text-[#9B7018]">mail</span>
-                      <span>noida@qaziclub.com</span>
-                    </a>
                   </div>
 
                   {/* London */}
                   <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E6DFD1] hover:border-[#D8AE56] transition-all duration-200">
-                    <div className="flex items-center gap-3 mb-2">
+                    <div className="flex items-center gap-3">
                       <div className="w-8 h-5 rounded overflow-hidden shadow-sm shrink-0 border border-black/10">
                         <svg className="w-full h-full object-cover" viewBox="0 0 640 480">
                           <path fill="#012169" d="M0 0h640v480H0z"/>
@@ -426,20 +434,32 @@ export default function ContactPage() {
                         </svg>
                       </div>
                       <h4
-                        className="text-lg font-bold text-[#111111] tracking-wide"
+                        className="text-base sm:text-lg font-bold text-[#111111] tracking-wide"
                         style={{ fontFamily: 'Space Grotesk, monospace' }}
                       >
                         London
                       </h4>
                     </div>
-                    <a
-                      href="mailto:london@qaziclub.com"
-                      className="inline-flex items-center gap-2 text-xs font-bold text-[#87672D] hover:text-[#B68938] transition-colors"
-                      style={{ fontFamily: 'Space Grotesk, monospace' }}
-                    >
-                      <span className="material-symbols-outlined text-[16px] text-[#9B7018]">mail</span>
-                      <span>london@qaziclub.com</span>
-                    </a>
+                  </div>
+
+                  {/* Dubai */}
+                  <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E6DFD1] hover:border-[#D8AE56] transition-all duration-200">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-5 rounded overflow-hidden shadow-sm shrink-0 border border-black/10">
+                        <svg className="w-full h-full object-cover" viewBox="0 0 640 480">
+                          <path fill="#00732f" d="M0 0h640v160H0z"/>
+                          <path fill="#fff" d="M0 160h640v160H0z"/>
+                          <path fill="#000" d="M0 320h640v160H0z"/>
+                          <path fill="#f00" d="M0 0h160v480H0z"/>
+                        </svg>
+                      </div>
+                      <h4
+                        className="text-base sm:text-lg font-bold text-[#111111] tracking-wide"
+                        style={{ fontFamily: 'Space Grotesk, monospace' }}
+                      >
+                        Dubai
+                      </h4>
+                    </div>
                   </div>
                 </div>
 
