@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import ContactFooter from '@/components/ContactFooter';
 
 export default function ContactPage() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -16,6 +18,32 @@ export default function ContactPage() {
 
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [countdown, setCountdown] = useState(5);
+
+  const handleGoBack = () => {
+    setSubmitted(false);
+    if (typeof window !== 'undefined' && window.history.length > 1) {
+      router.back();
+    } else {
+      router.push('/');
+    }
+  };
+
+  useEffect(() => {
+    if (!submitted) return;
+    setCountdown(5);
+    const interval = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          handleGoBack();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [submitted]);
 
   const handleTransmit = async (e) => {
     e.preventDefault();
@@ -37,10 +65,21 @@ export default function ContactPage() {
     } catch (err) {
       console.warn('CRM API submission notice:', err);
     }
+
+    // Clear form inputs
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      address: '',
+      subject: '',
+      message: '',
+    });
+
     setTimeout(() => {
       setSubmitting(false);
       setSubmitted(true);
-    }, 700);
+    }, 500);
   };
 
   return (
@@ -254,20 +293,58 @@ export default function ContactPage() {
                   ></textarea>
                 </div>
 
-                {/* Success Alert */}
+                {/* Clean, Normal-sized Thank You Modal with Centered Backdrop */}
                 {submitted && (
-                  <div className="p-4 rounded-xl bg-[#FAF5EC] text-[#9B7018] flex items-center gap-3 shadow-md border-2 border-[#D8AE56]/50">
-                    <span className="material-symbols-outlined text-[28px]">verified</span>
-                    <div className="space-y-0.5">
-                      <p
-                        className="text-sm uppercase font-bold"
-                        style={{ fontFamily: 'Space Grotesk, monospace' }}
-                      >
-                        Message Sent Successfully!
+                  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
+                    <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full text-center space-y-4 shadow-2xl border-2 border-[#D8AE56] relative">
+                      <div className="w-14 h-14 rounded-full bg-[#FAF5EC] border-2 border-[#D8AE56] text-[#9B7018] flex items-center justify-center mx-auto shadow-sm">
+                        <span className="material-symbols-outlined text-[32px]">check_circle</span>
+                      </div>
+
+                      <div className="space-y-1">
+                        <span
+                          className="text-[11px] uppercase tracking-widest text-[#9B7018] font-extrabold block"
+                          style={{ fontFamily: 'Space Grotesk, monospace' }}
+                        >
+                          Message Sent Successfully
+                        </span>
+                        <h3
+                          className="text-2xl text-[#111111] font-bold"
+                          style={{ fontFamily: 'Bodoni Moda, serif' }}
+                        >
+                          Thank You!
+                        </h3>
+                      </div>
+
+                      <p className="text-sm text-[#443E35] leading-relaxed">
+                        Your message has been delivered to <strong className="text-[#111111]">Qazi Touqeer Management</strong>.
+                        We will review your inquiry and get back to you shortly.
                       </p>
-                      <p className="text-sm text-[#38342D] font-medium">
-                        Thank you for reaching out. Qazi Management will get back to you shortly.
-                      </p>
+
+                      <div className="pt-2 space-y-2.5">
+                        <button
+                          type="button"
+                          onClick={handleGoBack}
+                          className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#D8AE56] via-[#F3D084] to-[#B68938] text-[#1A1203] font-black text-xs uppercase tracking-widest shadow-md hover:scale-[1.02] transition-transform cursor-pointer flex items-center justify-center gap-2"
+                          style={{ fontFamily: 'Space Grotesk, monospace' }}
+                        >
+                          <span className="material-symbols-outlined text-[18px]">arrow_back</span>
+                          <span>Go Back ({countdown}s)</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSubmitted(false);
+                            router.push('/');
+                          }}
+                          className="w-full py-2.5 px-6 rounded-xl bg-[#FAF8F5] hover:bg-[#F3EFE6] text-[#141312] font-bold text-xs uppercase tracking-wider border border-[#DDD5C5] transition-colors cursor-pointer flex items-center justify-center gap-2"
+                          style={{ fontFamily: 'Space Grotesk, monospace' }}
+                        >
+                          <span className="material-symbols-outlined text-[18px]">home</span>
+                          <span>Back to Home</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 )}

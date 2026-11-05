@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import ContactFooter from '@/components/ContactFooter';
 
 function BookMeContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const initialCat = searchParams.get('cat') || '';
 
@@ -13,6 +14,7 @@ function BookMeContent() {
   const [selectedCat, setSelectedCat] = useState(initialCat);
   const [currency, setCurrency] = useState('INR');
   const [showModal, setShowModal] = useState(false);
+  const [countdown, setCountdown] = useState(5);
   const [bookingHash, setBookingHash] = useState('QAZI-ESCROW-8924');
   const [detectingLocation, setDetectingLocation] = useState(false);
 
@@ -251,6 +253,32 @@ function BookMeContent() {
     }
   };
 
+  const handleGoBack = () => {
+    setShowModal(false);
+    if (typeof window !== 'undefined' && window.history.length > 1) {
+      router.back();
+    } else {
+      router.push('/');
+    }
+  };
+
+  // Auto-redirect back countdown after submit
+  useEffect(() => {
+    if (!showModal) return;
+    setCountdown(5);
+    const interval = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          handleGoBack();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [showModal]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const hash = 'QAZI-ESCROW-' + Math.floor(1000 + Math.random() * 9000);
@@ -279,6 +307,19 @@ function BookMeContent() {
     } catch (err) {
       console.warn('CRM API submission notice:', err);
     }
+
+    // Reset form so submitted details are cleared
+    setFormData({
+      repName: '',
+      orgName: '',
+      perfDate: '',
+      timeSlot: selectedCat === 'Meet Qazi in Person' ? '1 Hour Meeting' : 'Evening Prime (7:00 PM – 10:00 PM)',
+      city: selectedCat === 'Meet Qazi in Person' ? 'Delhi' : '',
+      phone: '',
+      email: '',
+      expectedGuests: selectedCat === 'Meet Qazi in Person' ? '1' : '',
+      techNotes: '',
+    });
   };
 
   const activeCardInfo = eventCards.find((c) => c.id === selectedCat);
@@ -737,35 +778,63 @@ function BookMeContent() {
                     </div>
                   </form>
 
-                  {/* Feedback Toast Modal Container */}
+                  {/* Clean, Normal-sized Thank You Modal with Centered Backdrop */}
                   {showModal && (
-                    <div className="absolute inset-0 bg-[#131315]/95 backdrop-blur-md p-6 sm:p-8 flex flex-col items-center justify-center text-center z-20">
-                      <div className="w-16 h-16 rounded-full bg-primary-container/20 flex items-center justify-center text-primary mb-4 shadow-[0_0_32px_rgba(212,175,55,0.4)]">
-                        <span className="material-symbols-outlined text-[36px]">verified</span>
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
+                      <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full text-center space-y-4 shadow-2xl border-2 border-[#D8AE56] relative">
+                        <div className="w-14 h-14 rounded-full bg-[#FAF5EC] border-2 border-[#D8AE56] text-[#9B7018] flex items-center justify-center mx-auto shadow-sm">
+                          <span className="material-symbols-outlined text-[32px]">check_circle</span>
+                        </div>
+
+                        <div className="space-y-1">
+                          <span
+                            className="text-[11px] uppercase tracking-widest text-[#9B7018] font-extrabold block"
+                            style={{ fontFamily: 'Space Grotesk, monospace' }}
+                          >
+                            Inquiry Received
+                          </span>
+                          <h3
+                            className="text-2xl text-[#111111] font-bold"
+                            style={{ fontFamily: 'Bodoni Moda, serif' }}
+                          >
+                            Thank You!
+                          </h3>
+                        </div>
+
+                        <p className="text-sm text-[#443E35] leading-relaxed">
+                          We have received your booking inquiry for <strong className="text-[#111111]">{activeCardInfo?.title || 'Qazi Touqeer'}</strong>.
+                          Our management team will check availability and contact you shortly.
+                        </p>
+
+                        <div className="inline-block px-3.5 py-1 rounded-full bg-[#FAF8F5] border border-[#DDD5C5] text-xs font-bold text-[#87672D]">
+                          Booking Ref: <span className="text-[#111111] font-mono font-black">{bookingHash}</span>
+                        </div>
+
+                        <div className="pt-2 space-y-2.5">
+                          <button
+                            type="button"
+                            onClick={handleGoBack}
+                            className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#D8AE56] via-[#F3D084] to-[#B68938] text-[#1A1203] font-black text-xs uppercase tracking-widest shadow-md hover:scale-[1.02] transition-transform cursor-pointer flex items-center justify-center gap-2"
+                            style={{ fontFamily: 'Space Grotesk, monospace' }}
+                          >
+                            <span className="material-symbols-outlined text-[18px]">arrow_back</span>
+                            <span>Go Back ({countdown}s)</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setShowModal(false);
+                              router.push('/');
+                            }}
+                            className="w-full py-2.5 px-6 rounded-xl bg-[#FAF8F5] hover:bg-[#F3EFE6] text-[#141312] font-bold text-xs uppercase tracking-wider border border-[#DDD5C5] transition-colors cursor-pointer flex items-center justify-center gap-2"
+                            style={{ fontFamily: 'Space Grotesk, monospace' }}
+                          >
+                            <span className="material-symbols-outlined text-[18px]">home</span>
+                            <span>Back to Home</span>
+                          </button>
+                        </div>
                       </div>
-                      <span
-                        className="text-[11px] uppercase tracking-widest text-primary mb-1 font-semibold"
-                        style={{ fontFamily: 'Space Grotesk, monospace' }}
-                      >
-                        Inquiry Received
-                      </span>
-                      <h3
-                        className="font-headline-md text-2xl text-white mb-2 font-bold"
-                        style={{ fontFamily: 'Bodoni Moda, serif' }}
-                      >
-                        Thank You!
-                      </h3>
-                      <p className="font-body-md text-sm text-gray-300 max-w-md mb-6 leading-relaxed">
-                        We have received your booking inquiry for <strong className="text-white">{activeCardInfo?.title || 'Qazi Touqeer'}</strong> (Ref: <span className="text-primary font-bold">{bookingHash}</span>). Our management team will check availability and contact you shortly.
-                      </p>
-                      <button
-                        type="button"
-                        onClick={() => setShowModal(false)}
-                        className="px-6 py-2.5 rounded-full bg-primary text-[#1A1203] hover:opacity-90 text-xs uppercase font-bold cursor-pointer transition-opacity"
-                        style={{ fontFamily: 'Space Grotesk, monospace' }}
-                      >
-                        Close
-                      </button>
                     </div>
                   )}
                 </div>
