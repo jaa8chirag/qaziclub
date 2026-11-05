@@ -110,7 +110,7 @@ export default function Hero() {
 
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 lg:px-16 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          
+
           {/* ======================================================== */}
           {/* LEFT COLUMN: CLEAN, SIMPLE, LUXURY CELEBRITY IDENTITY   */}
           {/* ======================================================== */}
@@ -202,16 +202,15 @@ export default function Hero() {
             {/* Main Luxury Frame */}
             <div className="relative rounded-2xl p-[1px] bg-gradient-to-b from-[#D8AE56]/80 via-[#D8AE56]/30 to-[#D8AE56]/60 shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_40px_rgba(216,174,86,0.25)]">
               <div className="relative w-full aspect-[4/5] min-h-[480px] sm:min-h-[540px] rounded-2xl overflow-hidden bg-[#0A090E] group">
-                
+
                 {/* Image Slides */}
                 {slides.map((slide, idx) => {
                   const isActive = idx === currentIdx;
                   return (
                     <div
                       key={slide.id}
-                      className={`absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out ${
-                        isActive ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
-                      }`}
+                      className={`absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out ${isActive ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
+                        }`}
                     >
                       <img
                         src={slide.image}
@@ -287,11 +286,10 @@ export default function Hero() {
                   type="button"
                   onClick={() => setCurrentIdx(idx)}
                   aria-label={`Go to slide ${idx + 1}`}
-                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                    currentIdx === idx
+                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${currentIdx === idx
                       ? 'w-8 bg-gradient-to-r from-[#D8AE56] to-[#F3D084] shadow-[0_0_10px_rgba(216,174,86,0.8)]'
                       : 'w-2 bg-white/20 hover:bg-white/50'
-                  }`}
+                    }`}
                 />
               ))}
             </div>
