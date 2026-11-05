@@ -134,6 +134,16 @@ function BookMeContent() {
       } else if (cat.toLowerCase().includes('corporate')) {
         setSelectedCat('Corporate Events');
       }
+
+      // Smooth scroll to booking form on mobile & desktop
+      setTimeout(() => {
+        const formElement = document.getElementById('booking-form');
+        if (formElement) {
+          const navHeight = 90;
+          const y = formElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }, 350);
     }
   }, [searchParams]);
 
@@ -154,7 +164,9 @@ function BookMeContent() {
     }
     const formElement = document.getElementById('booking-form');
     if (formElement) {
-      formElement.scrollIntoView({ behavior: 'smooth' });
+      const navHeight = 90;
+      const y = formElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
 
@@ -354,7 +366,7 @@ function BookMeContent() {
                     <div
                       key={item.num}
                       onClick={() => handleSelectCard(item)}
-                      className={`bg-white rounded-2xl overflow-hidden transition-all duration-300 flex flex-col justify-between group cursor-pointer border-2 ${
+                      className={`bg-white rounded-2xl overflow-hidden transition-all duration-300 flex flex-col justify-between group cursor-pointer border-2 active:scale-[0.99] ${
                         isLastCard ? 'md:col-span-2 lg:col-span-1 lg:col-start-2' : ''
                       } ${
                         isSelected
@@ -370,6 +382,12 @@ function BookMeContent() {
                             alt={item.title}
                             src={item.image}
                           />
+                          {isSelected && (
+                            <div className="absolute top-3 right-3 bg-[#111111]/90 backdrop-blur-md border border-[#D8AE56] px-3 py-1 rounded-full text-xs font-bold text-[#F3D084] flex items-center gap-1 shadow-md z-10">
+                              <span className="material-symbols-outlined text-sm text-[#D8AE56]">check_circle</span>
+                              <span>Selected</span>
+                            </div>
+                          )}
                         </div>
 
                         {/* Card Content */}
@@ -390,14 +408,18 @@ function BookMeContent() {
                       <div className="p-6 sm:p-7 pt-0">
                         <button
                           type="button"
-                          className={`w-full py-3.5 px-5 rounded-xl text-sm uppercase font-extrabold tracking-wider transition-all flex items-center justify-between border-2 cursor-pointer ${
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleSelectCard(item);
+                          }}
+                          className={`w-full py-3.5 px-5 rounded-xl text-sm uppercase font-extrabold tracking-wider transition-all flex items-center justify-between border-2 cursor-pointer active:scale-[0.98] ${
                             isSelected
                               ? 'bg-gradient-to-r from-[#D8AE56] to-[#B68938] text-[#1A1203] border-[#D8AE56] shadow-md'
-                              : 'bg-[#F6F2E9] group-hover:bg-gradient-to-r group-hover:from-[#D8AE56] group-hover:to-[#B68938] group-hover:text-[#261B04] text-[#111111] border-[#DDD5C5]'
+                              : 'bg-[#F6F2E9] hover:bg-gradient-to-r hover:from-[#D8AE56] hover:to-[#B68938] hover:text-[#261B04] text-[#111111] border-[#DDD5C5]'
                           }`}
                           style={{ fontFamily: 'Space Grotesk, monospace' }}
                         >
-                          <span>{isSelected ? '✓ Selected' : 'Book Now'}</span>
+                          <span>{isSelected ? '✓ Selected — Book Now' : 'Book Now'}</span>
                           <span className="material-symbols-outlined text-[18px]">arrow_downward</span>
                         </button>
                       </div>
@@ -410,7 +432,7 @@ function BookMeContent() {
             {/* ========================================================================= */}
             {/* 2. THE MASTER BOOKING FORM & ARTIST DOSSIER (ANCHOR: #booking-form)        */}
             {/* ========================================================================= */}
-            <div id="booking-form" className="pt-6">
+            <div id="booking-form" className="pt-6 scroll-mt-24">
               {/* Line explaining the form */}
               <div className="mb-6 text-center px-2">
                 <p className="text-base md:text-lg text-[#191714] font-semibold">
@@ -460,6 +482,35 @@ function BookMeContent() {
                   </div>
 
                   <form className="space-y-6 text-left" onSubmit={handleSubmit}>
+                    {/* Event Format / Category Selector */}
+                    <div className="space-y-2 text-left">
+                      <div className="flex items-center justify-between">
+                        <label
+                          className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+                          style={{ fontFamily: 'Space Grotesk, monospace' }}
+                        >
+                          Selected Event Category <span className="text-[#9B7018] font-black">*</span>
+                        </label>
+                        <span className="text-[11px] font-semibold text-[#87672D]">
+                          (Choose or change category)
+                        </span>
+                      </div>
+                      <select
+                        className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#D8AE56] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
+                        value={selectedCat}
+                        onChange={(e) => {
+                          const found = eventCards.find((c) => c.id === e.target.value);
+                          if (found) handleSelectCard(found);
+                        }}
+                      >
+                        {eventCards.map((c) => (
+                          <option key={c.id} value={c.id}>
+                            {c.title}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
                     {/* Row 1: Your Name & Dynamic Organization / College Name */}
                     <div className={`grid grid-cols-1 ${selectedCat !== 'Meet Qazi in Person' ? 'md:grid-cols-2' : ''} gap-5 sm:gap-6`}>
                       <div className="space-y-2 text-left">

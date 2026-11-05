@@ -122,7 +122,7 @@ export default function Hero() {
                 className="text-xs uppercase font-bold tracking-[0.2em] text-[#F3D084]"
                 style={{ fontFamily: 'Space Grotesk, monospace' }}
               >
-                FAME GURUKUL WINNER • BIGG BOSS PHENOMENON
+                FAME GURUKUL WINNER • BIGG BOSS PHENOMENON • AFGHAN JALEBI FAME
               </span>
             </div>
 
