@@ -10,9 +10,8 @@ function BookMeContent() {
   const searchParams = useSearchParams();
   const initialCat = searchParams.get('cat') || '';
 
-  const [territory, setTerritory] = useState('domestic'); // 'domestic' | 'intl'
   const [selectedCat, setSelectedCat] = useState(initialCat);
-  const [currency, setCurrency] = useState('INR');
+  const currency = 'INR'; // Locked to India (INR / ₹)
   const [showModal, setShowModal] = useState(false);
   const [countdown, setCountdown] = useState(5);
   const [bookingHash, setBookingHash] = useState('QAZI-ESCROW-8924');
@@ -156,15 +155,6 @@ function BookMeContent() {
     const formElement = document.getElementById('booking-form');
     if (formElement) {
       formElement.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const handleTerritorySwitch = (type) => {
-    setTerritory(type);
-    if (type === 'domestic') {
-      setCurrency('INR');
-    } else {
-      setCurrency('USD');
     }
   };
 
@@ -693,26 +683,6 @@ function BookMeContent() {
                           />
                         </div>
                       )}
-                    </div>
-
-                    {/* Row 5: Preferred Currency */}
-                    <div className="space-y-2 text-left">
-                      <label
-                        className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
-                        style={{ fontFamily: 'Space Grotesk, monospace' }}
-                      >
-                        Preferred Currency
-                      </label>
-                      <select
-                        className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
-                        value={currency}
-                        onChange={(e) => setCurrency(e.target.value)}
-                      >
-                        <option value="INR">INR (₹) - Indian Rupee</option>
-                        <option value="USD">USD ($) - US Dollar</option>
-                        <option value="AED">AED (د.إ) - UAE Dirham</option>
-                        <option value="GBP">GBP (£) - British Pound</option>
-                      </select>
                     </div>
 
                     {/* Row 6: Event Details or Special Requests */}
