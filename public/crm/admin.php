@@ -147,9 +147,15 @@ if ($isAuth) {
                     </div>
                     <div style="text-align:right;">
                         <span style="font-size:11px; color:#A8A29E; display:block; margin-bottom:6px;"><?= htmlspecialchars($row['created_at'] ?? '') ?></span>
-                        <a href="?action=status&id=<?= $row['id'] ?>&val=<?= $isNew ? 'contacted' : 'new' ?>" class="btn" style="background:<?= $isNew ? '#3B82F6' : '#10B981' ?>; color:#FFF; font-size:11px; padding:4px 10px;">
-                            Status: <?= strtoupper($row['status'] ?? 'new') ?>
-                        </a>
+                        <?php 
+                            $st = strtolower($row['status'] ?? 'new');
+                            $stColor = ($st === 'new') ? '#10B981' : (($st === 'closed') ? '#EF4444' : '#F59E0B');
+                        ?>
+                        <select onchange="window.location.href='?action=status&id=<?= $row['id'] ?>&val=' + this.value" style="background:#1C1A17; color:<?= $stColor ?>; border:2px solid <?= $stColor ?>; font-size:11px; font-weight:bold; padding:4px 8px; border-radius:8px; text-transform:uppercase; cursor:pointer;">
+                            <option value="new" <?= ($st === 'new') ? 'selected' : '' ?> style="color:#10B981;">🟢 New</option>
+                            <option value="in-progress" <?= ($st === 'in-progress' || $st === 'contacted') ? 'selected' : '' ?> style="color:#F59E0B;">🟡 In Progress</option>
+                            <option value="closed" <?= ($st === 'closed') ? 'selected' : '' ?> style="color:#EF4444;">🔴 Closed</option>
+                        </select>
                         <a href="?action=delete&id=<?= $row['id'] ?>" onclick="return confirm('Delete inquiry #<?= $row['id'] ?>?');" style="color:#EF4444; font-size:11px; margin-left:8px; text-decoration:none;">Delete</a>
                     </div>
                 </div>

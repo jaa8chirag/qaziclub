@@ -155,8 +155,15 @@ export default function CRMPage() {
         (item.category && item.category.toLowerCase().includes(q));
 
       // Status
-      const matchStatus =
-        selectedStatus === 'all' || (item.status || 'new').toLowerCase() === selectedStatus.toLowerCase();
+      let matchStatus = true;
+      if (selectedStatus !== 'all') {
+        const itemStatus = (item.status || 'new').toLowerCase();
+        if (selectedStatus === 'in-progress') {
+          matchStatus = itemStatus === 'in-progress' || itemStatus === 'in_progress' || itemStatus === 'contacted';
+        } else {
+          matchStatus = itemStatus === selectedStatus.toLowerCase();
+        }
+      }
 
       // Category
       const matchCat =
@@ -170,10 +177,15 @@ export default function CRMPage() {
 
   const stats = useMemo(() => {
     const total = inquiries.length;
-    const newCount = inquiries.filter((i) => (i.status || 'new') === 'new').length;
+    const newCount = inquiries.filter((i) => (i.status || 'new').toLowerCase() === 'new').length;
+    const inProgressCount = inquiries.filter((i) => {
+      const s = (i.status || '').toLowerCase();
+      return s === 'in-progress' || s === 'in_progress' || s === 'contacted';
+    }).length;
+    const closedCount = inquiries.filter((i) => (i.status || '').toLowerCase() === 'closed').length;
     const meetCount = inquiries.filter((i) => (i.category || '').toLowerCase().includes('meet')).length;
     const contactCount = inquiries.filter((i) => (i.source || '').toLowerCase().includes('contact') || (i.source || '').toLowerCase().includes('footer')).length;
-    return { total, newCount, meetCount, contactCount };
+    return { total, newCount, inProgressCount, closedCount, meetCount, contactCount };
   }, [inquiries]);
 
   // Clean phone number for WhatsApp
@@ -304,8 +316,8 @@ export default function CRMPage() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-8 py-8 space-y-8">
-        {/* KPI Stats Row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {/* KPI Stats Row with Requested Color Coding */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-[#141210] border border-[#292520] rounded-2xl p-4 sm:p-5">
             <span className="text-[11px] font-bold text-[#A8A29E] uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
               Total Inquiries
@@ -316,37 +328,43 @@ export default function CRMPage() {
             <span className="text-[11px] text-[#7A7366] mt-1 block">All registered leads</span>
           </div>
 
-          <div className="bg-[#141210] border border-[#D8AE56]/40 rounded-2xl p-4 sm:p-5 relative overflow-hidden">
+          <div className="bg-[#141210] border-2 border-emerald-500/40 rounded-2xl p-4 sm:p-5 relative overflow-hidden">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-[#D8AE56] uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
-                New / Unread
+              <span className="text-[11px] font-black text-emerald-400 uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                New (Green)
               </span>
-              <span className="w-2.5 h-2.5 rounded-full bg-[#D8AE56] animate-pulse"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
             </div>
-            <div className="text-2xl sm:text-4xl font-black text-[#F3D084] mt-1" style={{ fontFamily: 'Bodoni Moda, serif' }}>
+            <div className="text-2xl sm:text-4xl font-black text-emerald-400 mt-1" style={{ fontFamily: 'Bodoni Moda, serif' }}>
               {stats.newCount}
             </div>
-            <span className="text-[11px] text-[#A8A29E] mt-1 block">Require immediate contact</span>
+            <span className="text-[11px] text-[#A8A29E] mt-1 block">Fresh inquiries</span>
           </div>
 
-          <div className="bg-[#141210] border border-[#292520] rounded-2xl p-4 sm:p-5">
-            <span className="text-[11px] font-bold text-[#A8A29E] uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
-              Meet Qazi Leads
-            </span>
-            <div className="text-2xl sm:text-4xl font-black text-white mt-1" style={{ fontFamily: 'Bodoni Moda, serif' }}>
-              {stats.meetCount}
+          <div className="bg-[#141210] border-2 border-amber-500/40 rounded-2xl p-4 sm:p-5 relative overflow-hidden">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-black text-amber-400 uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                In Progress (Amber)
+              </span>
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
             </div>
-            <span className="text-[11px] text-[#7A7366] mt-1 block">1-on-1 &amp; VIP meetings</span>
+            <div className="text-2xl sm:text-4xl font-black text-amber-400 mt-1" style={{ fontFamily: 'Bodoni Moda, serif' }}>
+              {stats.inProgressCount}
+            </div>
+            <span className="text-[11px] text-[#A8A29E] mt-1 block">Follow-up underway</span>
           </div>
 
-          <div className="bg-[#141210] border border-[#292520] rounded-2xl p-4 sm:p-5">
-            <span className="text-[11px] font-bold text-[#A8A29E] uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
-              Direct Contact Desk
-            </span>
-            <div className="text-2xl sm:text-4xl font-black text-white mt-1" style={{ fontFamily: 'Bodoni Moda, serif' }}>
-              {stats.contactCount}
+          <div className="bg-[#141210] border-2 border-rose-500/40 rounded-2xl p-4 sm:p-5 relative overflow-hidden">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-black text-rose-400 uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                Closed (Red)
+              </span>
+              <span className="w-2.5 h-2.5 rounded-full bg-rose-400"></span>
             </div>
-            <span className="text-[11px] text-[#7A7366] mt-1 block">Footer &amp; Contact page queries</span>
+            <div className="text-2xl sm:text-4xl font-black text-rose-400 mt-1" style={{ fontFamily: 'Bodoni Moda, serif' }}>
+              {stats.closedCount}
+            </div>
+            <span className="text-[11px] text-[#A8A29E] mt-1 block">Resolved / Completed</span>
           </div>
         </div>
 
@@ -368,27 +386,33 @@ export default function CRMPage() {
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7A7366] hover:text-white text-xs"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7A7366] hover:text-white text-xs cursor-pointer"
                 >
                   Clear
                 </button>
               )}
             </div>
 
-            {/* Status Filter Buttons */}
+            {/* Status Filter Buttons with Color Tags */}
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
-              {['all', 'new', 'contacted', 'closed'].map((statusKey) => (
+              {[
+                { key: 'all', label: 'All Status' },
+                { key: 'new', label: 'New', dot: 'bg-emerald-400', activeClass: 'bg-emerald-600 text-white border-emerald-500' },
+                { key: 'in-progress', label: 'In Progress', dot: 'bg-amber-400', activeClass: 'bg-amber-600 text-white border-amber-500' },
+                { key: 'closed', label: 'Closed', dot: 'bg-rose-400', activeClass: 'bg-rose-600 text-white border-rose-500' },
+              ].map((s) => (
                 <button
-                  key={statusKey}
-                  onClick={() => setSelectedStatus(statusKey)}
-                  className={`px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider capitalize transition-all cursor-pointer whitespace-nowrap ${
-                    selectedStatus === statusKey
-                      ? 'bg-[#D8AE56] text-[#141210]'
-                      : 'bg-[#1C1A17] text-[#A8A29E] hover:bg-[#26221E]'
+                  key={s.key}
+                  onClick={() => setSelectedStatus(s.key)}
+                  className={`px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 border ${
+                    selectedStatus === s.key
+                      ? s.activeClass || 'bg-[#D8AE56] text-[#141210] border-[#D8AE56]'
+                      : 'bg-[#1C1A17] text-[#A8A29E] border-[#292520] hover:bg-[#26221E]'
                   }`}
                   style={{ fontFamily: 'Space Grotesk, monospace' }}
                 >
-                  {statusKey === 'all' ? 'All Status' : statusKey}
+                  {s.dot && <span className={`w-2 h-2 rounded-full ${s.dot}`}></span>}
+                  <span>{s.label}</span>
                 </button>
               ))}
             </div>
@@ -456,17 +480,20 @@ export default function CRMPage() {
             <div className="grid grid-cols-1 gap-4">
               {filteredInquiries.map((item) => {
                 const isMeetQazi = (item.category || '').toLowerCase().includes('meet');
-                const isNew = (item.status || 'new') === 'new';
-                const isContacted = item.status === 'contacted';
-                const isClosed = item.status === 'closed';
+                const rawStatus = (item.status || 'new').toLowerCase();
+                const isNew = rawStatus === 'new';
+                const isInProgress = rawStatus === 'in-progress' || rawStatus === 'in_progress' || rawStatus === 'contacted';
+                const isClosed = rawStatus === 'closed';
 
                 return (
                   <div
                     key={item.id}
-                    className={`bg-[#141210] border rounded-2xl p-5 sm:p-6 transition-all space-y-4 ${
+                    className={`bg-[#141210] border-2 rounded-2xl p-5 sm:p-6 transition-all space-y-4 ${
                       isNew
-                        ? 'border-[#D8AE56]/60 shadow-[0_4px_20px_rgba(216,174,86,0.12)]'
-                        : 'border-[#292520] hover:border-[#38332C]'
+                        ? 'border-emerald-500/50 shadow-[0_4px_25px_rgba(16,185,129,0.15)] bg-gradient-to-r from-emerald-950/10 via-[#141210] to-[#141210]'
+                        : isInProgress
+                        ? 'border-amber-500/50 shadow-[0_4px_25px_rgba(245,158,11,0.15)] bg-gradient-to-r from-amber-950/10 via-[#141210] to-[#141210]'
+                        : 'border-rose-500/40 opacity-80 hover:opacity-100 bg-gradient-to-r from-rose-950/10 via-[#141210] to-[#141210]'
                     }`}
                   >
                     {/* Header Row */}
@@ -491,9 +518,23 @@ export default function CRMPage() {
                             </span>
                           )}
 
+                          {/* Status Indicator Badges: New = Green, In Progress = Amber, Closed = Red */}
                           {isNew && (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#EF4444] text-white animate-pulse">
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-600 text-white animate-pulse flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-white"></span>
                               New
+                            </span>
+                          )}
+                          {isInProgress && (
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-500/20 border border-amber-500/60 text-amber-300 flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                              In Progress
+                            </span>
+                          )}
+                          {isClosed && (
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-rose-950/40 border border-rose-500/50 text-rose-400 flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+                              Closed
                             </span>
                           )}
                         </div>
@@ -503,23 +544,23 @@ export default function CRMPage() {
                         </h3>
                       </div>
 
-                      {/* Status Selector & Actions */}
+                      {/* Status Selector & Actions with explicit Color Coding */}
                       <div className="flex items-center gap-2">
                         <select
-                          value={item.status || 'new'}
+                          value={isInProgress ? 'in-progress' : isClosed ? 'closed' : 'new'}
                           onChange={(e) => handleStatusChange(item.id, e.target.value)}
-                          className={`text-xs font-bold px-3 py-1.5 rounded-xl border outline-none cursor-pointer uppercase tracking-wider transition-colors ${
+                          className={`text-xs font-black px-3.5 py-2 rounded-xl border-2 outline-none cursor-pointer uppercase tracking-wider transition-all shadow-sm ${
                             isNew
-                              ? 'bg-amber-950/40 border-amber-500/60 text-amber-300'
-                              : isContacted
-                              ? 'bg-sky-950/40 border-sky-500/60 text-sky-300'
-                              : 'bg-emerald-950/40 border-emerald-500/60 text-emerald-300'
+                              ? 'bg-emerald-950/50 border-emerald-500 text-emerald-300 hover:bg-emerald-950/80 focus:ring-2 focus:ring-emerald-500/40'
+                              : isInProgress
+                              ? 'bg-amber-950/50 border-amber-500 text-amber-300 hover:bg-amber-950/80 focus:ring-2 focus:ring-amber-500/40'
+                              : 'bg-rose-950/50 border-rose-500 text-rose-300 hover:bg-rose-950/80 focus:ring-2 focus:ring-rose-500/40'
                           }`}
                           style={{ fontFamily: 'Space Grotesk, monospace' }}
                         >
-                          <option value="new">● New</option>
-                          <option value="contacted">● Contacted</option>
-                          <option value="closed">● Closed</option>
+                          <option value="new" className="bg-[#1C1A17] text-emerald-400 font-bold">🟢 New</option>
+                          <option value="in-progress" className="bg-[#1C1A17] text-amber-400 font-bold">🟡 In Progress</option>
+                          <option value="closed" className="bg-[#1C1A17] text-rose-400 font-bold">🔴 Closed</option>
                         </select>
 
                         <button
@@ -685,7 +726,28 @@ export default function CRMPage() {
 
               <div className="p-3 rounded-xl bg-[#1C1A17] border border-[#292520]">
                 <span className="text-[#7A7366] block font-bold mb-1">STATUS</span>
-                <span className="font-bold uppercase tracking-wider text-sm">{activeLead.status || 'new'}</span>
+                <select
+                  value={
+                    (activeLead.status || '').toLowerCase() === 'closed'
+                      ? 'closed'
+                      : (activeLead.status || '').toLowerCase() === 'in-progress' || (activeLead.status || '').toLowerCase() === 'in_progress' || (activeLead.status || '').toLowerCase() === 'contacted'
+                      ? 'in-progress'
+                      : 'new'
+                  }
+                  onChange={(e) => handleStatusChange(activeLead.id, e.target.value)}
+                  className={`text-xs font-black px-3 py-1.5 rounded-lg border-2 outline-none cursor-pointer uppercase tracking-wider ${
+                    (activeLead.status || 'new').toLowerCase() === 'new'
+                      ? 'bg-emerald-950/60 border-emerald-500 text-emerald-300'
+                      : (activeLead.status || '').toLowerCase() === 'closed'
+                      ? 'bg-rose-950/60 border-rose-500 text-rose-300'
+                      : 'bg-amber-950/60 border-amber-500 text-amber-300'
+                  }`}
+                  style={{ fontFamily: 'Space Grotesk, monospace' }}
+                >
+                  <option value="new" className="bg-[#1C1A17] text-emerald-400 font-bold">🟢 New</option>
+                  <option value="in-progress" className="bg-[#1C1A17] text-amber-400 font-bold">🟡 In Progress</option>
+                  <option value="closed" className="bg-[#1C1A17] text-rose-400 font-bold">🔴 Closed</option>
+                </select>
               </div>
             </div>
 
