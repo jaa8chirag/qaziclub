@@ -126,6 +126,7 @@ function BookMeContent() {
           ...prev,
           timeSlot: '1 Hour Meeting',
           expectedGuests: '1',
+          city: 'Delhi / NCR',
         }));
       } else if (cat.toLowerCase().includes('brand') || cat.toLowerCase().includes('collab')) {
         setSelectedCat('Brand Collaborations & Endorsements');
@@ -142,6 +143,7 @@ function BookMeContent() {
         ...prev,
         timeSlot: '1 Hour Meeting',
         expectedGuests: '1',
+        city: prev.city && prev.city.includes('Delhi') ? prev.city : 'Delhi / NCR',
       }));
     } else if (formData.timeSlot.includes('Hour')) {
       setFormData((prev) => ({
@@ -271,7 +273,7 @@ function BookMeContent() {
           email: formData.email,
           expected_guests: selectedCat === 'Meet Qazi in Person' ? '1-on-1 VIP Interaction' : formData.expectedGuests,
           budget: currency,
-          message: formData.notes,
+          message: formData.techNotes || formData.notes || '',
         }),
       });
     } catch (err) {
@@ -517,53 +519,78 @@ function BookMeContent() {
                     {/* Row 3: City / Venue Location (with Auto-Detect GPS) & Phone */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                       <div className="space-y-2 text-left">
-                        <div className="flex items-center justify-between">
-                          <label
-                            className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
-                            style={{ fontFamily: 'Space Grotesk, monospace' }}
-                          >
-                            City / Venue Location <span className="text-[#9B7018] font-black">*</span>
-                          </label>
-                          <button
-                            type="button"
-                            onClick={handleAutoDetectLocation}
-                            className="inline-flex items-center gap-1 text-[11px] font-bold text-[#9B7018] hover:text-[#B68938] transition-colors cursor-pointer"
-                            title="Auto-detect city, state and country via GPS"
-                          >
-                            <span className={`material-symbols-outlined text-[16px] ${detectingLocation ? 'animate-spin' : ''}`}>
-                              {detectingLocation ? 'sync' : 'my_location'}
-                            </span>
-                            <span>{detectingLocation ? 'Detecting...' : 'Auto-Detect (GPS)'}</span>
-                          </button>
-                        </div>
-                        <input
-                          className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                          placeholder="e.g. Mumbai, Maharashtra, India"
-                          list="city-suggestions"
-                          required
-                          type="text"
-                          value={formData.city}
-                          onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                        />
-                        <datalist id="city-suggestions">
-                          <option value="New Delhi, Delhi, India" />
-                          <option value="Mumbai, Maharashtra, India" />
-                          <option value="Bengaluru, Karnataka, India" />
-                          <option value="Noida, Uttar Pradesh, India" />
-                          <option value="Greater Noida, Uttar Pradesh, India" />
-                          <option value="Gurugram, Haryana, India" />
-                          <option value="Pune, Maharashtra, India" />
-                          <option value="Jaipur, Rajasthan, India" />
-                          <option value="Ahmedabad, Gujarat, India" />
-                          <option value="Kolkata, West Bengal, India" />
-                          <option value="Hyderabad, Telangana, India" />
-                          <option value="Chennai, Tamil Nadu, India" />
-                          <option value="Chandigarh, Punjab, India" />
-                          <option value="Lucknow, Uttar Pradesh, India" />
-                          <option value="Goa, India" />
-                          <option value="Dubai, United Arab Emirates" />
-                          <option value="London, United Kingdom" />
-                        </datalist>
+                        {selectedCat === 'Meet Qazi in Person' ? (
+                          <>
+                            <label
+                              className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+                              style={{ fontFamily: 'Space Grotesk, monospace' }}
+                            >
+                              Location (Delhi / NCR) <span className="text-[#9B7018] font-black">*</span>
+                            </label>
+                            <select
+                              className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
+                              required
+                              value={formData.city || 'Delhi / NCR'}
+                              onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                            >
+                              <option value="Delhi / NCR">Delhi / NCR</option>
+                              <option value="New Delhi">New Delhi</option>
+                              <option value="Noida / Greater Noida">Noida / Greater Noida</option>
+                              <option value="Gurugram (Gurgaon)">Gurugram (Gurgaon)</option>
+                              <option value="Ghaziabad / Faridabad">Ghaziabad / Faridabad</option>
+                            </select>
+                          </>
+                        ) : (
+                          <>
+                            <div className="flex items-center justify-between">
+                              <label
+                                className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+                                style={{ fontFamily: 'Space Grotesk, monospace' }}
+                              >
+                                City / Venue Location <span className="text-[#9B7018] font-black">*</span>
+                              </label>
+                              <button
+                                type="button"
+                                onClick={handleAutoDetectLocation}
+                                className="inline-flex items-center gap-1 text-[11px] font-bold text-[#9B7018] hover:text-[#B68938] transition-colors cursor-pointer"
+                                title="Auto-detect city, state and country via GPS"
+                              >
+                                <span className={`material-symbols-outlined text-[16px] ${detectingLocation ? 'animate-spin' : ''}`}>
+                                  {detectingLocation ? 'sync' : 'my_location'}
+                                </span>
+                                <span>{detectingLocation ? 'Detecting...' : 'Auto-Detect (GPS)'}</span>
+                              </button>
+                            </div>
+                            <input
+                              className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
+                              placeholder="e.g. Mumbai, Maharashtra, India"
+                              list="city-suggestions"
+                              required
+                              type="text"
+                              value={formData.city}
+                              onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                            />
+                            <datalist id="city-suggestions">
+                              <option value="New Delhi, Delhi, India" />
+                              <option value="Mumbai, Maharashtra, India" />
+                              <option value="Bengaluru, Karnataka, India" />
+                              <option value="Noida, Uttar Pradesh, India" />
+                              <option value="Greater Noida, Uttar Pradesh, India" />
+                              <option value="Gurugram, Haryana, India" />
+                              <option value="Pune, Maharashtra, India" />
+                              <option value="Jaipur, Rajasthan, India" />
+                              <option value="Ahmedabad, Gujarat, India" />
+                              <option value="Kolkata, West Bengal, India" />
+                              <option value="Hyderabad, Telangana, India" />
+                              <option value="Chennai, Tamil Nadu, India" />
+                              <option value="Chandigarh, Punjab, India" />
+                              <option value="Lucknow, Uttar Pradesh, India" />
+                              <option value="Goa, India" />
+                              <option value="Dubai, United Arab Emirates" />
+                              <option value="London, United Kingdom" />
+                            </datalist>
+                          </>
+                        )}
                       </div>
 
                       <div className="space-y-2 text-left">
@@ -650,12 +677,28 @@ function BookMeContent() {
                         className="flex items-center justify-between text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
                         style={{ fontFamily: 'Space Grotesk, monospace' }}
                       >
-                        <span>Event Details or Special Requests</span>
-                        <span className="text-[#7A7366] text-xs font-semibold lowercase">(optional)</span>
+                        {selectedCat === 'Meet Qazi in Person' ? (
+                          <>
+                            <span>
+                              Let us know the actual reason to meet <span className="text-[#9B7018] font-black">*</span>
+                            </span>
+                            <span className="text-[#9B7018] text-xs font-bold lowercase">(mandatory)</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>Event Details or Special Requests</span>
+                            <span className="text-[#7A7366] text-xs font-semibold lowercase">(optional)</span>
+                          </>
+                        )}
                       </label>
                       <textarea
                         className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-medium text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                        placeholder="Tell us about the event timing, stage setup, song preferences, or any other requirements..."
+                        placeholder={
+                          selectedCat === 'Meet Qazi in Person'
+                            ? "Please describe the genuine purpose, topic, or reason for meeting Qazi in person..."
+                            : "Tell us about the event timing, stage setup, song preferences, or any other requirements..."
+                        }
+                        required={selectedCat === 'Meet Qazi in Person'}
                         rows="3"
                         value={formData.techNotes}
                         onChange={(e) => setFormData({ ...formData, techNotes: e.target.value })}
