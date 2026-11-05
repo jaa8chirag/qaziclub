@@ -57,7 +57,7 @@ export default function Home() {
       category: 'Meet Qazi in Person',
       tag: 'Exclusive',
       audience: '1-on-1 Meeting',
-      desc: 'Private green room access, candid masterclass conversation, signed mementos, and bespoke acoustic set.',
+      desc: 'Private green room access, candid masterclass conversation, signed mementos, and a bespoke acoustic set.',
       specs: ['1-on-1 Conversation Session', 'Signed Tour Memorabilia', 'High-Res Photographic Keepsake', 'Personal Acoustic Song Request'],
       link: '/book-me?cat=Meet Qazi',
       image: '/images/cards/card-05-vip-meet.jpg',

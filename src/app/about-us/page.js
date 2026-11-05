@@ -212,7 +212,7 @@ export default function AboutUsPage() {
                 </div>
 
                 <p className="text-base sm:text-lg text-[#524E46] max-w-2xl leading-relaxed font-medium">
-                  From capturing over 50 million hearts as the historic winner of <strong className="text-[#141312] font-bold">Fame Gurukul</strong> to delivering Bollywood’s global chartbuster <strong className="text-[#141312] font-bold">“Afghan Jalebi”</strong>, and creating television history on <strong className="text-[#141312] font-bold">Bigg Boss Season 20</strong> with Salman Khan — Qazi Touqeer is a powerhouse of raw charisma, vocal adrenaline, and unforgettable live showmanship.
+                  From capturing over 50 million hearts as the historic winner of <strong className="text-[#141312] font-bold">Fame Gurukul</strong>, to delivering Bollywood’s global chartbuster <strong className="text-[#141312] font-bold">“Afghan Jalebi”</strong>, to creating television history on <strong className="text-[#141312] font-bold">Bigg Boss Season 20</strong> with Salman Khan — Qazi Touqeer is a powerhouse of raw charisma, vocal adrenaline, and unforgettable live showmanship.
                 </p>
 
                 {/* Primary Action Buttons */}
@@ -222,7 +222,7 @@ export default function AboutUsPage() {
                     className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gradient-to-r from-[#D8AE56] via-[#F3D084] to-[#B68938] text-[#1A1203] font-black text-xs uppercase tracking-widest hover:brightness-105 transition-all duration-300 shadow-[0_4px_20px_rgba(216,174,86,0.35)] hover:scale-[1.02]"
                     style={{ fontFamily: 'Space Grotesk, monospace' }}
                   >
-                    <span>Book Qazi For Events</span>
+                    <span>Book Qazi for Events</span>
                     <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
                   </Link>
 
@@ -462,7 +462,7 @@ export default function AboutUsPage() {
                       className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#D8AE56] via-[#F3D084] to-[#B68938] text-[#1A1203] font-black text-xs uppercase tracking-widest hover:brightness-105 transition-all shadow-lg"
                       style={{ fontFamily: 'Space Grotesk, monospace' }}
                     >
-                      <span>Meet Qazi In Person</span>
+                      <span>Meet Qazi in Person</span>
                       <span className="material-symbols-outlined text-[18px]">person</span>
                     </Link>
 

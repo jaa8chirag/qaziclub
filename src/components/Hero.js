@@ -176,7 +176,7 @@ export default function Hero() {
                 style={{ fontFamily: 'Space Grotesk, monospace' }}
               >
                 <span className="material-symbols-outlined text-[20px]">calendar_month</span>
-                <span>BOOK FOR AN EVENT</span>
+                <span>BOOK AN EVENT</span>
                 <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
               </Link>
             </div>

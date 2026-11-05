@@ -384,10 +384,17 @@ function BookMeContent() {
               <div className="mb-6 text-center px-2">
                 <p className="text-base md:text-lg text-[#191714] font-semibold">
                   {selectedCat && activeCardInfo ? (
-                    <>
-                      Please fill in your details below to book Qazi for{' '}
-                      <strong className="text-[#9B7018] font-black">{activeCardInfo.title}</strong>:
-                    </>
+                    selectedCat === 'Meet Qazi in Person' ? (
+                      <>
+                        Please fill in your details below to{' '}
+                        <strong className="text-[#9B7018] font-black">Meet Qazi in Person</strong>:
+                      </>
+                    ) : (
+                      <>
+                        Please fill in your details below to book Qazi for{' '}
+                        <strong className="text-[#9B7018] font-black">{activeCardInfo.title}</strong>:
+                      </>
+                    )
                   ) : (
                     <>
                       Please select an event format above or fill in your details below to book{' '}
@@ -691,7 +698,7 @@ function BookMeContent() {
                         className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-medium text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
                         placeholder={
                           selectedCat === 'Meet Qazi in Person'
-                            ? "Please describe the genuine purpose, topic, or reason for meeting Qazi in person..."
+                            ? "Please describe the genuine purpose, topic, or reason to meet Qazi in person..."
                             : "Tell us about the event timing, stage setup, song preferences, or any other requirements..."
                         }
                         required={selectedCat === 'Meet Qazi in Person'}
