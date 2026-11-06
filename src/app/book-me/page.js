@@ -366,502 +366,502 @@ function BookMeContent() {
                     <div
                       key={item.num}
                       onClick={() => handleSelectCard(item)}
-                      className={`bg-white rounded-2xl overflow-hidden transition-all duration-300 flex flex-col justify-between group cursor-pointer border-2 active:scale-[0.99] ${
-                        isLastCard ? 'md:col-span-2 lg:col-span-1 lg:col-start-2' : ''
-                      } ${
-                        isSelected
-                          ? 'border-[#D8AE56] ring-4 ring-[#D8AE56]/30 shadow-[0_15px_45px_rgba(216,174,86,0.35)] -translate-y-2'
-                          : 'border-[#E6DFD1] hover:border-[#D8AE56] shadow-[0_10px_30px_rgba(20,19,18,0.05)] hover:shadow-[0_20px_45px_rgba(182,137,56,0.22)] hover:-translate-y-1'
-                      }`}
+                      className={`bg - white rounded - 2xl overflow - hidden transition - all duration - 300 flex flex - col justify - between group cursor - pointer border - 2 active:scale-[0.99] ${
+                  isLastCard ? 'md:col-span-2 lg:col-span-1 lg:col-start-2' : ''
+                } ${
+                  isSelected
+                    ? 'border-[#D8AE56] ring-4 ring-[#D8AE56]/30 shadow-[0_15px_45px_rgba(216,174,86,0.35)] -translate-y-2'
+                    : 'border-[#E6DFD1] hover:border-[#D8AE56] shadow-[0_10px_30px_rgba(20,19,18,0.05)] hover:shadow-[0_20px_45px_rgba(182,137,56,0.22)] hover:-translate-y-1'
+                }`}
                     >
-                      <div>
-                        {/* Card Image */}
-                        <div className="relative w-full aspect-[840/460] overflow-hidden bg-[#111111]">
-                          <img
-                            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                            alt={item.title}
-                            src={item.image}
-                          />
-                          {isSelected && (
-                            <div className="absolute top-3 right-3 bg-[#111111]/90 backdrop-blur-md border border-[#D8AE56] px-3 py-1 rounded-full text-xs font-bold text-[#F3D084] flex items-center gap-1 shadow-md z-10">
-                              <span className="material-symbols-outlined text-sm text-[#D8AE56]">check_circle</span>
-                              <span>Selected</span>
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Card Content */}
-                        <div className="p-6 sm:p-7 text-left">
-                          <h3
-                            className="text-2xl text-[#111111] font-bold mb-3"
-                            style={{ fontFamily: 'Bodoni Moda, serif' }}
-                          >
-                            {item.title}
-                          </h3>
-                          <p className="text-sm md:text-base text-[#38342D] leading-relaxed font-normal">
-                            {item.desc}
-                          </p>
-                        </div>
+                <div>
+                  {/* Card Image */}
+                  <div className="relative w-full aspect-[840/460] overflow-hidden bg-[#111111]">
+                    <img
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                      alt={item.title}
+                      src={item.image}
+                    />
+                    {isSelected && (
+                      <div className="absolute top-3 right-3 bg-[#111111]/90 backdrop-blur-md border border-[#D8AE56] px-3 py-1 rounded-full text-xs font-bold text-[#F3D084] flex items-center gap-1 shadow-md z-10">
+                        <span className="material-symbols-outlined text-sm text-[#D8AE56]">check_circle</span>
+                        <span>Selected</span>
                       </div>
+                    )}
+                  </div>
 
-                      {/* Card Bottom CTA */}
-                      <div className="p-6 sm:p-7 pt-0">
-                        <button
-                          type="button"
-                    onClick = {(e) => {
-                  e.stopPropagation();
-                handleSelectCard(item);
-                          }}
-                className={`w-full py-3.5 px-5 rounded-xl text-sm uppercase font-extrabold tracking-wider transition-all flex items-center justify-between border-2 cursor-pointer active:scale-[0.98] ${isSelected
-                    ? 'bg-gradient-to-r from-[#D8AE56] to-[#B68938] text-[#1A1203] border-[#D8AE56] shadow-md'
-                              : 'bg-[#F6F2E9] hover:bg-gradient-to-r hover:from-[#D8AE56] hover:to-[#B68938] hover:text-[#261B04] text-[#111111] border-[#DDD5C5]'
-                          }`}
-                style={{ fontFamily: 'Space Grotesk, monospace' }}
-                        >
-                <span>{isSelected ? '✓ Selected — Book Now' : 'Book Now'}</span>
-                <span className="material-symbols-outlined text-[18px]">arrow_downward</span>
-              </button>
-            </div>
-          </div>
-          );
-                })}
-        </div>
-    </div>
+                  {/* Card Content */}
+                  <div className="p-6 sm:p-7 text-left">
+                    <h3
+                      className="text-2xl text-[#111111] font-bold mb-3"
+                      style={{ fontFamily: 'Bodoni Moda, serif' }}
+                    >
+                      {item.title}
+                    </h3>
+                    <p className="text-sm md:text-base text-[#38342D] leading-relaxed font-normal">
+                      {item.desc}
+                    </p>
+                  </div>
+                </div>
 
-            {/* ========================================================================= */ }
-  {/* 2. THE MASTER BOOKING FORM & ARTIST DOSSIER (ANCHOR: #booking-form)        */ }
-  {/* ========================================================================= */ }
-    <div id="booking-form" className="pt-6 scroll-mt-24">
-      {/* Line explaining the form */}
-      <div className="mb-6 text-center px-2">
-        <p className="text-base md:text-lg text-[#191714] font-semibold">
-          {selectedCat && activeCardInfo ? (
-            selectedCat === 'Meet Qazi in Person' ? (
-              <>
-                Please fill in your details below to{' '}
-                <strong className="text-[#9B7018] font-black">Meet Qazi in Person</strong>:
-              </>
-            ) : (
-              <>
-                Please fill in your details below to book Qazi for{' '}
-                <strong className="text-[#9B7018] font-black">{activeCardInfo.title}</strong>:
-              </>
-            )
-          ) : (
-            <>
-              Please select an event format above or fill in your details below to book{' '}
-              <strong className="text-[#9B7018] font-black">Qazi Touqeer</strong>:
-            </>
-          )}
-        </p>
-      </div>
-
-      {/* Centered Booking Form */}
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-3xl p-5 sm:p-8 md:p-12 shadow-[0_20px_50px_rgba(20,19,18,0.08)] relative overflow-hidden border-2 border-[#D7CEBE]">
-          {/* Subtle Top Golden Hairline Highlight */}
-          <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#D8AE56] via-[#F3D084] to-[#B68938]"></div>
-
-          {/* Clean Booking Header */}
-          <div className="bg-[#FAF5EC] rounded-2xl p-4 md:p-5 mb-8 flex items-center gap-3 sm:gap-4 border border-[#D8AE56]/40 shadow-sm text-left">
-            <div className="w-10 h-10 rounded-full bg-[#D8AE56]/20 flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined text-[#9B7018] text-[22px]">event_available</span>
-            </div>
-            <div className="min-w-0">
-              <p
-                className="text-xs sm:text-sm uppercase tracking-wider text-[#9B7018] font-black truncate"
-                style={{ fontFamily: 'Space Grotesk, monospace' }}
-              >
-                Direct Artist Booking Inquiry
-              </p>
-              <p className="text-xs sm:text-sm text-[#38342D] font-medium">
-                Fill in your details below to check date availability and book Qazi Touqeer for your event.
-              </p>
-            </div>
-          </div>
-
-          <form className="space-y-6 text-left" onSubmit={handleSubmit}>
-            {/* Event Format / Category Selector */}
-            <div className="space-y-2 text-left">
-              <div className="flex items-center justify-between">
-                <label
-                  className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
-                  style={{ fontFamily: 'Space Grotesk, monospace' }}
-                >
-                  Selected Event Category <span className="text-[#9B7018] font-black">*</span>
-                </label>
-                <span className="text-[11px] font-semibold text-[#87672D]">
-                  (Choose or change category)
-                </span>
-              </div>
-              <select
-                className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#D8AE56] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
-                value={selectedCat}
-                onChange={(e) => {
-                  const found = eventCards.find((c) => c.id === e.target.value);
-                  if (found) handleSelectCard(found);
-                }}
-              >
-                {eventCards.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.title}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Row 1: Your Name & Dynamic Organization / College Name */}
-            <div className={`grid grid-cols-1 ${selectedCat !== 'Meet Qazi in Person' ? 'md:grid-cols-2' : ''} gap-5 sm:gap-6`}>
-              <div className="space-y-2 text-left">
-                <label
-                  className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
-                  style={{ fontFamily: 'Space Grotesk, monospace' }}
-                >
-                  Your Name <span className="text-[#9B7018] font-black">*</span>
-                </label>
-                <input
-                  className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                  placeholder="e.g. Rahul Sharma"
-                  required
-                  type="text"
-                  value={formData.repName}
-                  onChange={(e) => setFormData({ ...formData, repName: e.target.value })}
-                />
-              </div>
-
-              {selectedCat !== 'Meet Qazi in Person' && (
-                <div className="space-y-2 text-left">
-                  <label
-                    className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+                {/* Card Bottom CTA */}
+                <div className="p-6 sm:p-7 pt-0">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSelectCard(item);
+                    }}
+                    className={`w-full py-3.5 px-5 rounded-xl text-sm uppercase font-extrabold tracking-wider transition-all flex items-center justify-between border-2 cursor-pointer active:scale-[0.98] ${isSelected
+                      ? 'bg-gradient-to-r from-[#D8AE56] to-[#B68938] text-[#1A1203] border-[#D8AE56] shadow-md'
+                      : 'bg-[#F6F2E9] hover:bg-gradient-to-r hover:from-[#D8AE56] hover:to-[#B68938] hover:text-[#261B04] text-[#111111] border-[#DDD5C5]'
+                      }`}
                     style={{ fontFamily: 'Space Grotesk, monospace' }}
                   >
-                    {orgConfig.label} <span className="text-[#9B7018] font-black">*</span>
-                  </label>
-                  <input
-                    className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                    placeholder={orgConfig.placeholder}
-                    required={selectedCat !== 'Meet Qazi in Person'}
-                    type="text"
-                    value={formData.orgName}
-                    onChange={(e) => setFormData({ ...formData, orgName: e.target.value })}
-                  />
+                    <span>{isSelected ? '✓ Selected — Book Now' : 'Book Now'}</span>
+                    <span className="material-symbols-outlined text-[18px]">arrow_downward</span>
+                  </button>
                 </div>
-              )}
-            </div>
-
-            {/* Row 2: Event Date & Time Slot */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-              <div className="space-y-2 text-left">
-                <label
-                  className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
-                  style={{ fontFamily: 'Space Grotesk, monospace' }}
-                >
-                  {selectedCat === 'Meet Qazi in Person' ? 'Meeting Date' : 'Event Date'} <span className="text-[#9B7018] font-black">*</span>
-                </label>
-                <input
-                  className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                  required
-                  type="date"
-                  value={formData.perfDate}
-                  onChange={(e) => setFormData({ ...formData, perfDate: e.target.value })}
-                />
               </div>
+              );
+                })}
+            </div>
+          </div>
 
-              <div className="space-y-2 text-left">
-                <label
-                  className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
-                  style={{ fontFamily: 'Space Grotesk, monospace' }}
-                >
-                  {selectedCat === 'Meet Qazi in Person' ? 'Meeting Duration' : 'Preferred Time Slot'} <span className="text-[#9B7018] font-black">*</span>
-                </label>
-                {selectedCat === 'Meet Qazi in Person' ? (
-                  <select
-                    className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
-                    required
-                    value={formData.timeSlot}
-                    onChange={(e) => setFormData({ ...formData, timeSlot: e.target.value })}
-                  >
-                    <option value="1 Hour Meeting">1 Hour Meeting</option>
-                    <option value="2 Hours Meeting">2 Hours Meeting</option>
-                    <option value="3 Hours Meeting">3 Hours Meeting</option>
-                    <option value="Half Day / Custom Interaction">Half Day / Custom Interaction</option>
-                  </select>
+          {/* ========================================================================= */}
+          {/* 2. THE MASTER BOOKING FORM & ARTIST DOSSIER (ANCHOR: #booking-form)        */}
+          {/* ========================================================================= */}
+          <div id="booking-form" className="pt-6 scroll-mt-24">
+            {/* Line explaining the form */}
+            <div className="mb-6 text-center px-2">
+              <p className="text-base md:text-lg text-[#191714] font-semibold">
+                {selectedCat && activeCardInfo ? (
+                  selectedCat === 'Meet Qazi in Person' ? (
+                    <>
+                      Please fill in your details below to{' '}
+                      <strong className="text-[#9B7018] font-black">Meet Qazi in Person</strong>:
+                    </>
+                  ) : (
+                    <>
+                      Please fill in your details below to book Qazi for{' '}
+                      <strong className="text-[#9B7018] font-black">{activeCardInfo.title}</strong>:
+                    </>
+                  )
                 ) : (
-                  <select
-                    className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
-                    required
-                    value={formData.timeSlot}
-                    onChange={(e) => setFormData({ ...formData, timeSlot: e.target.value })}
-                  >
-                    <option value="Evening Prime (7:00 PM – 10:00 PM)">Evening Prime (7:00 PM – 10:00 PM)</option>
-                    <option value="Night Headline (8:00 PM – 11:00 PM)">Night Headline (8:00 PM – 11:00 PM)</option>
-                    <option value="Late Night (10:00 PM – 1:00 AM)">Late Night (10:00 PM – 1:00 AM)</option>
-                    <option value="Sunset Show (4:00 PM – 7:00 PM)">Sunset Show (4:00 PM – 7:00 PM)</option>
-                    <option value="Afternoon / Day Fest (12:00 PM – 4:00 PM)">Afternoon / Day Fest (12:00 PM – 4:00 PM)</option>
-                    <option value="Flexible / Full Day Schedule">Flexible / Full Day Schedule</option>
-                  </select>
+                  <>
+                    Please select an event format above or fill in your details below to book{' '}
+                    <strong className="text-[#9B7018] font-black">Qazi Touqeer</strong>:
+                  </>
                 )}
-              </div>
+              </p>
             </div>
 
-            {/* Row 3: City / Venue Location (with Auto-Detect GPS) & Phone */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-              <div className="space-y-2 text-left">
-                {selectedCat === 'Meet Qazi in Person' ? (
-                  <>
-                    <label
-                      className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+            {/* Centered Booking Form */}
+            <div className="max-w-4xl mx-auto">
+              <div className="bg-white rounded-3xl p-5 sm:p-8 md:p-12 shadow-[0_20px_50px_rgba(20,19,18,0.08)] relative overflow-hidden border-2 border-[#D7CEBE]">
+                {/* Subtle Top Golden Hairline Highlight */}
+                <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#D8AE56] via-[#F3D084] to-[#B68938]"></div>
+
+                {/* Clean Booking Header */}
+                <div className="bg-[#FAF5EC] rounded-2xl p-4 md:p-5 mb-8 flex items-center gap-3 sm:gap-4 border border-[#D8AE56]/40 shadow-sm text-left">
+                  <div className="w-10 h-10 rounded-full bg-[#D8AE56]/20 flex items-center justify-center shrink-0">
+                    <span className="material-symbols-outlined text-[#9B7018] text-[22px]">event_available</span>
+                  </div>
+                  <div className="min-w-0">
+                    <p
+                      className="text-xs sm:text-sm uppercase tracking-wider text-[#9B7018] font-black truncate"
                       style={{ fontFamily: 'Space Grotesk, monospace' }}
                     >
-                      Location (Delhi) <span className="text-[#9B7018] font-black">*</span>
-                    </label>
-                    <select
-                      className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
-                      required
-                      value={formData.city || 'Delhi'}
-                      onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                    >
-                      <option value="Delhi">Delhi</option>
-                    </select>
-                  </>
-                ) : (
-                  <>
+                      Direct Artist Booking Inquiry
+                    </p>
+                    <p className="text-xs sm:text-sm text-[#38342D] font-medium">
+                      Fill in your details below to check date availability and book Qazi Touqeer for your event.
+                    </p>
+                  </div>
+                </div>
+
+                <form className="space-y-6 text-left" onSubmit={handleSubmit}>
+                  {/* Event Format / Category Selector */}
+                  <div className="space-y-2 text-left">
                     <div className="flex items-center justify-between">
                       <label
                         className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
                         style={{ fontFamily: 'Space Grotesk, monospace' }}
                       >
-                        City / Venue Location <span className="text-[#9B7018] font-black">*</span>
+                        Selected Event Category <span className="text-[#9B7018] font-black">*</span>
                       </label>
-                      <button
-                        type="button"
-                        onClick={handleAutoDetectLocation}
-                        className="inline-flex items-center gap-1 text-[11px] font-bold text-[#9B7018] hover:text-[#B68938] transition-colors cursor-pointer"
-                        title="Auto-detect city, state and country via GPS"
-                      >
-                        <span className={`material-symbols-outlined text-[16px] ${detectingLocation ? 'animate-spin' : ''}`}>
-                          {detectingLocation ? 'sync' : 'my_location'}
-                        </span>
-                        <span>{detectingLocation ? 'Detecting...' : 'Auto-Detect (GPS)'}</span>
-                      </button>
+                      <span className="text-[11px] font-semibold text-[#87672D]">
+                        (Choose or change category)
+                      </span>
                     </div>
-                    <input
-                      className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                      placeholder="e.g. Mumbai, Maharashtra, India"
-                      list="city-suggestions"
-                      required
-                      type="text"
-                      value={formData.city}
-                      onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                    />
-                    <datalist id="city-suggestions">
-                      <option value="New Delhi, Delhi, India" />
-                      <option value="Mumbai, Maharashtra, India" />
-                      <option value="Bengaluru, Karnataka, India" />
-                      <option value="Noida, Uttar Pradesh, India" />
-                      <option value="Greater Noida, Uttar Pradesh, India" />
-                      <option value="Gurugram, Haryana, India" />
-                      <option value="Pune, Maharashtra, India" />
-                      <option value="Jaipur, Rajasthan, India" />
-                      <option value="Ahmedabad, Gujarat, India" />
-                      <option value="Kolkata, West Bengal, India" />
-                      <option value="Hyderabad, Telangana, India" />
-                      <option value="Chennai, Tamil Nadu, India" />
-                      <option value="Chandigarh, Punjab, India" />
-                      <option value="Lucknow, Uttar Pradesh, India" />
-                      <option value="Goa, India" />
-                      <option value="Dubai, United Arab Emirates" />
-                      <option value="London, United Kingdom" />
-                    </datalist>
-                  </>
+                    <select
+                      className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#D8AE56] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
+                      value={selectedCat}
+                      onChange={(e) => {
+                        const found = eventCards.find((c) => c.id === e.target.value);
+                        if (found) handleSelectCard(found);
+                      }}
+                    >
+                      {eventCards.map((c) => (
+                        <option key={c.id} value={c.id}>
+                          {c.title}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Row 1: Your Name & Dynamic Organization / College Name */}
+                  <div className={`grid grid-cols-1 ${selectedCat !== 'Meet Qazi in Person' ? 'md:grid-cols-2' : ''} gap-5 sm:gap-6`}>
+                    <div className="space-y-2 text-left">
+                      <label
+                        className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+                        style={{ fontFamily: 'Space Grotesk, monospace' }}
+                      >
+                        Your Name <span className="text-[#9B7018] font-black">*</span>
+                      </label>
+                      <input
+                        className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
+                        placeholder="e.g. Rahul Sharma"
+                        required
+                        type="text"
+                        value={formData.repName}
+                        onChange={(e) => setFormData({ ...formData, repName: e.target.value })}
+                      />
+                    </div>
+
+                    {selectedCat !== 'Meet Qazi in Person' && (
+                      <div className="space-y-2 text-left">
+                        <label
+                          className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+                          style={{ fontFamily: 'Space Grotesk, monospace' }}
+                        >
+                          {orgConfig.label} <span className="text-[#9B7018] font-black">*</span>
+                        </label>
+                        <input
+                          className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
+                          placeholder={orgConfig.placeholder}
+                          required={selectedCat !== 'Meet Qazi in Person'}
+                          type="text"
+                          value={formData.orgName}
+                          onChange={(e) => setFormData({ ...formData, orgName: e.target.value })}
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Row 2: Event Date & Time Slot */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+                    <div className="space-y-2 text-left">
+                      <label
+                        className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+                        style={{ fontFamily: 'Space Grotesk, monospace' }}
+                      >
+                        {selectedCat === 'Meet Qazi in Person' ? 'Meeting Date' : 'Event Date'} <span className="text-[#9B7018] font-black">*</span>
+                      </label>
+                      <input
+                        className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
+                        required
+                        type="date"
+                        value={formData.perfDate}
+                        onChange={(e) => setFormData({ ...formData, perfDate: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="space-y-2 text-left">
+                      <label
+                        className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+                        style={{ fontFamily: 'Space Grotesk, monospace' }}
+                      >
+                        {selectedCat === 'Meet Qazi in Person' ? 'Meeting Duration' : 'Preferred Time Slot'} <span className="text-[#9B7018] font-black">*</span>
+                      </label>
+                      {selectedCat === 'Meet Qazi in Person' ? (
+                        <select
+                          className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
+                          required
+                          value={formData.timeSlot}
+                          onChange={(e) => setFormData({ ...formData, timeSlot: e.target.value })}
+                        >
+                          <option value="1 Hour Meeting">1 Hour Meeting</option>
+                          <option value="2 Hours Meeting">2 Hours Meeting</option>
+                          <option value="3 Hours Meeting">3 Hours Meeting</option>
+                          <option value="Half Day / Custom Interaction">Half Day / Custom Interaction</option>
+                        </select>
+                      ) : (
+                        <select
+                          className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
+                          required
+                          value={formData.timeSlot}
+                          onChange={(e) => setFormData({ ...formData, timeSlot: e.target.value })}
+                        >
+                          <option value="Evening Prime (7:00 PM – 10:00 PM)">Evening Prime (7:00 PM – 10:00 PM)</option>
+                          <option value="Night Headline (8:00 PM – 11:00 PM)">Night Headline (8:00 PM – 11:00 PM)</option>
+                          <option value="Late Night (10:00 PM – 1:00 AM)">Late Night (10:00 PM – 1:00 AM)</option>
+                          <option value="Sunset Show (4:00 PM – 7:00 PM)">Sunset Show (4:00 PM – 7:00 PM)</option>
+                          <option value="Afternoon / Day Fest (12:00 PM – 4:00 PM)">Afternoon / Day Fest (12:00 PM – 4:00 PM)</option>
+                          <option value="Flexible / Full Day Schedule">Flexible / Full Day Schedule</option>
+                        </select>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Row 3: City / Venue Location (with Auto-Detect GPS) & Phone */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+                    <div className="space-y-2 text-left">
+                      {selectedCat === 'Meet Qazi in Person' ? (
+                        <>
+                          <label
+                            className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+                            style={{ fontFamily: 'Space Grotesk, monospace' }}
+                          >
+                            Location (Delhi) <span className="text-[#9B7018] font-black">*</span>
+                          </label>
+                          <select
+                            className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
+                            required
+                            value={formData.city || 'Delhi'}
+                            onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                          >
+                            <option value="Delhi">Delhi</option>
+                          </select>
+                        </>
+                      ) : (
+                        <>
+                          <div className="flex items-center justify-between">
+                            <label
+                              className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+                              style={{ fontFamily: 'Space Grotesk, monospace' }}
+                            >
+                              City / Venue Location <span className="text-[#9B7018] font-black">*</span>
+                            </label>
+                            <button
+                              type="button"
+                              onClick={handleAutoDetectLocation}
+                              className="inline-flex items-center gap-1 text-[11px] font-bold text-[#9B7018] hover:text-[#B68938] transition-colors cursor-pointer"
+                              title="Auto-detect city, state and country via GPS"
+                            >
+                              <span className={`material-symbols-outlined text-[16px] ${detectingLocation ? 'animate-spin' : ''}`}>
+                                {detectingLocation ? 'sync' : 'my_location'}
+                              </span>
+                              <span>{detectingLocation ? 'Detecting...' : 'Auto-Detect (GPS)'}</span>
+                            </button>
+                          </div>
+                          <input
+                            className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
+                            placeholder="e.g. Mumbai, Maharashtra, India"
+                            list="city-suggestions"
+                            required
+                            type="text"
+                            value={formData.city}
+                            onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                          />
+                          <datalist id="city-suggestions">
+                            <option value="New Delhi, Delhi, India" />
+                            <option value="Mumbai, Maharashtra, India" />
+                            <option value="Bengaluru, Karnataka, India" />
+                            <option value="Noida, Uttar Pradesh, India" />
+                            <option value="Greater Noida, Uttar Pradesh, India" />
+                            <option value="Gurugram, Haryana, India" />
+                            <option value="Pune, Maharashtra, India" />
+                            <option value="Jaipur, Rajasthan, India" />
+                            <option value="Ahmedabad, Gujarat, India" />
+                            <option value="Kolkata, West Bengal, India" />
+                            <option value="Hyderabad, Telangana, India" />
+                            <option value="Chennai, Tamil Nadu, India" />
+                            <option value="Chandigarh, Punjab, India" />
+                            <option value="Lucknow, Uttar Pradesh, India" />
+                            <option value="Goa, India" />
+                            <option value="Dubai, United Arab Emirates" />
+                            <option value="London, United Kingdom" />
+                          </datalist>
+                        </>
+                      )}
+                    </div>
+
+                    <div className="space-y-2 text-left">
+                      <label
+                        className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+                        style={{ fontFamily: 'Space Grotesk, monospace' }}
+                      >
+                        Phone / WhatsApp Number <span className="text-[#9B7018] font-black">*</span>
+                      </label>
+                      <input
+                        className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
+                        placeholder="+91 98765 43210"
+                        required
+                        type="tel"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Row 4: Email & Expected Guests */}
+                  <div className={`grid grid-cols-1 ${selectedCat !== 'Meet Qazi in Person' ? 'md:grid-cols-2' : ''} gap-5 sm:gap-6`}>
+                    <div className="space-y-2 text-left">
+                      <label
+                        className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+                        style={{ fontFamily: 'Space Grotesk, monospace' }}
+                      >
+                        Email Address <span className="text-[#9B7018] font-black">*</span>
+                      </label>
+                      <input
+                        className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
+                        placeholder="yourname@gmail.com"
+                        required
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      />
+                    </div>
+
+                    {selectedCat !== 'Meet Qazi in Person' && (
+                      <div className="space-y-2 text-left">
+                        <label
+                          className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+                          style={{ fontFamily: 'Space Grotesk, monospace' }}
+                        >
+                          Expected Guests <span className="text-[#9B7018] font-black">*</span>
+                        </label>
+                        <input
+                          className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
+                          placeholder="e.g. 1500"
+                          required={selectedCat !== 'Meet Qazi in Person'}
+                          type="number"
+                          min="1"
+                          value={formData.expectedGuests}
+                          onChange={(e) => setFormData({ ...formData, expectedGuests: e.target.value })}
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Row 6: Event Details or Special Requests */}
+                  <div className="space-y-2 text-left">
+                    <label
+                      className="flex items-center justify-between text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+                      style={{ fontFamily: 'Space Grotesk, monospace' }}
+                    >
+                      {selectedCat === 'Meet Qazi in Person' ? (
+                        <>
+                          <span>
+                            Let us know the actual reason to meet <span className="text-[#9B7018] font-black">*</span>
+                          </span>
+                          <span className="text-[#9B7018] text-xs font-bold lowercase">(mandatory)</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Event Details or Special Requests</span>
+                          <span className="text-[#7A7366] text-xs font-semibold lowercase">(optional)</span>
+                        </>
+                      )}
+                    </label>
+                    <textarea
+                      className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-medium text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
+                      placeholder={
+                        selectedCat === 'Meet Qazi in Person'
+                          ? "Please describe the genuine purpose, topic, or reason to meet Qazi in person..."
+                          : "Tell us about the event timing, stage setup, song preferences, or any other requirements..."
+                      }
+                      required={selectedCat === 'Meet Qazi in Person'}
+                      rows="3"
+                      value={formData.techNotes}
+                      onChange={(e) => setFormData({ ...formData, techNotes: e.target.value })}
+                    ></textarea>
+                  </div>
+
+                  {/* Row 7: Submit Button */}
+                  <div className="pt-4 space-y-4">
+                    <button
+                      className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-[#D8AE56] via-[#F3D084] to-[#B68938] hover:opacity-95 text-[#1A1203] text-sm sm:text-base uppercase font-black tracking-widest transition-all duration-300 shadow-[0_8px_30px_rgba(216,174,86,0.45)] hover:shadow-[0_12px_40px_rgba(216,174,86,0.65)] flex items-center justify-center gap-2.5 cursor-pointer group border-none hover:scale-[1.01]"
+                      type="submit"
+                      style={{ fontFamily: 'Space Grotesk, monospace' }}
+                    >
+                      <span className="material-symbols-outlined text-[22px] transition-transform duration-300 group-hover:scale-110">
+                        send
+                      </span>
+                      <span>SUBMIT BOOKING INQUIRY</span>
+                    </button>
+
+                    <div
+                      className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-[#443E35] text-xs uppercase tracking-wider font-bold text-center pt-1"
+                      style={{ fontFamily: 'Space Grotesk, monospace' }}
+                    >
+                      <div className="flex items-center gap-1.5">
+                        <span className="material-symbols-outlined text-[#9B7018] text-[18px]">verified</span>
+                        <span>Direct Management Booking</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="material-symbols-outlined text-[#9B7018] text-[18px]">lock</span>
+                        <span>100% Confidential &amp; Secure</span>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+                {/* Clean, Normal-sized Thank You Modal with Centered Backdrop */}
+                {showModal && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
+                    <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full text-center space-y-4 shadow-2xl border-2 border-[#D8AE56] relative">
+                      <div className="w-14 h-14 rounded-full bg-[#FAF5EC] border-2 border-[#D8AE56] text-[#9B7018] flex items-center justify-center mx-auto shadow-sm">
+                        <span className="material-symbols-outlined text-[32px]">check_circle</span>
+                      </div>
+
+                      <div className="space-y-1">
+                        <span
+                          className="text-[11px] uppercase tracking-widest text-[#9B7018] font-extrabold block"
+                          style={{ fontFamily: 'Space Grotesk, monospace' }}
+                        >
+                          Inquiry Received
+                        </span>
+                        <h3
+                          className="text-2xl text-[#111111] font-bold"
+                          style={{ fontFamily: 'Bodoni Moda, serif' }}
+                        >
+                          Thank You!
+                        </h3>
+                      </div>
+
+                      <p className="text-sm text-[#443E35] leading-relaxed">
+                        We have received your booking inquiry for <strong className="text-[#111111]">{activeCardInfo?.title || 'Qazi Touqeer'}</strong>.
+                        Our management team will check availability and contact you shortly.
+                      </p>
+
+                      <div className="inline-block px-3.5 py-1 rounded-full bg-[#FAF8F5] border border-[#DDD5C5] text-xs font-bold text-[#87672D]">
+                        Booking Ref: <span className="text-[#111111] font-mono font-black">{bookingHash}</span>
+                      </div>
+
+                      <div className="pt-2 space-y-2.5">
+                        <button
+                          type="button"
+                          onClick={handleGoBack}
+                          className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#D8AE56] via-[#F3D084] to-[#B68938] text-[#1A1203] font-black text-xs uppercase tracking-widest shadow-md hover:scale-[1.02] transition-transform cursor-pointer flex items-center justify-center gap-2"
+                          style={{ fontFamily: 'Space Grotesk, monospace' }}
+                        >
+                          <span className="material-symbols-outlined text-[18px]">arrow_back</span>
+                          <span>Go Back ({countdown}s)</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setShowModal(false);
+                            router.push('/');
+                          }}
+                          className="w-full py-2.5 px-6 rounded-xl bg-[#FAF8F5] hover:bg-[#F3EFE6] text-[#141312] font-bold text-xs uppercase tracking-wider border border-[#DDD5C5] transition-colors cursor-pointer flex items-center justify-center gap-2"
+                          style={{ fontFamily: 'Space Grotesk, monospace' }}
+                        >
+                          <span className="material-symbols-outlined text-[18px]">home</span>
+                          <span>Back to Home</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
-
-              <div className="space-y-2 text-left">
-                <label
-                  className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
-                  style={{ fontFamily: 'Space Grotesk, monospace' }}
-                >
-                  Phone / WhatsApp Number <span className="text-[#9B7018] font-black">*</span>
-                </label>
-                <input
-                  className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                  placeholder="+91 98765 43210"
-                  required
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                />
-              </div>
             </div>
-
-            {/* Row 4: Email & Expected Guests */}
-            <div className={`grid grid-cols-1 ${selectedCat !== 'Meet Qazi in Person' ? 'md:grid-cols-2' : ''} gap-5 sm:gap-6`}>
-              <div className="space-y-2 text-left">
-                <label
-                  className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
-                  style={{ fontFamily: 'Space Grotesk, monospace' }}
-                >
-                  Email Address <span className="text-[#9B7018] font-black">*</span>
-                </label>
-                <input
-                  className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                  placeholder="yourname@gmail.com"
-                  required
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                />
-              </div>
-
-              {selectedCat !== 'Meet Qazi in Person' && (
-                <div className="space-y-2 text-left">
-                  <label
-                    className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
-                    style={{ fontFamily: 'Space Grotesk, monospace' }}
-                  >
-                    Expected Guests <span className="text-[#9B7018] font-black">*</span>
-                  </label>
-                  <input
-                    className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                    placeholder="e.g. 1500"
-                    required={selectedCat !== 'Meet Qazi in Person'}
-                    type="number"
-                    min="1"
-                    value={formData.expectedGuests}
-                    onChange={(e) => setFormData({ ...formData, expectedGuests: e.target.value })}
-                  />
-                </div>
-              )}
-            </div>
-
-            {/* Row 6: Event Details or Special Requests */}
-            <div className="space-y-2 text-left">
-              <label
-                className="flex items-center justify-between text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
-                style={{ fontFamily: 'Space Grotesk, monospace' }}
-              >
-                {selectedCat === 'Meet Qazi in Person' ? (
-                  <>
-                    <span>
-                      Let us know the actual reason to meet <span className="text-[#9B7018] font-black">*</span>
-                    </span>
-                    <span className="text-[#9B7018] text-xs font-bold lowercase">(mandatory)</span>
-                  </>
-                ) : (
-                  <>
-                    <span>Event Details or Special Requests</span>
-                    <span className="text-[#7A7366] text-xs font-semibold lowercase">(optional)</span>
-                  </>
-                )}
-              </label>
-              <textarea
-                className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-medium text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                placeholder={
-                  selectedCat === 'Meet Qazi in Person'
-                    ? "Please describe the genuine purpose, topic, or reason to meet Qazi in person..."
-                    : "Tell us about the event timing, stage setup, song preferences, or any other requirements..."
-                }
-                required={selectedCat === 'Meet Qazi in Person'}
-                rows="3"
-                value={formData.techNotes}
-                onChange={(e) => setFormData({ ...formData, techNotes: e.target.value })}
-              ></textarea>
-            </div>
-
-            {/* Row 7: Submit Button */}
-            <div className="pt-4 space-y-4">
-              <button
-                className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-[#D8AE56] via-[#F3D084] to-[#B68938] hover:opacity-95 text-[#1A1203] text-sm sm:text-base uppercase font-black tracking-widest transition-all duration-300 shadow-[0_8px_30px_rgba(216,174,86,0.45)] hover:shadow-[0_12px_40px_rgba(216,174,86,0.65)] flex items-center justify-center gap-2.5 cursor-pointer group border-none hover:scale-[1.01]"
-                type="submit"
-                style={{ fontFamily: 'Space Grotesk, monospace' }}
-              >
-                <span className="material-symbols-outlined text-[22px] transition-transform duration-300 group-hover:scale-110">
-                  send
-                </span>
-                <span>SUBMIT BOOKING INQUIRY</span>
-              </button>
-
-              <div
-                className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-[#443E35] text-xs uppercase tracking-wider font-bold text-center pt-1"
-                style={{ fontFamily: 'Space Grotesk, monospace' }}
-              >
-                <div className="flex items-center gap-1.5">
-                  <span className="material-symbols-outlined text-[#9B7018] text-[18px]">verified</span>
-                  <span>Direct Management Booking</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="material-symbols-outlined text-[#9B7018] text-[18px]">lock</span>
-                  <span>100% Confidential &amp; Secure</span>
-                </div>
-              </div>
-            </div>
-          </form>
-
-          {/* Clean, Normal-sized Thank You Modal with Centered Backdrop */}
-          {showModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
-              <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full text-center space-y-4 shadow-2xl border-2 border-[#D8AE56] relative">
-                <div className="w-14 h-14 rounded-full bg-[#FAF5EC] border-2 border-[#D8AE56] text-[#9B7018] flex items-center justify-center mx-auto shadow-sm">
-                  <span className="material-symbols-outlined text-[32px]">check_circle</span>
-                </div>
-
-                <div className="space-y-1">
-                  <span
-                    className="text-[11px] uppercase tracking-widest text-[#9B7018] font-extrabold block"
-                    style={{ fontFamily: 'Space Grotesk, monospace' }}
-                  >
-                    Inquiry Received
-                  </span>
-                  <h3
-                    className="text-2xl text-[#111111] font-bold"
-                    style={{ fontFamily: 'Bodoni Moda, serif' }}
-                  >
-                    Thank You!
-                  </h3>
-                </div>
-
-                <p className="text-sm text-[#443E35] leading-relaxed">
-                  We have received your booking inquiry for <strong className="text-[#111111]">{activeCardInfo?.title || 'Qazi Touqeer'}</strong>.
-                  Our management team will check availability and contact you shortly.
-                </p>
-
-                <div className="inline-block px-3.5 py-1 rounded-full bg-[#FAF8F5] border border-[#DDD5C5] text-xs font-bold text-[#87672D]">
-                  Booking Ref: <span className="text-[#111111] font-mono font-black">{bookingHash}</span>
-                </div>
-
-                <div className="pt-2 space-y-2.5">
-                  <button
-                    type="button"
-                    onClick={handleGoBack}
-                    className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#D8AE56] via-[#F3D084] to-[#B68938] text-[#1A1203] font-black text-xs uppercase tracking-widest shadow-md hover:scale-[1.02] transition-transform cursor-pointer flex items-center justify-center gap-2"
-                    style={{ fontFamily: 'Space Grotesk, monospace' }}
-                  >
-                    <span className="material-symbols-outlined text-[18px]">arrow_back</span>
-                    <span>Go Back ({countdown}s)</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowModal(false);
-                      router.push('/');
-                    }}
-                    className="w-full py-2.5 px-6 rounded-xl bg-[#FAF8F5] hover:bg-[#F3EFE6] text-[#141312] font-bold text-xs uppercase tracking-wider border border-[#DDD5C5] transition-colors cursor-pointer flex items-center justify-center gap-2"
-                    style={{ fontFamily: 'Space Grotesk, monospace' }}
-                  >
-                    <span className="material-symbols-outlined text-[18px]">home</span>
-                    <span>Back to Home</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-        </div >
+    </div >
       </main >
 
     <ContactFooter />

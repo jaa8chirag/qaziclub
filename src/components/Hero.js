@@ -9,6 +9,21 @@ export default function Hero() {
   const touchStartX = useRef(null);
   const touchEndX = useRef(null);
 
+  // Mobile Accolades Text Slider
+  const accolades = [
+    'FAME GURUKUL WINNER',
+    'BIGG BOSS PHENOMENON',
+    'AFGHAN JALEBI FAME',
+  ];
+  const [accoladeIdx, setAccoladeIdx] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setAccoladeIdx((prev) => (prev + 1) % accolades.length);
+    }, 2800);
+    return () => clearInterval(timer);
+  }, [accolades.length]);
+
   // 5 Edited, High-Definition Luxury Photos of Qazi & Salman Khan
   const slides = [
     {
@@ -116,7 +131,8 @@ export default function Hero() {
           {/* ======================================================== */}
           <div className="lg:col-span-7 space-y-5 text-center lg:text-left flex flex-col items-center lg:items-start">
             {/* Minimal Celebrity Status Chip */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-[#D8AE56]/20 to-transparent border-l-4 border-[#D8AE56]">
+            {/* Desktop View: Full single line */}
+            <div className="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-[#D8AE56]/20 to-transparent border-l-4 border-[#D8AE56]">
               <span className="live-pulse-gold" />
               <span
                 className="text-xs uppercase font-bold tracking-[0.2em] text-[#F3D084]"
@@ -124,6 +140,42 @@ export default function Hero() {
               >
                 FAME GURUKUL WINNER • BIGG BOSS PHENOMENON • AFGHAN JALEBI FAME
               </span>
+            </div>
+
+            {/* Mobile View: Dynamic Accolade Slider with Smooth Vertical Slide & Micro Dots */}
+            <div
+              onClick={() => setAccoladeIdx((prev) => (prev + 1) % accolades.length)}
+              className="inline-flex sm:hidden items-center gap-2 px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#D8AE56]/20 to-transparent border-l-4 border-[#D8AE56] cursor-pointer select-none max-w-[95vw] shadow-sm active:scale-[0.98] transition-transform"
+              title="Tap to see next accolade"
+            >
+              <span className="live-pulse-gold shrink-0" />
+              <div className="h-5 overflow-hidden relative min-w-[215px] flex items-center justify-center">
+                {accolades.map((text, idx) => (
+                  <span
+                    key={text}
+                    className={`text-[11px] uppercase font-bold tracking-[0.16em] text-[#F3D084] whitespace-nowrap absolute transition-all duration-500 ease-out ${
+                      idx === accoladeIdx
+                        ? 'opacity-100 translate-y-0'
+                        : idx === (accoladeIdx + 1) % accolades.length
+                        ? 'opacity-0 translate-y-3 pointer-events-none'
+                        : 'opacity-0 -translate-y-3 pointer-events-none'
+                    }`}
+                    style={{ fontFamily: 'Space Grotesk, monospace' }}
+                  >
+                    {text}
+                  </span>
+                ))}
+              </div>
+              <div className="flex items-center gap-1 shrink-0 ml-1">
+                {accolades.map((_, idx) => (
+                  <span
+                    key={idx}
+                    className={`h-1 rounded-full transition-all duration-300 ${
+                      idx === accoladeIdx ? 'w-2.5 bg-[#D8AE56]' : 'w-1 bg-[#D8AE56]/40'
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
 
             {/* Monumental Headline */}
