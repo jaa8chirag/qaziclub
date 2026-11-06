@@ -633,18 +633,18 @@ function BookMeContent() {
                         </>
                       ) : (
                         <>
-                          <div className="flex items-center justify-between">
+                          <div className="flex items-center justify-between gap-2">
                             <label
-                              className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+                              className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left whitespace-nowrap"
                               style={{ fontFamily: 'Space Grotesk, monospace' }}
                             >
-                              City / Venue Location <span className="text-[#9B7018] font-black">*</span>
+                              City <span className="text-[#9B7018] font-black">*</span>
                             </label>
                             <button
                               type="button"
                               onClick={handleAutoDetectLocation}
-                              className="inline-flex items-center gap-1 text-[11px] font-bold text-[#9B7018] hover:text-[#B68938] transition-colors cursor-pointer"
-                              title="Auto-detect city, state and country via GPS"
+                              className="inline-flex items-center gap-1 text-[11px] font-bold text-[#9B7018] hover:text-[#B68938] transition-colors cursor-pointer shrink-0 whitespace-nowrap"
+                              title="Auto-detect city via GPS"
                             >
                               <span className={`material-symbols-outlined text-[16px] ${detectingLocation ? 'animate-spin' : ''}`}>
                                 {detectingLocation ? 'sync' : 'my_location'}
@@ -654,7 +654,7 @@ function BookMeContent() {
                           </div>
                           <input
                             className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                            placeholder="Enter city or venue location"
+                            placeholder="Enter city name"
                             list="city-suggestions"
                             required
                             type="text"
