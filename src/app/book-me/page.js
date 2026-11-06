@@ -469,7 +469,7 @@ function BookMeContent() {
                   </div>
                   <div className="min-w-0">
                     <p
-                      className="text-xs sm:text-sm uppercase tracking-wider text-[#9B7018] font-black truncate"
+                      className="text-xs sm:text-sm uppercase tracking-wider text-[#9B7018] font-black leading-snug"
                       style={{ fontFamily: 'Space Grotesk, monospace' }}
                     >
                       Direct Artist Booking Inquiry
@@ -482,20 +482,15 @@ function BookMeContent() {
 
                 <form className="space-y-6 text-left" onSubmit={handleSubmit}>
                   {/* Event Format / Category Selector */}
-                  <div className="space-y-2 text-left">
-                    <div className="flex items-center justify-between">
-                      <label
-                        className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
-                        style={{ fontFamily: 'Space Grotesk, monospace' }}
-                      >
-                        Selected Event Category <span className="text-[#9B7018] font-black">*</span>
-                      </label>
-                      <span className="text-[11px] font-semibold text-[#87672D]">
-                        (Choose or change category)
-                      </span>
-                    </div>
+                  <div className="space-y-1.5 text-left">
+                    <label
+                      className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+                      style={{ fontFamily: 'Space Grotesk, monospace' }}
+                    >
+                      Event Category <span className="text-[#9B7018] font-black">*</span>
+                    </label>
                     <select
-                      className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#D8AE56] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
+                      className="w-full bg-[#FFFFFF] px-3.5 sm:px-4 py-3 sm:py-3.5 rounded-xl text-[#111111] font-bold text-xs sm:text-sm md:text-base border-2 border-[#D8AE56] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
                       value={selectedCat}
                       onChange={(e) => {
                         const found = eventCards.find((c) => c.id === e.target.value);
@@ -508,6 +503,9 @@ function BookMeContent() {
                         </option>
                       ))}
                     </select>
+                    <p className="text-[11px] text-[#7A7366] font-medium pt-0.5">
+                      Tap to change event format or select from cards above
+                    </p>
                   </div>
 
                   {/* Row 1: Your Name & Dynamic Organization / College Name */}
