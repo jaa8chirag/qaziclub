@@ -297,7 +297,7 @@ function BookMeContent() {
           org_name: selectedCat === 'Meet Qazi in Person' ? '' : formData.orgName,
           category: selectedCat || 'Booking Inquiry',
           event_date: formData.perfDate,
-          slot_or_duration: formData.timeSlot,
+          slot_or_duration: selectedCat === 'Brand Collaborations & Endorsements' ? 'N/A (Brand Campaign)' : formData.timeSlot,
           city: formData.city,
           phone: formData.phone,
           email: formData.email,
@@ -550,13 +550,18 @@ function BookMeContent() {
                   </div>
 
                   {/* Row 2: Event Date & Time Slot */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+                  <div className={`grid grid-cols-1 ${selectedCat !== 'Brand Collaborations & Endorsements' ? 'md:grid-cols-2' : ''} gap-5 sm:gap-6`}>
                     <div className="space-y-2 text-left">
                       <label
                         className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
                         style={{ fontFamily: 'Space Grotesk, monospace' }}
                       >
-                        {selectedCat === 'Meet Qazi in Person' ? 'Meeting Date' : 'Event Date'} <span className="text-[#9B7018] font-black">*</span>
+                        {selectedCat === 'Meet Qazi in Person'
+                          ? 'Meeting Date'
+                          : selectedCat === 'Brand Collaborations & Endorsements'
+                          ? 'Campaign / Event Date'
+                          : 'Event Date'}{' '}
+                        <span className="text-[#9B7018] font-black">*</span>
                       </label>
                       <input
                         className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
@@ -567,41 +572,43 @@ function BookMeContent() {
                       />
                     </div>
 
-                    <div className="space-y-2 text-left">
-                      <label
-                        className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
-                        style={{ fontFamily: 'Space Grotesk, monospace' }}
-                      >
-                        {selectedCat === 'Meet Qazi in Person' ? 'Meeting Duration' : 'Preferred Time Slot'} <span className="text-[#9B7018] font-black">*</span>
-                      </label>
-                      {selectedCat === 'Meet Qazi in Person' ? (
-                        <select
-                          className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
-                          required
-                          value={formData.timeSlot}
-                          onChange={(e) => setFormData({ ...formData, timeSlot: e.target.value })}
+                    {selectedCat !== 'Brand Collaborations & Endorsements' && (
+                      <div className="space-y-2 text-left">
+                        <label
+                          className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
+                          style={{ fontFamily: 'Space Grotesk, monospace' }}
                         >
-                          <option value="1 Hour Meeting">1 Hour Meeting</option>
-                          <option value="2 Hours Meeting">2 Hours Meeting</option>
-                          <option value="3 Hours Meeting">3 Hours Meeting</option>
-                          <option value="Half Day / Custom Interaction">Half Day / Custom Interaction</option>
-                        </select>
-                      ) : (
-                        <select
-                          className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
-                          required
-                          value={formData.timeSlot}
-                          onChange={(e) => setFormData({ ...formData, timeSlot: e.target.value })}
-                        >
-                          <option value="Evening Prime (7:00 PM – 10:00 PM)">Evening Prime (7:00 PM – 10:00 PM)</option>
-                          <option value="Night Headline (8:00 PM – 11:00 PM)">Night Headline (8:00 PM – 11:00 PM)</option>
-                          <option value="Late Night (10:00 PM – 1:00 AM)">Late Night (10:00 PM – 1:00 AM)</option>
-                          <option value="Sunset Show (4:00 PM – 7:00 PM)">Sunset Show (4:00 PM – 7:00 PM)</option>
-                          <option value="Afternoon / Day Fest (12:00 PM – 4:00 PM)">Afternoon / Day Fest (12:00 PM – 4:00 PM)</option>
-                          <option value="Flexible / Full Day Schedule">Flexible / Full Day Schedule</option>
-                        </select>
-                      )}
-                    </div>
+                          {selectedCat === 'Meet Qazi in Person' ? 'Meeting Duration' : 'Preferred Time Slot'} <span className="text-[#9B7018] font-black">*</span>
+                        </label>
+                        {selectedCat === 'Meet Qazi in Person' ? (
+                          <select
+                            className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
+                            required
+                            value={formData.timeSlot}
+                            onChange={(e) => setFormData({ ...formData, timeSlot: e.target.value })}
+                          >
+                            <option value="1 Hour Meeting">1 Hour Meeting</option>
+                            <option value="2 Hours Meeting">2 Hours Meeting</option>
+                            <option value="3 Hours Meeting">3 Hours Meeting</option>
+                            <option value="Half Day / Custom Interaction">Half Day / Custom Interaction</option>
+                          </select>
+                        ) : (
+                          <select
+                            className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-bold text-sm sm:text-base border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
+                            required
+                            value={formData.timeSlot}
+                            onChange={(e) => setFormData({ ...formData, timeSlot: e.target.value })}
+                          >
+                            <option value="Evening Prime (7:00 PM – 10:00 PM)">Evening Prime (7:00 PM – 10:00 PM)</option>
+                            <option value="Night Headline (8:00 PM – 11:00 PM)">Night Headline (8:00 PM – 11:00 PM)</option>
+                            <option value="Late Night (10:00 PM – 1:00 AM)">Late Night (10:00 PM – 1:00 AM)</option>
+                            <option value="Sunset Show (4:00 PM – 7:00 PM)">Sunset Show (4:00 PM – 7:00 PM)</option>
+                            <option value="Afternoon / Day Fest (12:00 PM – 4:00 PM)">Afternoon / Day Fest (12:00 PM – 4:00 PM)</option>
+                            <option value="Flexible / Full Day Schedule">Flexible / Full Day Schedule</option>
+                          </select>
+                        )}
+                      </div>
+                    )}
                   </div>
 
                   {/* Row 3: City / Venue Location (with Auto-Detect GPS) & Phone */}
