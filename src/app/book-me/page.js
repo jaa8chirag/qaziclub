@@ -331,7 +331,7 @@ function BookMeContent() {
     <div className="flex flex-col w-full min-h-screen bg-surface text-on-surface">
       <Navbar />
 
-      <main className="w-full pt-24 sm:pt-28 bg-surface min-h-[calc(100vh-80px)]">
+      <main className="w-full pt-28 sm:pt-32 bg-surface min-h-[calc(100vh-80px)]">
         {/* Top Ambient Glow Field */}
         <div className="relative w-full overflow-hidden">
           <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[360px] bg-gradient-to-b from-primary/10 via-primary-container/5 to-transparent blur-3xl pointer-events-none"></div>
