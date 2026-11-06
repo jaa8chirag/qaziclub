@@ -331,12 +331,12 @@ function BookMeContent() {
     <div className="flex flex-col w-full min-h-screen bg-surface text-on-surface">
       <Navbar />
 
-      <main className="w-full pt-20 bg-surface min-h-[calc(100vh-80px)]">
+      <main className="w-full pt-24 sm:pt-28 bg-surface min-h-[calc(100vh-80px)]">
         {/* Top Ambient Glow Field */}
         <div className="relative w-full overflow-hidden">
           <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[360px] bg-gradient-to-b from-primary/10 via-primary-container/5 to-transparent blur-3xl pointer-events-none"></div>
 
-          <div className="max-w-[1440px] mx-auto px-4 md:px-8 lg:px-16 pt-4 sm:pt-8 pb-10 sm:pb-16">
+          <div className="max-w-[1440px] mx-auto px-3 sm:px-6 md:px-8 lg:px-16 pt-2 sm:pt-6 pb-10 sm:pb-16">
 
             {/* ========================================================================= */}
             {/* 1. INTERACTIVE EVENT FORMAT CARDS (MATCHING HOME PAGE CARDS EXACTLY)       */}
@@ -344,13 +344,13 @@ function BookMeContent() {
             <div className="mb-8 sm:mb-12">
               <div className="pb-4 border-b border-[#E6DFD1] mb-6 text-center sm:text-left">
                 <span
-                  className="text-sm uppercase tracking-[0.2em] text-[#9B7018] font-extrabold block"
+                  className="text-xs sm:text-sm uppercase tracking-[0.2em] text-[#9B7018] font-extrabold block"
                   style={{ fontFamily: 'Space Grotesk, monospace' }}
                 >
                   Live Event Formats
                 </span>
                 <h1
-                  className="text-3xl md:text-5xl text-[#111111] tracking-tight mt-2 font-black"
+                  className="text-2xl sm:text-3xl md:text-5xl text-[#111111] tracking-tight mt-1.5 font-black"
                   style={{ fontFamily: 'Bodoni Moda, serif' }}
                 >
                   Select Event Format &amp; Book
@@ -358,7 +358,7 @@ function BookMeContent() {
               </div>
 
               {/* 7 Event Cards Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7">
                 {eventCards.map((item) => {
                   const isSelected = selectedCat === item.id;
                   const isLastCard = item.num === '07';
@@ -391,35 +391,35 @@ function BookMeContent() {
                   </div>
 
                   {/* Card Content */}
-                  <div className="p-6 sm:p-7 text-left">
+                  <div className="p-4 sm:p-7 text-left">
                     <h3
-                      className="text-2xl text-[#111111] font-bold mb-3"
+                      className="text-xl sm:text-2xl text-[#111111] font-bold mb-2 sm:mb-3"
                       style={{ fontFamily: 'Bodoni Moda, serif' }}
                     >
                       {item.title}
                     </h3>
-                    <p className="text-sm md:text-base text-[#38342D] leading-relaxed font-normal">
+                    <p className="text-xs sm:text-sm md:text-base text-[#38342D] leading-relaxed font-normal">
                       {item.desc}
                     </p>
                   </div>
                 </div>
 
                 {/* Card Bottom CTA */}
-                <div className="p-6 sm:p-7 pt-0">
+                <div className="p-4 sm:p-7 pt-0">
                   <button
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleSelectCard(item);
                     }}
-                    className={`w-full py-3.5 px-5 rounded-xl text-sm uppercase font-extrabold tracking-wider transition-all flex items-center justify-between border-2 cursor-pointer active:scale-[0.98] ${isSelected
+                    className={`w-full py-3 sm:py-3.5 px-3.5 sm:px-5 rounded-xl text-xs sm:text-sm uppercase font-extrabold tracking-tight sm:tracking-wider transition-all flex items-center justify-between border-2 cursor-pointer active:scale-[0.98] ${isSelected
                       ? 'bg-gradient-to-r from-[#D8AE56] to-[#B68938] text-[#1A1203] border-[#D8AE56] shadow-md'
                       : 'bg-[#F6F2E9] hover:bg-gradient-to-r hover:from-[#D8AE56] hover:to-[#B68938] hover:text-[#261B04] text-[#111111] border-[#DDD5C5]'
                       }`}
                     style={{ fontFamily: 'Space Grotesk, monospace' }}
                   >
-                    <span>{isSelected ? '✓ Selected — Book Now' : 'Book Now'}</span>
-                    <span className="material-symbols-outlined text-[18px]">arrow_downward</span>
+                    <span className="whitespace-nowrap">{isSelected ? '✓ Selected' : 'Book Now'}</span>
+                    <span className="material-symbols-outlined text-[18px] shrink-0">arrow_downward</span>
                   </button>
                 </div>
               </div>
