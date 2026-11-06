@@ -483,19 +483,19 @@ function BookMeContent() {
                 <form className="space-y-6 text-left" onSubmit={handleSubmit}>
                   {/* Event Format / Category Selector */}
                   <div className="space-y-2 text-left">
-                    <div className="flex items-center justify-between gap-1 w-full flex-nowrap">
+                    <div className="flex items-center justify-between">
                       <label
-                        className="text-[10px] min-[360px]:text-[11px] sm:text-xs md:text-sm font-bold text-[#141210] uppercase tracking-tight min-[360px]:tracking-wider whitespace-nowrap text-left shrink-0"
+                        className="block text-xs sm:text-sm font-bold text-[#141210] uppercase tracking-wider text-left"
                         style={{ fontFamily: 'Space Grotesk, monospace' }}
                       >
                         Selected Event Category <span className="text-[#9B7018] font-black">*</span>
                       </label>
-                      <span className="text-[9.5px] min-[360px]:text-[10.5px] sm:text-xs font-semibold text-[#87672D] whitespace-nowrap text-right shrink-0">
+                      <span className="hidden sm:inline-block text-xs font-semibold text-[#87672D]">
                         (Choose or change category)
                       </span>
                     </div>
                     <select
-                      className="w-full bg-[#FFFFFF] px-3.5 sm:px-4 py-3 sm:py-3.5 rounded-xl text-[#111111] font-bold text-xs sm:text-sm md:text-base border-2 border-[#D8AE56] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
+                      className="w-full bg-[#FFFFFF] px-3 sm:px-4 py-3 sm:py-3.5 rounded-xl text-[#111111] font-bold text-xs sm:text-sm md:text-base border-2 border-[#D8AE56] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none cursor-pointer"
                       value={selectedCat}
                       onChange={(e) => {
                         const found = eventCards.find((c) => c.id === e.target.value);
