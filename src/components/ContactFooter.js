@@ -200,7 +200,7 @@ export default function ContactFooter() {
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Rahul Sharma"
+                    placeholder="Enter your name"
                     value={contactForm.name}
                     onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-xl border-2 border-[#DDD5C5] focus:border-[#9B7018] text-sm text-[#141312] placeholder:text-[#C7C2B8] outline-none"

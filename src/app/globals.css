@@ -337,3 +337,19 @@ body {
 .hero-marquee-track:hover {
   animation-play-state: paused;
 }
+
+/* Mobile Hero Accolade Continuous Moving Ticker */
+@keyframes accoladeTicker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.accolade-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: accoladeTicker 12s linear infinite;
+}

@@ -142,39 +142,24 @@ export default function Hero() {
               </span>
             </div>
 
-            {/* Mobile View: Dynamic Accolade Slider with Smooth Vertical Slide & Micro Dots */}
-            <div
-              onClick={() => setAccoladeIdx((prev) => (prev + 1) % accolades.length)}
-              className="inline-flex sm:hidden items-center gap-2 px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#D8AE56]/20 to-transparent border-l-4 border-[#D8AE56] cursor-pointer select-none max-w-[95vw] shadow-sm active:scale-[0.98] transition-transform"
-              title="Tap to see next accolade"
-            >
+            {/* Mobile View: Continuous Smooth Moving Ticker (Moves horizontally without stopping) */}
+            <div className="inline-flex sm:hidden items-center gap-2 px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#D8AE56]/20 to-transparent border-l-4 border-[#D8AE56] max-w-[95vw] overflow-hidden shadow-sm">
               <span className="live-pulse-gold shrink-0" />
-              <div className="h-5 overflow-hidden relative min-w-[215px] flex items-center justify-center">
-                {accolades.map((text, idx) => (
+              <div className="overflow-hidden whitespace-nowrap w-[250px] relative">
+                <div className="accolade-marquee-track flex items-center gap-6">
                   <span
-                    key={text}
-                    className={`text-[11px] uppercase font-bold tracking-[0.16em] text-[#F3D084] whitespace-nowrap absolute transition-all duration-500 ease-out ${
-                      idx === accoladeIdx
-                        ? 'opacity-100 translate-y-0'
-                        : idx === (accoladeIdx + 1) % accolades.length
-                        ? 'opacity-0 translate-y-3 pointer-events-none'
-                        : 'opacity-0 -translate-y-3 pointer-events-none'
-                    }`}
+                    className="text-[11px] uppercase font-bold tracking-[0.18em] text-[#F3D084] whitespace-nowrap"
                     style={{ fontFamily: 'Space Grotesk, monospace' }}
                   >
-                    {text}
+                    FAME GURUKUL WINNER • BIGG BOSS PHENOMENON • AFGHAN JALEBI FAME •
                   </span>
-                ))}
-              </div>
-              <div className="flex items-center gap-1 shrink-0 ml-1">
-                {accolades.map((_, idx) => (
                   <span
-                    key={idx}
-                    className={`h-1 rounded-full transition-all duration-300 ${
-                      idx === accoladeIdx ? 'w-2.5 bg-[#D8AE56]' : 'w-1 bg-[#D8AE56]/40'
-                    }`}
-                  />
-                ))}
+                    className="text-[11px] uppercase font-bold tracking-[0.18em] text-[#F3D084] whitespace-nowrap"
+                    style={{ fontFamily: 'Space Grotesk, monospace' }}
+                  >
+                    FAME GURUKUL WINNER • BIGG BOSS PHENOMENON • AFGHAN JALEBI FAME •
+                  </span>
+                </div>
               </div>
             </div>
 

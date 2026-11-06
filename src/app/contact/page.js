@@ -196,7 +196,7 @@ export default function ContactPage() {
                     </label>
                     <input
                       className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                      placeholder="e.g. Rahul Sharma"
+                      placeholder="Enter your name"
                       required
                       type="text"
                       value={formData.name}
@@ -212,7 +212,7 @@ export default function ContactPage() {
                     </label>
                     <input
                       className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                      placeholder="e.g. rahul@example.com"
+                      placeholder="Enter your email address"
                       required
                       type="email"
                       value={formData.email}
@@ -232,7 +232,7 @@ export default function ContactPage() {
                     </label>
                     <input
                       className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                      placeholder="e.g. +91 98200 00000"
+                      placeholder="Enter phone or WhatsApp number"
                       required
                       type="tel"
                       value={formData.phone}
@@ -248,7 +248,7 @@ export default function ContactPage() {
                     </label>
                     <input
                       className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                      placeholder="e.g. Mumbai, Maharashtra"
+                      placeholder="Enter city or location"
                       required
                       type="text"
                       value={formData.address}
@@ -267,7 +267,7 @@ export default function ContactPage() {
                   </label>
                   <input
                     className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                    placeholder="e.g. Brand Partnership, Media Interview, Special Request, or General Query"
+                    placeholder="Enter subject or purpose of contact"
                     required
                     type="text"
                     value={formData.subject}

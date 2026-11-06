@@ -215,42 +215,42 @@ function BookMeContent() {
       case 'College Fest':
         return {
           label: 'College / University Name',
-          placeholder: 'e.g. IIT Bombay, BITS Pilani, Delhi University',
+          placeholder: 'Enter college or university name',
         };
       case 'Live Concerts & Live Shows':
         return {
           label: 'Concert / Arena / Tour Name',
-          placeholder: 'e.g. Sunburn Arena, Mumbai Stadium Festival',
+          placeholder: 'Enter concert, festival, or tour name',
         };
       case 'Royal Milestones & VIP':
         return {
           label: 'Couple / Family / Wedding Name',
-          placeholder: 'e.g. Sharma & Verma Royal Sangeet',
+          placeholder: 'Enter wedding or family celebration name',
         };
       case 'Retro Bollywood':
         return {
           label: 'Venue / Club / Event Name',
-          placeholder: 'e.g. Retro Bollywood Gala, Grand Lounge Mumbai',
+          placeholder: 'Enter venue, club, or celebration name',
         };
       case 'Meet Qazi in Person':
         return {
           label: 'Client / Occasion Name',
-          placeholder: 'e.g. Private VIP Meeting / Masterclass',
+          placeholder: 'Enter meeting topic or reason to meet',
         };
       case 'Corporate Events':
         return {
           label: 'Company / Organization Name',
-          placeholder: 'e.g. Google India, Tata Enterprise Summit',
+          placeholder: 'Enter company or enterprise name',
         };
       case 'Brand Collaborations & Endorsements':
         return {
           label: 'Brand / Agency Name',
-          placeholder: 'e.g. Pepsi, Puma, Red Bull India',
+          placeholder: 'Enter brand or agency name',
         };
       default:
         return {
           label: 'College / Organization / Event Name',
-          placeholder: 'e.g. IIT Bombay, Royal Sangeet, Google Conclave',
+          placeholder: 'Enter organization or event name',
         };
     }
   };
@@ -336,13 +336,13 @@ function BookMeContent() {
         <div className="relative w-full overflow-hidden">
           <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[360px] bg-gradient-to-b from-primary/10 via-primary-container/5 to-transparent blur-3xl pointer-events-none"></div>
 
-          <div className="max-w-[1440px] mx-auto px-4 md:px-8 lg:px-16 pt-8 pb-16">
+          <div className="max-w-[1440px] mx-auto px-4 md:px-8 lg:px-16 pt-4 sm:pt-8 pb-10 sm:pb-16">
 
             {/* ========================================================================= */}
             {/* 1. INTERACTIVE EVENT FORMAT CARDS (MATCHING HOME PAGE CARDS EXACTLY)       */}
             {/* ========================================================================= */}
-            <div className="mb-14">
-              <div className="pb-6 border-b border-[#E6DFD1] mb-8 text-center sm:text-left">
+            <div className="mb-8 sm:mb-12">
+              <div className="pb-4 border-b border-[#E6DFD1] mb-6 text-center sm:text-left">
                 <span
                   className="text-sm uppercase tracking-[0.2em] text-[#9B7018] font-extrabold block"
                   style={{ fontFamily: 'Space Grotesk, monospace' }}
@@ -358,7 +358,7 @@ function BookMeContent() {
               </div>
 
               {/* 7 Event Cards Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
                 {eventCards.map((item) => {
                   const isSelected = selectedCat === item.id;
                   const isLastCard = item.num === '07';
@@ -366,7 +366,7 @@ function BookMeContent() {
                     <div
                       key={item.num}
                       onClick={() => handleSelectCard(item)}
-                      className={`bg - white rounded - 2xl overflow - hidden transition - all duration - 300 flex flex - col justify - between group cursor - pointer border - 2 active:scale-[0.99] ${
+                      className={`bg-white rounded-2xl overflow-hidden transition-all duration-300 flex flex-col justify-between group cursor-pointer border-2 active:scale-[0.99] ${
                   isLastCard ? 'md:col-span-2 lg:col-span-1 lg:col-start-2' : ''
                 } ${
                   isSelected
@@ -521,7 +521,7 @@ function BookMeContent() {
                       </label>
                       <input
                         className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                        placeholder="e.g. Rahul Sharma"
+                        placeholder="Enter your name"
                         required
                         type="text"
                         value={formData.repName}
@@ -647,7 +647,7 @@ function BookMeContent() {
                           </div>
                           <input
                             className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                            placeholder="e.g. Mumbai, Maharashtra, India"
+                            placeholder="Enter city or venue location"
                             list="city-suggestions"
                             required
                             type="text"
@@ -724,7 +724,7 @@ function BookMeContent() {
                         </label>
                         <input
                           className="w-full bg-[#FFFFFF] px-4 py-3.5 rounded-xl text-[#111111] font-semibold text-sm sm:text-base placeholder:text-[#C7C2B8] border-2 border-[#CFC5B4] hover:border-[#B68938] focus:border-[#9B7018] focus:ring-4 focus:ring-[#D8AE56]/20 shadow-sm transition-all focus:outline-none"
-                          placeholder="e.g. 1500"
+                          placeholder="Enter expected attendees count"
                           required={selectedCat !== 'Meet Qazi in Person'}
                           type="number"
                           min="1"
