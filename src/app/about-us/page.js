@@ -910,7 +910,7 @@ export default function AboutUsPage() {
                       <option>College Fest</option>
                       <option>Live Concerts &amp; Live Shows</option>
                       <option>Royal Milestones &amp; Luxury Weddings</option>
-                      <option>Retro Bollywood</option>
+                      <option>Clubs &amp; Superlounges</option>
                       <option>Corporate Events</option>
                       <option>Meet Qazi in Person</option>
                       <option>Brand Collaborations &amp; Endorsements</option>

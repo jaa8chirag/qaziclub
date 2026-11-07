@@ -65,14 +65,14 @@ function BookMeContent() {
       image: '/images/cards/card-03-luxury-wedding.jpg',
     },
     {
-      id: 'Retro Bollywood',
+      id: 'Clubs & Superlounges',
       num: '04',
-      title: 'Retro Bollywood',
-      category: 'Retro Bollywood',
-      tag: 'Timeless Classics',
-      audience: '300 – 2,500+ Guests',
-      desc: 'Iconic Retro Bollywood hits, high-energy dance anthems, vintage golden era classics, and electrifying crowd singing.',
-      specs: ['Retro Bollywood Vocal Set', 'Golden Era Classics & Mashups', 'Interactive Crowd Anthems', 'Full Stage Live Sound Sync'],
+      title: 'Clubs, Superlounges & Afterparties',
+      category: 'Clubs & Superlounges',
+      tag: 'High Energy Nightlife',
+      audience: '300 – 1,200+ Patrons',
+      desc: 'Late-night electronic Sufi club sets, VIP table engagement, explosive drops, and club night anthems.',
+      specs: ['Hybrid DJ + Live Vocal Rig', 'Late Night Schedule Clearance', 'VIP Table Photo Interludes', 'Club Sound Telemetry'],
       image: '/images/cards/card-04-nightclub-party.jpg',
     },
     {
@@ -119,8 +119,8 @@ function BookMeContent() {
         setSelectedCat('Live Concerts & Live Shows');
       } else if (cat.toLowerCase().includes('wedding') || cat.toLowerCase().includes('milestone') || cat.toLowerCase().includes('royal')) {
         setSelectedCat('Royal Milestones & VIP');
-      } else if (cat.toLowerCase().includes('retro') || cat.toLowerCase().includes('bollywood') || cat.toLowerCase().includes('club') || cat.toLowerCase().includes('party')) {
-        setSelectedCat('Retro Bollywood');
+      } else if (cat.toLowerCase().includes('club') || cat.toLowerCase().includes('lounge') || cat.toLowerCase().includes('party') || cat.toLowerCase().includes('nightlife') || cat.toLowerCase().includes('retro') || cat.toLowerCase().includes('bollywood')) {
+        setSelectedCat('Clubs & Superlounges');
       } else if (cat.toLowerCase().includes('meet') || cat.toLowerCase().includes('vip')) {
         setSelectedCat('Meet Qazi in Person');
         setFormData((prev) => ({
@@ -227,10 +227,10 @@ function BookMeContent() {
           label: 'Couple / Family / Wedding Name',
           placeholder: 'Enter wedding or family celebration name',
         };
-      case 'Retro Bollywood':
+      case 'Clubs & Superlounges':
         return {
-          label: 'Venue / Club / Event Name',
-          placeholder: 'Enter venue, club, or celebration name',
+          label: 'Venue / Club / Lounge Name',
+          placeholder: 'Enter venue, club, or lounge name',
         };
       case 'Meet Qazi in Person':
         return {
