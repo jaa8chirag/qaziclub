@@ -19,8 +19,18 @@ export default function CRMPage() {
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [selectedCategory, setSelectedCategory] = useState('all');
 
-  // Selected lead for detail modal
+  // Advanced CRM: View Mode, Sorting, Pagination, Quick Copy
+  const [viewMode, setViewMode] = useState('compact'); // 'compact' | 'table'
+  const [sortBy, setSortBy] = useState('newest'); // 'newest' | 'oldest' | 'event_asc' | 'event_desc' | 'name_asc'
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [copiedKey, setCopiedKey] = useState(null);
+
+  // Selected lead for detail modal & admin internal notes
   const [activeLead, setActiveLead] = useState(null);
+  const [leadNotes, setLeadNotes] = useState('');
+  const [savingNotes, setSavingNotes] = useState(false);
+  const [notesFeedback, setNotesFeedback] = useState('');
 
   // -------------------------------------------------------------
   // HERO SECTION LIVE EDITOR STATE & HANDLERS
@@ -294,8 +304,10 @@ export default function CRMPage() {
     }
   };
 
-  const handleStatusChange = async (id, newStatus) => {
+  const handleStatusChange = async (id, newStatus, optionalNotes) => {
     try {
+      const existing = inquiries.find((i) => i.id === id);
+      const notesToSend = optionalNotes !== undefined ? optionalNotes : (existing?.notes || '');
       const res = await fetch(`/api/inquiry.php?action=update_status&pin=${encodeURIComponent(pin)}`, {
         method: 'POST',
         headers: {
@@ -307,20 +319,72 @@ export default function CRMPage() {
           pin: pin,
           id: id,
           status: newStatus,
+          notes: notesToSend,
         }),
       });
       const resData = await res.json();
       if (resData.success) {
         setInquiries((prev) =>
-          prev.map((item) => (item.id === id ? { ...item, status: newStatus } : item))
+          prev.map((item) => (item.id === id ? { ...item, status: newStatus, notes: notesToSend } : item))
         );
         if (activeLead && activeLead.id === id) {
-          setActiveLead((prev) => ({ ...prev, status: newStatus }));
+          setActiveLead((prev) => ({ ...prev, status: newStatus, notes: notesToSend }));
         }
       }
     } catch (err) {
       console.error('Failed to update status', err);
     }
+  };
+
+  const handleOpenLead = (lead) => {
+    setActiveLead(lead);
+    setLeadNotes(lead.notes || '');
+    setNotesFeedback('');
+  };
+
+  const handleSaveNotes = async () => {
+    if (!activeLead) return;
+    setSavingNotes(true);
+    setNotesFeedback('');
+    try {
+      const res = await fetch(`/api/inquiry.php?action=update_status&pin=${encodeURIComponent(pin)}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Admin-Pin': pin,
+        },
+        body: JSON.stringify({
+          action: 'update_status',
+          pin: pin,
+          id: activeLead.id,
+          status: activeLead.status || 'new',
+          notes: leadNotes,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setInquiries((prev) =>
+          prev.map((i) => (i.id === activeLead.id ? { ...i, notes: leadNotes } : i))
+        );
+        setActiveLead((prev) => ({ ...prev, notes: leadNotes }));
+        setNotesFeedback('Notes saved successfully!');
+        setTimeout(() => setNotesFeedback(''), 3000);
+      } else {
+        setNotesFeedback(data.error || 'Failed to save notes');
+      }
+    } catch (err) {
+      console.error('Failed to save notes', err);
+      setNotesFeedback('Error saving notes');
+    } finally {
+      setSavingNotes(false);
+    }
+  };
+
+  const handleCopy = (key, text) => {
+    if (!text) return;
+    navigator.clipboard?.writeText(text);
+    setCopiedKey(key);
+    setTimeout(() => setCopiedKey(null), 2000);
   };
 
   const handleDelete = async (id) => {
@@ -350,8 +414,8 @@ export default function CRMPage() {
     }
   };
 
-  const filteredInquiries = useMemo(() => {
-    return inquiries.filter((item) => {
+  const filteredAndSortedInquiries = useMemo(() => {
+    const list = inquiries.filter((item) => {
       // Search
       const q = searchQuery.toLowerCase().trim();
       const matchSearch =
@@ -360,7 +424,8 @@ export default function CRMPage() {
         (item.email && item.email.toLowerCase().includes(q)) ||
         (item.phone && item.phone.toLowerCase().includes(q)) ||
         (item.city && item.city.toLowerCase().includes(q)) ||
-        (item.category && item.category.toLowerCase().includes(q));
+        (item.category && item.category.toLowerCase().includes(q)) ||
+        (item.message && item.message.toLowerCase().includes(q));
 
       // Status
       let matchStatus = true;
@@ -381,7 +446,38 @@ export default function CRMPage() {
 
       return matchSearch && matchStatus && matchCat;
     });
-  }, [inquiries, searchQuery, selectedStatus, selectedCategory]);
+
+    // Sorting
+    return list.sort((a, b) => {
+      if (sortBy === 'newest') return (b.id || 0) - (a.id || 0);
+      if (sortBy === 'oldest') return (a.id || 0) - (b.id || 0);
+      if (sortBy === 'event_asc') {
+        const da = a.event_date ? new Date(a.event_date).getTime() : 9999999999999;
+        const db = b.event_date ? new Date(b.event_date).getTime() : 9999999999999;
+        return da - db;
+      }
+      if (sortBy === 'event_desc') {
+        const da = a.event_date ? new Date(a.event_date).getTime() : 0;
+        const db = b.event_date ? new Date(b.event_date).getTime() : 0;
+        return db - da;
+      }
+      if (sortBy === 'name_asc') {
+        return (a.name || '').localeCompare(b.name || '');
+      }
+      return 0;
+    });
+  }, [inquiries, searchQuery, selectedStatus, selectedCategory, sortBy]);
+
+  // Reset to page 1 whenever search, status filter, category, sort or page size changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedStatus, selectedCategory, sortBy, pageSize]);
+
+  const totalPages = Math.ceil(filteredAndSortedInquiries.length / pageSize) || 1;
+  const paginatedInquiries = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredAndSortedInquiries.slice(start, start + pageSize);
+  }, [filteredAndSortedInquiries, currentPage, pageSize]);
 
   const stats = useMemo(() => {
     const total = inquiries.length;
@@ -536,19 +632,36 @@ export default function CRMPage() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-8 py-8 space-y-8">
-        {/* KPI Stats Row with Requested Color Coding */}
+        {/* KPI Stats Row - Clickable for Instant Quick Filtering */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-[#141210] border border-[#292520] rounded-2xl p-4 sm:p-5">
-            <span className="text-[11px] font-bold text-[#A8A29E] uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
-              Total Inquiries
-            </span>
+          <div
+            onClick={() => setSelectedStatus('all')}
+            className={`bg-[#141210] border-2 rounded-2xl p-4 sm:p-5 cursor-pointer transition-all hover:scale-[1.01] ${
+              selectedStatus === 'all'
+                ? 'border-[#D8AE56] ring-2 ring-[#D8AE56]/30 shadow-[0_4px_25px_rgba(216,174,86,0.15)]'
+                : 'border-[#292520] hover:border-[#38332C]'
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-bold text-[#A8A29E] uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                Total Inquiries
+              </span>
+              <span className="material-symbols-outlined text-[#D8AE56] text-[18px]">folder_open</span>
+            </div>
             <div className="text-2xl sm:text-4xl font-black text-white mt-1" style={{ fontFamily: 'Bodoni Moda, serif' }}>
               {stats.total}
             </div>
             <span className="text-[11px] text-[#7A7366] mt-1 block">All registered leads</span>
           </div>
 
-          <div className="bg-[#141210] border-2 border-emerald-500/40 rounded-2xl p-4 sm:p-5 relative overflow-hidden">
+          <div
+            onClick={() => setSelectedStatus('new')}
+            className={`bg-[#141210] border-2 rounded-2xl p-4 sm:p-5 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.01] ${
+              selectedStatus === 'new'
+                ? 'border-emerald-400 ring-2 ring-emerald-500/40 shadow-[0_4px_25px_rgba(16,185,129,0.25)]'
+                : 'border-emerald-500/40 hover:border-emerald-400'
+            }`}
+          >
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-black text-emerald-400 uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
                 New (Green)
@@ -561,7 +674,14 @@ export default function CRMPage() {
             <span className="text-[11px] text-[#A8A29E] mt-1 block">Fresh inquiries</span>
           </div>
 
-          <div className="bg-[#141210] border-2 border-amber-500/40 rounded-2xl p-4 sm:p-5 relative overflow-hidden">
+          <div
+            onClick={() => setSelectedStatus('in-progress')}
+            className={`bg-[#141210] border-2 rounded-2xl p-4 sm:p-5 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.01] ${
+              selectedStatus === 'in-progress'
+                ? 'border-amber-400 ring-2 ring-amber-500/40 shadow-[0_4px_25px_rgba(245,158,11,0.25)]'
+                : 'border-amber-500/40 hover:border-amber-400'
+            }`}
+          >
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-black text-amber-400 uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
                 In Progress (Amber)
@@ -574,7 +694,14 @@ export default function CRMPage() {
             <span className="text-[11px] text-[#A8A29E] mt-1 block">Follow-up underway</span>
           </div>
 
-          <div className="bg-[#141210] border-2 border-rose-500/40 rounded-2xl p-4 sm:p-5 relative overflow-hidden">
+          <div
+            onClick={() => setSelectedStatus('closed')}
+            className={`bg-[#141210] border-2 rounded-2xl p-4 sm:p-5 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.01] ${
+              selectedStatus === 'closed'
+                ? 'border-rose-400 ring-2 ring-rose-500/40 shadow-[0_4px_25px_rgba(244,63,94,0.25)]'
+                : 'border-rose-500/40 hover:border-rose-400'
+            }`}
+          >
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-black text-rose-400 uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
                 Closed (Red)
@@ -588,8 +715,8 @@ export default function CRMPage() {
           </div>
         </div>
 
-        {/* Filters and Search Bar */}
-        <div className="bg-[#141210] border border-[#292520] rounded-2xl p-4 sm:p-6 space-y-4">
+        {/* Filters, Controls & Density Toolbar */}
+        <div className="bg-[#141210] border border-[#292520] rounded-2xl p-4 sm:p-6 space-y-4 shadow-sm">
           <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
             {/* Search Input */}
             <div className="relative flex-1">
@@ -638,30 +765,80 @@ export default function CRMPage() {
             </div>
           </div>
 
-          {/* Category Filter Pills */}
-          <div className="flex items-center gap-2 flex-wrap text-xs pt-1 border-t border-[#221F1C]">
-            <span className="text-[#7A7366] font-bold uppercase tracking-wider text-[11px]">Filter by:</span>
-            {[
-              { id: 'all', label: 'All Categories' },
-              { id: 'meet', label: 'Meet Qazi in Person' },
-              { id: 'college', label: 'College Fest' },
-              { id: 'concert', label: 'Live Concerts' },
-              { id: 'wedding', label: 'Luxury Weddings' },
-              { id: 'corporate', label: 'Corporate' },
-              { id: 'contact', label: 'Direct Contact / Footer' },
-            ].map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
-                  selectedCategory === cat.id
-                    ? 'bg-[#D8AE56]/20 border border-[#D8AE56] text-[#F3D084]'
-                    : 'bg-[#1C1A17] border border-[#292520] text-[#A8A29E] hover:text-white'
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
+          {/* Sub-bar: Category Filters + Advanced Sort & View Switcher */}
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3 pt-3 border-t border-[#221F1C]">
+            {/* Category Filter Pills */}
+            <div className="flex items-center gap-2 flex-wrap text-xs">
+              <span className="text-[#7A7366] font-bold uppercase tracking-wider text-[11px]">Filter by:</span>
+              {[
+                { id: 'all', label: 'All Categories' },
+                { id: 'meet', label: 'Meet Qazi in Person' },
+                { id: 'college', label: 'College Fest' },
+                { id: 'concert', label: 'Live Concerts' },
+                { id: 'wedding', label: 'Luxury Weddings' },
+                { id: 'corporate', label: 'Corporate' },
+                { id: 'contact', label: 'Direct Contact / Footer' },
+              ].map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                    selectedCategory === cat.id
+                      ? 'bg-[#D8AE56]/20 border border-[#D8AE56] text-[#F3D084]'
+                      : 'bg-[#1C1A17] border border-[#292520] text-[#A8A29E] hover:text-white'
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Sorting & Density View Mode */}
+            <div className="flex items-center gap-3 w-full lg:w-auto justify-between lg:justify-end pt-2 lg:pt-0">
+              {/* Sort Dropdown */}
+              <div className="flex items-center gap-1.5 text-xs">
+                <span className="text-[#7A7366] font-medium hidden sm:inline">Sort:</span>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="bg-[#1C1A17] border border-[#332E27] text-white px-3 py-1.5 rounded-lg text-xs outline-none focus:border-[#D8AE56]"
+                >
+                  <option value="newest">Newest First</option>
+                  <option value="oldest">Oldest First</option>
+                  <option value="event_asc">Event Date (Earliest)</option>
+                  <option value="event_desc">Event Date (Latest)</option>
+                  <option value="name_asc">Client Name (A–Z)</option>
+                </select>
+              </div>
+
+              {/* View Mode Toggle: Compact Cards vs Table */}
+              <div className="flex items-center bg-[#1C1A17] border border-[#292520] rounded-lg p-0.5">
+                <button
+                  onClick={() => setViewMode('compact')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold flex items-center gap-1 transition-all ${
+                    viewMode === 'compact'
+                      ? 'bg-[#D8AE56] text-[#141210]'
+                      : 'text-[#A8A29E] hover:text-white'
+                  }`}
+                  title="Compact Cards View"
+                >
+                  <span className="material-symbols-outlined text-[16px]">grid_view</span>
+                  <span className="hidden sm:inline">Cards</span>
+                </button>
+                <button
+                  onClick={() => setViewMode('table')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold flex items-center gap-1 transition-all ${
+                    viewMode === 'table'
+                      ? 'bg-[#D8AE56] text-[#141210]'
+                      : 'text-[#A8A29E] hover:text-white'
+                  }`}
+                  title="Dense Table List View"
+                >
+                  <span className="material-symbols-outlined text-[16px]">table_rows</span>
+                  <span className="hidden sm:inline">Table</span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -678,15 +855,18 @@ export default function CRMPage() {
         {/* Inquiries List View */}
         <div className="space-y-4">
           <div className="flex items-center justify-between px-1">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-[#D8AE56]" style={{ fontFamily: 'Space Grotesk, monospace' }}>
-              Queries &amp; Client Leads ({filteredInquiries.length})
+            <h2 className="text-sm font-bold uppercase tracking-wider text-[#D8AE56] flex items-center gap-2" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+              <span>Queries &amp; Client Leads</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#D8AE56]/20 text-[#F3D084] text-xs font-black">
+                {filteredAndSortedInquiries.length}
+              </span>
             </h2>
             {lastRefreshed && (
               <span className="text-[11px] text-[#7A7366]">Last synced: {lastRefreshed}</span>
             )}
           </div>
 
-          {filteredInquiries.length === 0 ? (
+          {filteredAndSortedInquiries.length === 0 ? (
             <div className="bg-[#141210] border border-[#292520] rounded-2xl p-12 text-center space-y-3">
               <span className="material-symbols-outlined text-4xl text-[#7A7366]">inbox</span>
               <h3 className="text-base font-bold text-white">No inquiries found</h3>
@@ -696,9 +876,12 @@ export default function CRMPage() {
                   : 'No inquiries match your current search or filter criteria.'}
               </p>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 gap-4">
-              {filteredInquiries.map((item) => {
+          ) : viewMode === 'compact' ? (
+            /* ======================================================== */
+            /* 1. COMPACT LEADS CARDS (2-COL ELEGANT GRID)              */
+            /* ======================================================== */
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {paginatedInquiries.map((item) => {
                 const isMeetQazi = (item.category || '').toLowerCase().includes('meet');
                 const rawStatus = (item.status || 'new').toLowerCase();
                 const isNew = rawStatus === 'new';
@@ -708,73 +891,62 @@ export default function CRMPage() {
                 return (
                   <div
                     key={item.id}
-                    className={`bg-[#141210] border-2 rounded-2xl p-5 sm:p-6 transition-all space-y-4 ${
+                    className={`bg-[#141210] border-2 rounded-2xl p-4 sm:p-5 transition-all space-y-3 relative flex flex-col justify-between hover:shadow-lg ${
                       isNew
-                        ? 'border-emerald-500/50 shadow-[0_4px_25px_rgba(16,185,129,0.15)] bg-gradient-to-r from-emerald-950/10 via-[#141210] to-[#141210]'
+                        ? 'border-emerald-500/50 bg-gradient-to-br from-emerald-950/15 via-[#141210] to-[#141210]'
                         : isInProgress
-                        ? 'border-amber-500/50 shadow-[0_4px_25px_rgba(245,158,11,0.15)] bg-gradient-to-r from-amber-950/10 via-[#141210] to-[#141210]'
-                        : 'border-rose-500/40 opacity-80 hover:opacity-100 bg-gradient-to-r from-rose-950/10 via-[#141210] to-[#141210]'
+                        ? 'border-amber-500/50 bg-gradient-to-br from-amber-950/15 via-[#141210] to-[#141210]'
+                        : 'border-rose-500/40 bg-gradient-to-br from-rose-950/15 via-[#141210] to-[#141210] opacity-85 hover:opacity-100'
                     }`}
                   >
-                    {/* Header Row */}
-                    <div className="flex flex-wrap items-start justify-between gap-3 pb-3 border-b border-[#221F1C]">
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-[#221F1C] border border-[#332E27] text-[#D8AE56]" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                    <div>
+                      {/* Top Header Row: ID, Badges & Quick Status Select */}
+                      <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[#221F1C]">
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <span className="px-2 py-0.5 rounded-md text-[10px] font-black tracking-wider bg-[#221F1C] border border-[#332E27] text-[#D8AE56]" style={{ fontFamily: 'Space Grotesk, monospace' }}>
                             #{item.id}
                           </span>
 
-                          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#221F1C] text-[#A8A29E]">
-                            {item.source || 'Website'}
-                          </span>
-
                           {isMeetQazi ? (
-                            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase tracking-wider bg-gradient-to-r from-[#D8AE56] to-[#B68938] text-[#141210]">
-                              Meet Qazi in Person
+                            <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-gradient-to-r from-[#D8AE56] to-[#B68938] text-[#141210]">
+                              Meet Qazi
                             </span>
                           ) : (
-                            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#1C1A17] border border-[#38332C] text-[#F3D084]">
+                            <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#1C1A17] border border-[#38332C] text-[#F3D084] truncate max-w-[150px]">
                               {item.category || 'General'}
                             </span>
                           )}
 
-                          {/* Status Indicator Badges: New = Green, In Progress = Amber, Closed = Red */}
                           {isNew && (
-                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-600 text-white animate-pulse flex items-center gap-1">
-                              <span className="w-1.5 h-1.5 rounded-full bg-white"></span>
+                            <span className="px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-emerald-600 text-white flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
                               New
                             </span>
                           )}
                           {isInProgress && (
-                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-500/20 border border-amber-500/60 text-amber-300 flex items-center gap-1">
+                            <span className="px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-amber-500/20 border border-amber-500/60 text-amber-300 flex items-center gap-1">
                               <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
                               In Progress
                             </span>
                           )}
                           {isClosed && (
-                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-rose-950/40 border border-rose-500/50 text-rose-400 flex items-center gap-1">
+                            <span className="px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-rose-950/40 border border-rose-500/50 text-rose-400 flex items-center gap-1">
                               <span className="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
                               Closed
                             </span>
                           )}
                         </div>
 
-                        <h3 className="text-lg sm:text-xl font-bold text-white pt-1">
-                          {item.name || '(No Name Provided)'}
-                        </h3>
-                      </div>
-
-                      {/* Status Selector & Actions with explicit Color Coding */}
-                      <div className="flex items-center gap-2">
+                        {/* Quick Status Select */}
                         <select
                           value={isInProgress ? 'in-progress' : isClosed ? 'closed' : 'new'}
                           onChange={(e) => handleStatusChange(item.id, e.target.value)}
-                          className={`text-xs font-black px-3.5 py-2 rounded-xl border-2 outline-none cursor-pointer uppercase tracking-wider transition-all shadow-sm ${
+                          className={`text-[11px] font-bold px-2 py-1 rounded-lg border outline-none cursor-pointer uppercase tracking-wider transition-all ${
                             isNew
-                              ? 'bg-emerald-950/50 border-emerald-500 text-emerald-300 hover:bg-emerald-950/80 focus:ring-2 focus:ring-emerald-500/40'
+                              ? 'bg-emerald-950/60 border-emerald-500 text-emerald-300'
                               : isInProgress
-                              ? 'bg-amber-950/50 border-amber-500 text-amber-300 hover:bg-amber-950/80 focus:ring-2 focus:ring-amber-500/40'
-                              : 'bg-rose-950/50 border-rose-500 text-rose-300 hover:bg-rose-950/80 focus:ring-2 focus:ring-rose-500/40'
+                              ? 'bg-amber-950/60 border-amber-500 text-amber-300'
+                              : 'bg-rose-950/60 border-rose-500 text-rose-300'
                           }`}
                           style={{ fontFamily: 'Space Grotesk, monospace' }}
                         >
@@ -782,104 +954,285 @@ export default function CRMPage() {
                           <option value="in-progress" className="bg-[#1C1A17] text-amber-400 font-bold">🟡 In Progress</option>
                           <option value="closed" className="bg-[#1C1A17] text-rose-400 font-bold">🔴 Closed</option>
                         </select>
+                      </div>
 
-                        <button
-                          onClick={() => handleDelete(item.id)}
-                          className="w-8 h-8 rounded-lg bg-[#1C1A17] hover:bg-red-950/50 text-[#7A7366] hover:text-red-400 border border-[#292520] hover:border-red-900 flex items-center justify-center transition-colors cursor-pointer"
-                          title="Delete Lead"
-                        >
-                          <span className="material-symbols-outlined text-[16px]">delete</span>
-                        </button>
+                      {/* Client Name & Key Metrics */}
+                      <div className="pt-2">
+                        <h3 className="text-base sm:text-lg font-bold text-white tracking-tight flex items-center justify-between">
+                          <span className="truncate">{item.name || '(No Name Provided)'}</span>
+                          <span className="text-[10px] font-normal text-[#7A7366] shrink-0 font-mono">
+                            {item.created_at ? item.created_at.split(' ')[0] : ''}
+                          </span>
+                        </h3>
+
+                        {/* Quick Contact & Event Grid */}
+                        <div className="grid grid-cols-2 gap-2 mt-2 text-xs">
+                          {/* Phone & WhatsApp */}
+                          <div className="bg-[#1C1A17] p-2 rounded-xl border border-[#292520] flex items-center justify-between gap-1">
+                            <div className="truncate">
+                              <span className="text-[9px] uppercase tracking-wider text-[#7A7366] block font-bold">Phone</span>
+                              <span className="font-semibold text-white text-[11px] truncate block">{item.phone || 'N/A'}</span>
+                            </div>
+                            <div className="flex items-center gap-1 shrink-0">
+                              {item.phone && (
+                                <button
+                                  type="button"
+                                  onClick={() => handleCopy(`phone-${item.id}`, item.phone)}
+                                  className="w-6 h-6 rounded bg-[#2A2621] hover:bg-[#D8AE56] text-[#A8A29E] hover:text-[#141210] flex items-center justify-center transition-colors"
+                                  title="Copy Phone"
+                                >
+                                  <span className="material-symbols-outlined text-[13px]">
+                                    {copiedKey === `phone-${item.id}` ? 'check' : 'content_copy'}
+                                  </span>
+                                </button>
+                              )}
+                              {item.phone && (
+                                <a
+                                  href={getWhatsAppLink(item.phone, item.name)}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="w-6 h-6 rounded bg-[#25D366] hover:brightness-110 text-[#0C0B0A] font-black flex items-center justify-center"
+                                  title="WhatsApp Chat"
+                                >
+                                  <span className="material-symbols-outlined text-[14px]">chat</span>
+                                </a>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Email */}
+                          <div className="bg-[#1C1A17] p-2 rounded-xl border border-[#292520] flex items-center justify-between gap-1">
+                            <div className="truncate">
+                              <span className="text-[9px] uppercase tracking-wider text-[#7A7366] block font-bold">Email</span>
+                              <span className="font-semibold text-[#D8AE56] text-[11px] truncate block">{item.email || 'N/A'}</span>
+                            </div>
+                            {item.email && (
+                              <button
+                                type="button"
+                                onClick={() => handleCopy(`email-${item.id}`, item.email)}
+                                className="w-6 h-6 rounded bg-[#2A2621] hover:bg-[#D8AE56] text-[#A8A29E] hover:text-[#141210] flex items-center justify-center transition-colors shrink-0"
+                                title="Copy Email"
+                              >
+                                <span className="material-symbols-outlined text-[13px]">
+                                  {copiedKey === `email-${item.id}` ? 'check' : 'content_copy'}
+                                </span>
+                              </button>
+                            )}
+                          </div>
+
+                          {/* City / Venue */}
+                          <div className="bg-[#1C1A17] p-2 rounded-xl border border-[#292520] flex items-center gap-1.5 truncate">
+                            <span className="material-symbols-outlined text-[#7A7366] text-[14px] shrink-0">location_on</span>
+                            <div className="truncate">
+                              <span className="text-[9px] uppercase tracking-wider text-[#7A7366] block font-bold">City</span>
+                              <span className="font-medium text-white text-[11px] truncate block">{item.city || 'Not specified'}</span>
+                            </div>
+                          </div>
+
+                          {/* Target Date */}
+                          <div className="bg-[#1C1A17] p-2 rounded-xl border border-[#292520] flex items-center gap-1.5 truncate">
+                            <span className="material-symbols-outlined text-[#D8AE56] text-[14px] shrink-0">event</span>
+                            <div className="truncate">
+                              <span className="text-[9px] uppercase tracking-wider text-[#7A7366] block font-bold">Date</span>
+                              <span className="font-bold text-[#F3D084] text-[11px] truncate block">{item.event_date || 'Flexible'}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* One-Line Clean Message Preview */}
+                        {item.message && (
+                          <div className="mt-2.5 px-3 py-1.5 rounded-lg bg-[#181614] border border-[#26221E] flex items-center gap-2 text-[11px] text-[#A8A29E]">
+                            <span className="material-symbols-outlined text-[13px] text-[#D8AE56] shrink-0">format_quote</span>
+                            <p className="truncate flex-1 font-normal italic">&ldquo;{item.message}&rdquo;</p>
+                          </div>
+                        )}
                       </div>
                     </div>
 
-                    {/* Middle Details Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-                      {/* Phone & Direct WhatsApp */}
-                      <div className="space-y-1">
-                        <span className="text-[#7A7366] uppercase tracking-wider font-bold text-[10px] block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
-                          Phone / WhatsApp
-                        </span>
-                        <div className="flex items-center gap-2">
-                          <span className="font-semibold text-white">{item.phone || 'N/A'}</span>
-                          {item.phone && (
-                            <a
-                              href={getWhatsAppLink(item.phone, item.name)}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="px-2 py-0.5 rounded-md bg-[#25D366] text-[#0C0B0A] font-black text-[10px] hover:brightness-110 flex items-center gap-1"
-                              title="Chat on WhatsApp"
-                            >
-                              <span>WA</span>
-                              <span className="material-symbols-outlined text-[12px]">chat</span>
-                            </a>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Email */}
-                      <div className="space-y-1">
-                        <span className="text-[#7A7366] uppercase tracking-wider font-bold text-[10px] block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
-                          Email Address
-                        </span>
-                        <div>
-                          {item.email ? (
-                            <a
-                              href={`mailto:${item.email}?subject=Qazi%20Touqeer%20Inquiry%20Response`}
-                              className="font-semibold text-[#D8AE56] hover:underline break-all"
-                            >
-                              {item.email}
-                            </a>
-                          ) : (
-                            <span className="text-[#7A7366]">N/A</span>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* City / Location */}
-                      <div className="space-y-1">
-                        <span className="text-[#7A7366] uppercase tracking-wider font-bold text-[10px] block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
-                          City / Venue
-                        </span>
-                        <span className="font-semibold text-white">{item.city || 'Not specified'}</span>
-                      </div>
-
-                      {/* Target Date & Slot / Duration */}
-                      <div className="space-y-1">
-                        <span className="text-[#7A7366] uppercase tracking-wider font-bold text-[10px] block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
-                          {isMeetQazi ? 'Meeting Date & Duration' : 'Event Date & Slot'}
-                        </span>
-                        <div className="font-semibold text-[#F3D084]">
-                          {item.event_date ? item.event_date : 'Flexible'}
-                          {item.slot_or_duration && ` • ${item.slot_or_duration}`}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Message / Requirements Section */}
-                    {item.message && (
-                      <div className="p-3.5 rounded-xl bg-[#1C1A17] border border-[#26221E] text-xs text-[#D5CEBF] leading-relaxed">
-                        <span className="text-[10px] text-[#A8A29E] uppercase tracking-wider font-bold block mb-1" style={{ fontFamily: 'Space Grotesk, monospace' }}>
-                          Inquiry Message / Requirement:
-                        </span>
-                        <p className="whitespace-pre-line">{item.message}</p>
-                      </div>
-                    )}
-
-                    {/* Timestamp & IP Footer */}
-                    <div className="flex items-center justify-between text-[11px] text-[#7A7366] pt-1">
-                      <span>Received: {item.created_at || 'Just now'}</span>
+                    {/* Bottom Action Bar */}
+                    <div className="flex items-center justify-between pt-2.5 border-t border-[#221F1C] text-xs">
                       <button
-                        onClick={() => setActiveLead(item)}
-                        className="text-[#D8AE56] hover:underline font-bold inline-flex items-center gap-1 cursor-pointer"
+                        onClick={() => handleDelete(item.id)}
+                        className="text-[#7A7366] hover:text-red-400 p-1.5 rounded-lg hover:bg-red-950/30 transition-colors flex items-center gap-1 text-[11px] cursor-pointer"
+                        title="Delete Lead"
                       >
-                        <span>Full Details</span>
+                        <span className="material-symbols-outlined text-[15px]">delete</span>
+                        <span>Delete</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleOpenLead(item)}
+                        className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#D8AE56] via-[#F3D084] to-[#B68938] text-[#141210] font-black text-[11px] uppercase tracking-wider hover:opacity-95 transition-all shadow-xs flex items-center gap-1.5 cursor-pointer"
+                        style={{ fontFamily: 'Space Grotesk, monospace' }}
+                      >
+                        <span>View Dossier</span>
                         <span className="material-symbols-outlined text-[14px]">open_in_new</span>
                       </button>
                     </div>
                   </div>
                 );
               })}
+            </div>
+          ) : (
+            /* ======================================================== */
+            /* 2. DENSE DATA TABLE VIEW                                 */
+            /* ======================================================== */
+            <div className="bg-[#141210] border border-[#292520] rounded-2xl overflow-hidden shadow-lg">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr className="bg-[#191613] text-[#7A7366] uppercase text-[10px] tracking-wider border-b border-[#292520]" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                      <th className="py-3 px-4 font-bold">#ID</th>
+                      <th className="py-3 px-4 font-bold">Client Name</th>
+                      <th className="py-3 px-4 font-bold">Category</th>
+                      <th className="py-3 px-4 font-bold">Event Date</th>
+                      <th className="py-3 px-4 font-bold">City</th>
+                      <th className="py-3 px-4 font-bold">Phone / WA</th>
+                      <th className="py-3 px-4 font-bold">Status</th>
+                      <th className="py-3 px-4 font-bold text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[#221F1C]">
+                    {paginatedInquiries.map((item) => {
+                      const isMeetQazi = (item.category || '').toLowerCase().includes('meet');
+                      const rawStatus = (item.status || 'new').toLowerCase();
+                      const isNew = rawStatus === 'new';
+                      const isInProgress = rawStatus === 'in-progress' || rawStatus === 'in_progress' || rawStatus === 'contacted';
+                      const isClosed = rawStatus === 'closed';
+
+                      return (
+                        <tr
+                          key={item.id}
+                          onClick={() => handleOpenLead(item)}
+                          className="hover:bg-[#1C1A17] transition-colors cursor-pointer group"
+                        >
+                          <td className="py-3 px-4 font-mono font-bold text-[#D8AE56]">#{item.id}</td>
+                          <td className="py-3 px-4">
+                            <div className="font-bold text-white group-hover:text-[#F3D084] transition-colors">{item.name || '(N/A)'}</div>
+                            <div className="text-[10px] text-[#7A7366]">{item.source || 'Website'}</div>
+                          </td>
+                          <td className="py-3 px-4">
+                            {isMeetQazi ? (
+                              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#D8AE56]/20 text-[#F3D084]">Meet Qazi</span>
+                            ) : (
+                              <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-[#1C1A17] border border-[#292520] text-[#EAE5D9]">
+                                {item.category || 'General'}
+                              </span>
+                            )}
+                          </td>
+                          <td className="py-3 px-4 font-medium text-[#F3D084]">{item.event_date || 'Flexible'}</td>
+                          <td className="py-3 px-4 text-[#A8A29E]">{item.city || 'N/A'}</td>
+                          <td className="py-3 px-4">
+                            <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+                              <span className="font-mono text-white text-[11px]">{item.phone || 'N/A'}</span>
+                              {item.phone && (
+                                <a
+                                  href={getWhatsAppLink(item.phone, item.name)}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="w-5 h-5 rounded bg-[#25D366] text-[#0C0B0A] flex items-center justify-center font-black"
+                                  title="WhatsApp"
+                                >
+                                  <span className="material-symbols-outlined text-[12px]">chat</span>
+                                </a>
+                              )}
+                            </div>
+                          </td>
+                          <td className="py-3 px-4" onClick={(e) => e.stopPropagation()}>
+                            <select
+                              value={isInProgress ? 'in-progress' : isClosed ? 'closed' : 'new'}
+                              onChange={(e) => handleStatusChange(item.id, e.target.value)}
+                              className={`text-[10px] font-black px-2 py-1 rounded-lg border outline-none cursor-pointer uppercase ${
+                                isNew
+                                  ? 'bg-emerald-950/60 border-emerald-500 text-emerald-300'
+                                  : isInProgress
+                                  ? 'bg-amber-950/60 border-amber-500 text-amber-300'
+                                  : 'bg-rose-950/60 border-rose-500 text-rose-300'
+                              }`}
+                            >
+                              <option value="new" className="bg-[#1C1A17] text-emerald-400 font-bold">New</option>
+                              <option value="in-progress" className="bg-[#1C1A17] text-amber-400 font-bold">In Progress</option>
+                              <option value="closed" className="bg-[#1C1A17] text-rose-400 font-bold">Closed</option>
+                            </select>
+                          </td>
+                          <td className="py-3 px-4 text-right" onClick={(e) => e.stopPropagation()}>
+                            <button
+                              onClick={() => handleOpenLead(item)}
+                              className="px-2.5 py-1 rounded-lg bg-[#221F1C] hover:bg-[#D8AE56] text-[#D8AE56] hover:text-[#141210] font-bold text-[10px] uppercase transition-colors"
+                            >
+                              View
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* ======================================================== */}
+          {/* 3. ADVANCED PAGINATION BAR                               */}
+          {/* ======================================================== */}
+          {filteredAndSortedInquiries.length > 0 && (
+            <div className="p-4 rounded-2xl bg-[#141210] border border-[#292520] flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+              <div className="flex items-center gap-3 text-xs text-[#A8A29E]">
+                <span>
+                  Showing <strong className="text-white">{(currentPage - 1) * pageSize + 1}</strong> to{' '}
+                  <strong className="text-white">
+                    {Math.min(currentPage * pageSize, filteredAndSortedInquiries.length)}
+                  </strong>{' '}
+                  of <strong className="text-[#D8AE56]">{filteredAndSortedInquiries.length}</strong> leads
+                </span>
+
+                <div className="flex items-center gap-1.5 pl-3 border-l border-[#292520]">
+                  <span>Per page:</span>
+                  <select
+                    value={pageSize}
+                    onChange={(e) => setPageSize(Number(e.target.value))}
+                    className="bg-[#1C1A17] border border-[#332E27] text-white px-2 py-1 rounded-lg text-xs outline-none focus:border-[#D8AE56]"
+                  >
+                    <option value={5}>5 leads</option>
+                    <option value={10}>10 leads</option>
+                    <option value={20}>20 leads</option>
+                    <option value={50}>50 leads</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Page Buttons */}
+              <div className="flex items-center gap-1.5">
+                <button
+                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                  className="px-3 py-1.5 rounded-lg bg-[#1C1A17] border border-[#292520] text-xs font-bold text-[#D5CEBF] hover:bg-[#26221E] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                >
+                  Prev
+                </button>
+
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pg) => (
+                  <button
+                    key={pg}
+                    onClick={() => setCurrentPage(pg)}
+                    className={`w-8 h-8 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                      currentPage === pg
+                        ? 'bg-gradient-to-r from-[#D8AE56] to-[#B68938] text-[#141210] shadow-sm font-black'
+                        : 'bg-[#1C1A17] border border-[#292520] text-[#A8A29E] hover:text-white hover:bg-[#26221E]'
+                    }`}
+                  >
+                    {pg}
+                  </button>
+                ))}
+
+                <button
+                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={currentPage >= totalPages}
+                  className="px-3 py-1.5 rounded-lg bg-[#1C1A17] border border-[#292520] text-xs font-bold text-[#D5CEBF] hover:bg-[#26221E] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                >
+                  Next
+                </button>
+              </div>
             </div>
           )}
         </div>
@@ -908,12 +1261,40 @@ export default function CRMPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
               <div className="p-3 rounded-xl bg-[#1C1A17] border border-[#292520]">
-                <span className="text-[#7A7366] block font-bold mb-1">CLIENT PHONE</span>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-[#7A7366] block font-bold text-[10px] uppercase">CLIENT PHONE</span>
+                  {activeLead.phone && (
+                    <button
+                      type="button"
+                      onClick={() => handleCopy(`modal-phone-${activeLead.id}`, activeLead.phone)}
+                      className="text-[10px] font-bold text-[#D8AE56] hover:text-white flex items-center gap-1 cursor-pointer"
+                    >
+                      <span className="material-symbols-outlined text-[12px]">
+                        {copiedKey === `modal-phone-${activeLead.id}` ? 'check' : 'content_copy'}
+                      </span>
+                      <span>{copiedKey === `modal-phone-${activeLead.id}` ? 'Copied' : 'Copy'}</span>
+                    </button>
+                  )}
+                </div>
                 <span className="font-semibold text-white text-sm">{activeLead.phone || 'N/A'}</span>
               </div>
 
               <div className="p-3 rounded-xl bg-[#1C1A17] border border-[#292520]">
-                <span className="text-[#7A7366] block font-bold mb-1">EMAIL ADDRESS</span>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-[#7A7366] block font-bold text-[10px] uppercase">EMAIL ADDRESS</span>
+                  {activeLead.email && (
+                    <button
+                      type="button"
+                      onClick={() => handleCopy(`modal-email-${activeLead.id}`, activeLead.email)}
+                      className="text-[10px] font-bold text-[#D8AE56] hover:text-white flex items-center gap-1 cursor-pointer"
+                    >
+                      <span className="material-symbols-outlined text-[12px]">
+                        {copiedKey === `modal-email-${activeLead.id}` ? 'check' : 'content_copy'}
+                      </span>
+                      <span>{copiedKey === `modal-email-${activeLead.id}` ? 'Copied' : 'Copy'}</span>
+                    </button>
+                  )}
+                </div>
                 <span className="font-semibold text-[#D8AE56] text-sm break-all">{activeLead.email || 'N/A'}</span>
               </div>
 
@@ -968,6 +1349,42 @@ export default function CRMPage() {
                   <option value="in-progress" className="bg-[#1C1A17] text-amber-400 font-bold">🟡 In Progress</option>
                   <option value="closed" className="bg-[#1C1A17] text-rose-400 font-bold">🔴 Closed</option>
                 </select>
+              </div>
+            </div>
+
+            {/* Internal Staff Notes */}
+            <div className="space-y-2 p-4 rounded-xl bg-[#181614] border border-[#38332C]">
+              <div className="flex items-center justify-between">
+                <span className="text-xs uppercase font-bold text-[#D8AE56] flex items-center gap-1.5" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                  <span className="material-symbols-outlined text-[16px]">edit_note</span>
+                  <span>Internal Staff / Follow-up Notes</span>
+                </span>
+                {notesFeedback && (
+                  <span className={`text-xs font-bold ${notesFeedback.includes('success') ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    {notesFeedback}
+                  </span>
+                )}
+              </div>
+              <textarea
+                rows={3}
+                value={leadNotes}
+                onChange={(e) => setLeadNotes(e.target.value)}
+                placeholder="Log internal follow-up remarks, quote discussed, manager updates..."
+                className="w-full bg-[#121110] border border-[#2E2A24] focus:border-[#D8AE56] rounded-lg p-3 text-xs text-white placeholder-[#5A554D] outline-none transition-colors"
+              />
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  disabled={savingNotes}
+                  onClick={handleSaveNotes}
+                  className="px-4 py-2 rounded-lg bg-[#D8AE56] hover:bg-[#F3D084] text-[#141210] font-black text-xs uppercase tracking-wider flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                  style={{ fontFamily: 'Space Grotesk, monospace' }}
+                >
+                  <span className={`material-symbols-outlined text-[14px] ${savingNotes ? 'animate-spin' : ''}`}>
+                    {savingNotes ? 'sync' : 'save'}
+                  </span>
+                  <span>{savingNotes ? 'Saving...' : 'Save Notes'}</span>
+                </button>
               </div>
             </div>
 
