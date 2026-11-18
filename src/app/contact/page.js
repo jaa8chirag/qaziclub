@@ -412,6 +412,15 @@ export default function ContactPage() {
                 </div>
 
                 <div className="p-5 rounded-2xl bg-gradient-to-br from-[#D8AE56]/15 via-[#FAF8F5] to-transparent border-2 border-[#D8AE56] shadow-sm space-y-4">
+                  {/* Official Artist Arena Logo */}
+                  <div className="bg-white p-3 sm:p-3.5 rounded-xl border border-[#E6DFD1] shadow-xs flex items-center justify-center">
+                    <img
+                      src="/images/logos/artist-arena-logo.jpg"
+                      alt="Artist Arena — Unleash your creativity with us"
+                      className="h-10 sm:h-12 w-auto object-contain max-w-full"
+                    />
+                  </div>
+
                   <div className="flex items-center gap-2.5">
                     <div className="w-8 h-8 rounded-full bg-[#D8AE56]/20 border border-[#D8AE56] flex items-center justify-center shrink-0">
                       <span className="material-symbols-outlined text-[#9B7018] text-[18px]">verified</span>
