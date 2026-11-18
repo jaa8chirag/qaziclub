@@ -438,7 +438,7 @@ export default function CRMPage() {
                 value={pinInput}
                 onChange={(e) => setPinInput(e.target.value)}
                 placeholder="Enter Authorization PIN..."
-                className="w-full bg-[#221F1C] border-2 border-[#38332C] focus:border-[#D8AE56] text-white px-4 py-3.5 rounded-xl text-base tracking-widest outline-none transition-all placeholder:text-[#6E675C]"
+                className="w-full bg-[#221F1C] border-2 border-[#38332C] focus:border-[#D8AE56] text-white px-4 py-3.5 rounded-xl text-base tracking-widest outline-none transition-all placeholder:text-[#9A9284]/60 placeholder:font-normal"
               />
               {pinError && <p className="text-red-400 text-xs mt-2 font-medium">{pinError}</p>}
             </div>
@@ -601,7 +601,7 @@ export default function CRMPage() {
                 placeholder="Search by client name, email, phone, city, or event..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-[#1C1A17] border border-[#332E27] focus:border-[#D8AE56] text-white pl-11 pr-4 py-3 rounded-xl text-sm outline-none placeholder:text-[#6E675C]"
+                className="w-full bg-[#1C1A17] border border-[#332E27] focus:border-[#D8AE56] text-white pl-11 pr-4 py-3 rounded-xl text-sm outline-none placeholder:text-[#9A9284]/60 placeholder:font-normal"
               />
               {searchQuery && (
                 <button
@@ -1125,7 +1125,7 @@ export default function CRMPage() {
                       value={heroConfig.texts.celebrityBadge || ''}
                       onChange={(e) => handleTextChange('celebrityBadge', e.target.value)}
                       placeholder="e.g. FAME GURUKUL WINNER • BIGG BOSS PHENOMENON • AFGHAN JALEBI FAME"
-                      className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all"
+                      className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all placeholder:text-[#9A9284]/50 placeholder:font-normal"
                     />
                     <span className="text-[11px] text-[#7A7366] mt-1 block">Desktop par golden badge aur mobile par continuous moving ticker mein yahi text show hota hai.</span>
                   </div>
@@ -1141,7 +1141,7 @@ export default function CRMPage() {
                         value={heroConfig.texts.title || ''}
                         onChange={(e) => handleTextChange('title', e.target.value)}
                         placeholder="e.g. QAZI TOUQEER"
-                        className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all font-bold"
+                        className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all font-bold placeholder:text-[#9A9284]/50 placeholder:font-normal"
                       />
                     </div>
 
@@ -1154,7 +1154,7 @@ export default function CRMPage() {
                         value={heroConfig.texts.rockstarSlogan || ''}
                         onChange={(e) => handleTextChange('rockstarSlogan', e.target.value)}
                         placeholder='e.g. "I am a Rockstar Baby Auuuuu…."'
-                        className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all"
+                        className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all placeholder:text-[#9A9284]/50 placeholder:font-normal"
                       />
                     </div>
                   </div>
@@ -1170,7 +1170,7 @@ export default function CRMPage() {
                         value={heroConfig.texts.tagline || ''}
                         onChange={(e) => handleTextChange('tagline', e.target.value)}
                         placeholder="e.g. ACTOR • PERFORMER • SINGER"
-                        className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all"
+                        className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all placeholder:text-[#9A9284]/50 placeholder:font-normal"
                       />
                     </div>
 
@@ -1183,7 +1183,7 @@ export default function CRMPage() {
                         value={heroConfig.texts.punchline || ''}
                         onChange={(e) => handleTextChange('punchline', e.target.value)}
                         placeholder='e.g. "Awaaz Jo Dil Se Nikle, Stage Pe Aag Laga De"'
-                        className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all italic"
+                        className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all italic placeholder:text-[#9A9284]/50 placeholder:font-normal"
                       />
                     </div>
                   </div>
@@ -1198,7 +1198,7 @@ export default function CRMPage() {
                       value={heroConfig.texts.bio || ''}
                       onChange={(e) => handleTextChange('bio', e.target.value)}
                       placeholder="Enter description paragraph..."
-                      className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all leading-relaxed"
+                      className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all leading-relaxed placeholder:text-[#9A9284]/50 placeholder:font-normal"
                     />
                   </div>
 
@@ -1213,7 +1213,7 @@ export default function CRMPage() {
                         value={heroConfig.texts.ctaText || ''}
                         onChange={(e) => handleTextChange('ctaText', e.target.value)}
                         placeholder="e.g. BOOK AN EVENT"
-                        className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all font-bold"
+                        className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all font-bold placeholder:text-[#9A9284]/50 placeholder:font-normal"
                       />
                     </div>
 
@@ -1226,7 +1226,7 @@ export default function CRMPage() {
                         value={heroConfig.texts.ctaLink || ''}
                         onChange={(e) => handleTextChange('ctaLink', e.target.value)}
                         placeholder="e.g. /book-me"
-                        className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all"
+                        className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all placeholder:text-[#9A9284]/50 placeholder:font-normal"
                       />
                     </div>
                   </div>
@@ -1382,7 +1382,7 @@ export default function CRMPage() {
                                 value={slide.caption || ''}
                                 onChange={(e) => handleSlideChange(sIdx, 'caption', e.target.value)}
                                 placeholder="Enter slide caption (e.g. Moments of Glory with Salman Khan)..."
-                                className="w-full bg-[#221F1C] border border-[#38332C] focus:border-[#D8AE56] text-white px-3.5 py-2.5 rounded-xl text-xs sm:text-sm outline-none transition-all font-medium"
+                                className="w-full bg-[#221F1C] border border-[#38332C] focus:border-[#D8AE56] text-white px-3.5 py-2.5 rounded-xl text-xs sm:text-sm outline-none transition-all font-medium placeholder:text-[#9A9284]/50 placeholder:font-normal"
                               />
                             </div>
 
@@ -1397,7 +1397,7 @@ export default function CRMPage() {
                                   value={slide.image || ''}
                                   onChange={(e) => handleSlideChange(sIdx, 'image', e.target.value)}
                                   placeholder="Upload photo using button or enter path / URL..."
-                                  className="flex-1 bg-[#221F1C] border border-[#38332C] focus:border-[#D8AE56] text-white px-3.5 py-2.5 rounded-xl text-xs outline-none transition-all font-mono"
+                                  className="flex-1 bg-[#221F1C] border border-[#38332C] focus:border-[#D8AE56] text-white px-3.5 py-2.5 rounded-xl text-xs outline-none transition-all font-mono placeholder:text-[#9A9284]/50 placeholder:font-normal"
                                 />
 
                                 {/* Upload Button */}
