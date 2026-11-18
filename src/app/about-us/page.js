@@ -1,22 +1,67 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import ContactFooter from '@/components/ContactFooter';
 
 export default function AboutUsPage() {
-  const [riderModalOpen, setRiderModalOpen] = useState(false);
-  const [riderDispatched, setRiderDispatched] = useState(false);
-
-  const handleRiderSubmit = (e) => {
-    e.preventDefault();
-    setRiderDispatched(true);
-    setTimeout(() => {
-      setRiderDispatched(false);
-      setRiderModalOpen(false);
-    }, 3000);
-  };
+  const keyLocations = [
+    {
+      city: 'Mumbai',
+      region: 'India Hub',
+      desc: 'Western India operations, studio recordings, celebrity events & TV commercial shoots.',
+      flag: (
+        <svg className="w-full h-full object-cover" viewBox="0 0 640 480">
+          <path fill="#f93" d="M0 0h640v160H0z"/>
+          <path fill="#fff" d="M0 160h640v160H0z"/>
+          <path fill="#128807" d="M0 320h640v160H0z"/>
+          <circle cx="320" cy="240" r="40" fill="none" stroke="#008" strokeWidth="8"/>
+          <circle cx="320" cy="240" r="8" fill="#008"/>
+        </svg>
+      ),
+    },
+    {
+      city: 'Greater Noida',
+      region: 'North India Hub',
+      desc: 'NCR headquarters, Delhi-NCR campus festivals, royal destination weddings & corporate galas.',
+      flag: (
+        <svg className="w-full h-full object-cover" viewBox="0 0 640 480">
+          <path fill="#f93" d="M0 0h640v160H0z"/>
+          <path fill="#fff" d="M0 160h640v160H0z"/>
+          <path fill="#128807" d="M0 320h640v160H0z"/>
+          <circle cx="320" cy="240" r="40" fill="none" stroke="#008" strokeWidth="8"/>
+          <circle cx="320" cy="240" r="8" fill="#008"/>
+        </svg>
+      ),
+    },
+    {
+      city: 'London',
+      region: 'UK & Europe Hub',
+      desc: 'United Kingdom arena concerts, European diaspora tours, international brand engagements.',
+      flag: (
+        <svg className="w-full h-full object-cover" viewBox="0 0 640 480">
+          <path fill="#012169" d="M0 0h640v480H0z"/>
+          <path fill="#fff" d="m75 0 245 180L565 0h75v50L440 240l200 150v90h-75L320 300 75 480H0v-50l200-150L0 90V0h75z"/>
+          <path fill="#c8102e" d="m424 281 216 159v40h-20L380 300h44zm-208-82L0 40V0h20l240 180h-44zm374-199v30L430 160h50L640 40V0h-50zM0 440v40h50L210 320h-50L0 440z"/>
+          <path fill="#fff" d="M240 0h160v480H240zM0 160h640v160H0z"/>
+          <path fill="#c8102e" d="M280 0h80v480h-80zM0 200h640v80H0z"/>
+        </svg>
+      ),
+    },
+    {
+      city: 'Dubai',
+      region: 'Middle East Hub',
+      desc: 'UAE nightclubs, mega luxury weddings, Middle Eastern arena festivals & VIP showcases.',
+      flag: (
+        <svg className="w-full h-full object-cover" viewBox="0 0 640 480">
+          <path fill="#00732f" d="M0 0h640v160H0z"/>
+          <path fill="#fff" d="M0 160h640v160H0z"/>
+          <path fill="#000" d="M0 320h640v160H0z"/>
+          <path fill="#f00" d="M0 0h160v480H0z"/>
+        </svg>
+      ),
+    },
+  ];
 
   const milestones = [
     {
@@ -123,29 +168,7 @@ export default function AboutUsPage() {
     },
   ];
 
-  const testimonials = [
-    {
-      quote:
-        'Qazi was the undisputed showstopper of our annual cultural festival. Over 18,000 students were jumping on their feet from the very first beat of Afghan Jalebi to the final encore. Pure rockstar magic!',
-      author: 'Cultural Convenor',
-      entity: 'IIT Cultural Fest Bureau',
-      badge: '18,000+ Students',
-    },
-    {
-      quote:
-        'For our high-profile destination wedding in Udaipur, Qazi brought unmatched charm and regal warmth. He got all three generations dancing on stage. Our guests are still talking about his performance!',
-      author: 'Royal Wedding Planner',
-      entity: 'Luxury Wedding Management, Mumbai',
-      badge: 'Palace Sangeet Gala',
-    },
-    {
-      quote:
-        'Working with Qazi and his management team was an absolute breeze. Professional, punctual, and delivered a high-energy show that exceeded every expectation of our corporate leadership summit.',
-      author: 'Head of Enterprise Events',
-      entity: 'Global Tech Conclave',
-      badge: 'Corporate Headliner',
-    },
-  ];
+
 
   return (
     <div className="flex flex-col w-full min-h-screen bg-[#FAF8F5] text-[#141312]">
@@ -235,15 +258,7 @@ export default function AboutUsPage() {
                     <span>Read The Journey</span>
                   </a>
 
-                  <button
-                    type="button"
-                    onClick={() => setRiderModalOpen(true)}
-                    className="inline-flex items-center gap-2 px-5 py-3.5 rounded-full bg-transparent hover:bg-[#F4F0E8] text-[#87672D] font-bold text-xs uppercase tracking-wider transition-colors border border-transparent hover:border-[#D7D0C0] cursor-pointer"
-                    style={{ fontFamily: 'Space Grotesk, monospace' }}
-                  >
-                    <span className="material-symbols-outlined text-[#B68938] text-[18px]">description</span>
-                    <span>Technical Rider</span>
-                  </button>
+
                 </div>
 
                 {/* Micro Quote Banner */}
@@ -696,54 +711,66 @@ export default function AboutUsPage() {
         </section>
 
         {/* ========================================================= */}
-        {/* 6. VERIFIED EVENT ORGANIZER ACCLAIM                       */}
+        {/* 6. GLOBAL PRESENCE & KEY LOCATIONS                        */}
         {/* ========================================================= */}
         <section className="w-full py-16 md:py-20 bg-[#FFFFFF] border-b border-[#E6DFD1]">
           <div className="max-w-[1440px] mx-auto px-4 md:px-8 lg:px-16">
-            <div className="text-center max-w-3xl mx-auto mb-14">
+            <div className="text-center max-w-3xl mx-auto mb-12">
               <span
                 className="text-xs uppercase tracking-[0.2em] text-[#87672D] font-extrabold block"
                 style={{ fontFamily: 'Space Grotesk, monospace' }}
               >
-                Promoter &amp; Client Acclaim
+                Global Presence &amp; Touring Hubs
               </span>
               <h2
                 className="text-3xl sm:text-4xl lg:text-5xl text-[#141312] font-black mt-2 tracking-tight"
                 style={{ fontFamily: 'Bodoni Moda, serif' }}
               >
-                Trusted by Top Festivals &amp; Hosts
+                Key Locations
               </h2>
+              <p className="text-sm sm:text-base text-[#524E46] mt-3 max-w-xl mx-auto font-medium">
+                Direct artist bureau operations, event liaison hubs, and tour offices coordinating performances across India and internationally.
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {testimonials.map((item, idx) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {keyLocations.map((loc) => (
                 <div
-                  key={idx}
-                  className="bg-[#FAF8F5] p-7 sm:p-8 rounded-2xl relative shadow-md border border-[#E6DFD1] flex flex-col justify-between"
+                  key={loc.city}
+                  className="p-5 sm:p-6 rounded-2xl bg-[#FAF8F5] border border-[#E6DFD1] hover:border-[#D8AE56] hover:shadow-lg transition-all duration-300 flex flex-col justify-between group"
                 >
                   <div>
-                    <span className="material-symbols-outlined text-[#B68938] text-[32px] mb-3 block">format_quote</span>
-                    <p className="text-sm sm:text-base text-[#141312] italic leading-relaxed font-medium">
-                      &quot;{item.quote}&quot;
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-9 h-6 rounded overflow-hidden shadow-xs shrink-0 border border-black/10">
+                        {loc.flag}
+                      </div>
+                      <span
+                        className="px-2.5 py-1 rounded bg-[#FFFFFF] border border-[#E6DFD1] text-[10px] uppercase font-bold text-[#87672D]"
+                        style={{ fontFamily: 'Space Grotesk, monospace' }}
+                      >
+                        {loc.region}
+                      </span>
+                    </div>
+
+                    <h3
+                      className="text-xl font-bold text-[#111111] tracking-wide mb-1.5"
+                      style={{ fontFamily: 'Space Grotesk, monospace' }}
+                    >
+                      {loc.city}
+                    </h3>
+                    <p className="text-xs text-[#524E46] leading-relaxed font-normal">
+                      {loc.desc}
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-6 border-t border-[#E6DFD1] flex items-center justify-between">
-                    <div>
-                      <span className="text-sm text-[#141312] font-black block">{item.author}</span>
-                      <span
-                        className="text-[11px] text-[#736B5E] block font-semibold"
-                        style={{ fontFamily: 'Space Grotesk, monospace' }}
-                      >
-                        {item.entity}
-                      </span>
-                    </div>
+                  <div className="mt-5 pt-4 border-t border-[#E6DFD1] flex items-center justify-between">
                     <span
-                      className="px-2.5 py-1 rounded bg-[#FFFFFF] border border-[#E6DFD1] text-[10px] uppercase font-bold text-[#87672D]"
+                      className="text-[11px] font-bold text-[#9B7018] uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1 transition-transform"
                       style={{ fontFamily: 'Space Grotesk, monospace' }}
                     >
-                      {item.badge}
+                      Active Base
                     </span>
+                    <span className="material-symbols-outlined text-[#9B7018] text-[18px]">location_on</span>
                   </div>
                 </div>
               ))}
@@ -793,7 +820,7 @@ export default function AboutUsPage() {
                     </span>
                     <span className="flex items-center gap-1.5">
                       <span className="material-symbols-outlined text-[16px]">pin_drop</span>
-                      <span>Mumbai &bull; London &bull; Greater Noida</span>
+                      <span>Mumbai &bull; Greater Noida &bull; London &bull; Dubai</span>
                     </span>
                   </div>
                 </div>
@@ -808,15 +835,14 @@ export default function AboutUsPage() {
                     <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
                   </Link>
 
-                  <button
-                    type="button"
-                    onClick={() => setRiderModalOpen(true)}
-                    className="w-full inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 text-[#F3D084] text-xs uppercase tracking-wider transition-all border border-[#D8AE56]/40 cursor-pointer font-bold"
+                  <Link
+                    href="/contact"
+                    className="w-full inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 text-[#F3D084] text-xs uppercase tracking-wider transition-all border border-[#D8AE56]/40 font-bold"
                     style={{ fontFamily: 'Space Grotesk, monospace' }}
                   >
-                    <span className="material-symbols-outlined text-[20px]">download</span>
-                    <span>Download Technical Rider</span>
-                  </button>
+                    <span className="material-symbols-outlined text-[20px]">location_on</span>
+                    <span>Explore All Locations</span>
+                  </Link>
 
                   <span
                     className="text-center text-[10px] uppercase text-[#A39D91] font-semibold"
@@ -829,106 +855,6 @@ export default function AboutUsPage() {
             </div>
           </div>
         </section>
-
-        {/* ========================================================= */}
-        {/* TECHNICAL RIDER MODAL                                     */}
-        {/* ========================================================= */}
-        {riderModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl">
-            <div className="bg-[#FFFFFF] p-6 sm:p-8 rounded-3xl max-w-lg w-full space-y-4 shadow-2xl relative border-2 border-[#D8AE56]/40 text-[#141312]">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#B68938] text-[26px]">verified</span>
-                  <span
-                    className="text-xl text-[#141312] font-black"
-                    style={{ fontFamily: 'Bodoni Moda, serif' }}
-                  >
-                    Qazi Technical Rider
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setRiderModalOpen(false)}
-                  className="w-8 h-8 rounded-full bg-[#FAF8F5] hover:bg-[#E6DFD1] text-[#141312] flex items-center justify-center transition-colors cursor-pointer border border-[#E6DFD1]"
-                >
-                  <span className="material-symbols-outlined text-[20px]">close</span>
-                </button>
-              </div>
-
-              <p className="text-xs sm:text-sm text-[#524E46] leading-relaxed font-medium">
-                Please enter your organization details to receive the official <strong className="text-[#141312]">2026 Qazi Touqeer Acoustic, Lighting &amp; Stage Blueprint</strong>.
-              </p>
-
-              {riderDispatched ? (
-                <div className="p-5 rounded-2xl bg-[#FAF8F5] border-2 border-[#B68938] text-center space-y-2">
-                  <span className="material-symbols-outlined text-[#B68938] text-[36px]">check_circle</span>
-                  <div className="text-sm text-[#141312] font-black">Rider Package Dispatched!</div>
-                  <div className="text-xs text-[#524E46]">
-                    Please check your email inbox for the full backstage specs and sound blueprints.
-                  </div>
-                </div>
-              ) : (
-                <form className="space-y-3.5 pt-2" onSubmit={handleRiderSubmit}>
-                  <div>
-                    <label
-                      className="text-[11px] uppercase tracking-wider text-[#87672D] block mb-1.5 font-bold"
-                      style={{ fontFamily: 'Space Grotesk, monospace' }}
-                    >
-                      College / Event / Festival Entity
-                    </label>
-                    <input
-                      className="w-full bg-[#FAF8F5] text-[#141312] placeholder:text-[#C7C2B8] px-4 py-2.5 rounded-xl text-xs border border-[#D7D0C0] focus:outline-none focus:border-[#B68938] font-medium"
-                      placeholder="e.g. IIT Bombay Cultural Council or Luxury Events Group"
-                      required
-                      type="text"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      className="text-[11px] uppercase tracking-wider text-[#87672D] block mb-1.5 font-bold"
-                      style={{ fontFamily: 'Space Grotesk, monospace' }}
-                    >
-                      Official Talent Buyer Email
-                    </label>
-                    <input
-                      className="w-full bg-[#FAF8F5] text-[#141312] placeholder:text-[#C7C2B8] px-4 py-2.5 rounded-xl text-xs border border-[#D7D0C0] focus:outline-none focus:border-[#B68938] font-medium"
-                      placeholder="buyer@domain.com"
-                      required
-                      type="email"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      className="text-[11px] uppercase tracking-wider text-[#87672D] block mb-1.5 font-bold"
-                      style={{ fontFamily: 'Space Grotesk, monospace' }}
-                    >
-                      Target Event Format
-                    </label>
-                    <select className="w-full bg-[#FAF8F5] text-[#141312] px-4 py-2.5 rounded-xl text-xs border border-[#D7D0C0] focus:outline-none focus:border-[#B68938] font-medium">
-                      <option>College Fest</option>
-                      <option>Live Concerts &amp; Live Shows</option>
-                      <option>Royal Milestones &amp; Luxury Weddings</option>
-                      <option>Clubs &amp; Superlounges</option>
-                      <option>Corporate Events</option>
-                      <option>Meet Qazi in Person</option>
-                      <option>Brand Collaborations &amp; Endorsements</option>
-                    </select>
-                  </div>
-
-                  <button
-                    className="w-full mt-4 py-3.5 bg-gradient-to-r from-[#D8AE56] via-[#F3D084] to-[#B68938] text-[#1A1203] text-xs uppercase font-black rounded-xl shadow-md hover:brightness-105 transition-all cursor-pointer border-none tracking-widest"
-                    type="submit"
-                    style={{ fontFamily: 'Space Grotesk, monospace' }}
-                  >
-                    Send Instant Rider Package
-                  </button>
-                </form>
-              )}
-            </div>
-          </div>
-        )}
       </main>
 
       <ContactFooter />
