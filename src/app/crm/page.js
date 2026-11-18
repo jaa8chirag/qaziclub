@@ -208,6 +208,14 @@ export default function CRMPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [copiedKey, setCopiedKey] = useState(null);
+  const [isLocalhost, setIsLocalhost] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const h = window.location.hostname;
+      setIsLocalhost(h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.'));
+    }
+  }, []);
 
   // Selected lead for detail modal & admin internal notes
   const [activeLead, setActiveLead] = useState(null);
@@ -520,18 +528,30 @@ export default function CRMPage() {
       console.warn('Static fallback json fetch failed', e);
     }
 
-    // 4. Try localStorage or use DEFAULT_DUMMY_LEADS
-    let localData = null;
-    try {
-      const saved = typeof window !== 'undefined' ? localStorage.getItem('qazi_crm_leads') : null;
-      if (saved) localData = JSON.parse(saved);
-    } catch {}
+    // 4. Try localStorage or use DEFAULT_DUMMY_LEADS (ONLY in local development environment)
+    const isLocal =
+      typeof window !== 'undefined' &&
+      (window.location.hostname === 'localhost' ||
+        window.location.hostname === '127.0.0.1' ||
+        window.location.hostname.startsWith('192.168.'));
 
-    const finalList = localData && localData.length > 0 ? localData : DEFAULT_DUMMY_LEADS;
-    setInquiries(finalList);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('qazi_crm_leads', JSON.stringify(finalList));
+    if (isLocal) {
+      let localData = null;
+      try {
+        const saved = typeof window !== 'undefined' ? localStorage.getItem('qazi_crm_leads') : null;
+        if (saved) localData = JSON.parse(saved);
+      } catch {}
+
+      const finalList = localData && localData.length > 0 ? localData : DEFAULT_DUMMY_LEADS;
+      setInquiries(finalList);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('qazi_crm_leads', JSON.stringify(finalList));
+      }
+    } else {
+      // In production live: clean empty state, no dummy data
+      setInquiries([]);
     }
+
     setLastRefreshed(new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
     setLoading(false);
   };
@@ -858,15 +878,17 @@ export default function CRMPage() {
               <span className="hidden sm:inline">{loading ? 'Syncing...' : 'Refresh'}</span>
             </button>
 
-            {/* Load 10 Demo Leads Button */}
-            <button
-              onClick={handleLoadDemoData}
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#221F1C] hover:bg-[#2B2723] text-xs font-bold text-[#F3D084] border border-[#D8AE56]/40 transition-colors cursor-pointer"
-              title="Populate 10 Realistic Dummy Leads for Testing"
-            >
-              <span className="material-symbols-outlined text-[16px] text-[#F3D084]">playlist_add</span>
-              <span className="hidden sm:inline">Demo Leads (10)</span>
-            </button>
+            {/* Load 10 Demo Leads Button - Only visible in local environment */}
+            {isLocalhost && (
+              <button
+                onClick={handleLoadDemoData}
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#221F1C] hover:bg-[#2B2723] text-xs font-bold text-[#F3D084] border border-[#D8AE56]/40 transition-colors cursor-pointer"
+                title="Populate 10 Realistic Dummy Leads for Testing (Local Only)"
+              >
+                <span className="material-symbols-outlined text-[16px] text-[#F3D084]">playlist_add</span>
+                <span className="hidden sm:inline">Demo Leads (10)</span>
+              </button>
+            )}
 
             {/* Export CSV Button */}
             <a
