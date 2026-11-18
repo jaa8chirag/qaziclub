@@ -895,86 +895,119 @@ export default function CRMPage() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-8 py-8 space-y-8">
-        {/* KPI Stats Row - Clickable for Instant Quick Filtering */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* KPI Stats Row - Compact Clickable Quick Filter Cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <div
             onClick={() => setSelectedStatus('all')}
-            className={`bg-[#141210] border-2 rounded-2xl p-4 sm:p-5 cursor-pointer transition-all hover:scale-[1.01] ${
+            className={`bg-[#141210] border-2 rounded-xl p-3 sm:p-3.5 cursor-pointer transition-all hover:scale-[1.01] ${
               selectedStatus === 'all'
-                ? 'border-[#D8AE56] ring-2 ring-[#D8AE56]/30 shadow-[0_4px_25px_rgba(216,174,86,0.15)]'
+                ? 'border-[#D8AE56] ring-1 ring-[#D8AE56]/40 shadow-[0_2px_15px_rgba(216,174,86,0.15)] bg-[#1A1713]'
                 : 'border-[#292520] hover:border-[#38332C]'
             }`}
           >
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-[#A8A29E] uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
-                Total Inquiries
-              </span>
-              <span className="material-symbols-outlined text-[#D8AE56] text-[18px]">folder_open</span>
+              <div>
+                <span className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                  Total Inquiries
+                </span>
+                <div className="flex items-baseline gap-2 mt-0.5">
+                  <span className="text-xl sm:text-2xl font-black text-white" style={{ fontFamily: 'Bodoni Moda, serif' }}>
+                    {stats.total}
+                  </span>
+                  <span className="text-[10px] text-[#7A7366]">All leads</span>
+                </div>
+              </div>
+              <div className="w-8 h-8 rounded-lg bg-[#221F1C] border border-[#38332C] flex items-center justify-center text-[#D8AE56]">
+                <span className="material-symbols-outlined text-[16px]">folder_open</span>
+              </div>
             </div>
-            <div className="text-2xl sm:text-4xl font-black text-white mt-1" style={{ fontFamily: 'Bodoni Moda, serif' }}>
-              {stats.total}
-            </div>
-            <span className="text-[11px] text-[#7A7366] mt-1 block">All registered leads</span>
           </div>
 
           <div
             onClick={() => setSelectedStatus('new')}
-            className={`bg-[#141210] border-2 rounded-2xl p-4 sm:p-5 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.01] ${
+            className={`bg-[#141210] border-2 rounded-xl p-3 sm:p-3.5 cursor-pointer transition-all hover:scale-[1.01] ${
               selectedStatus === 'new'
-                ? 'border-emerald-400 ring-2 ring-emerald-500/40 shadow-[0_4px_25px_rgba(16,185,129,0.25)]'
-                : 'border-emerald-500/40 hover:border-emerald-400'
+                ? 'border-emerald-400 ring-1 ring-emerald-500/40 shadow-[0_2px_15px_rgba(16,185,129,0.2)] bg-emerald-950/20'
+                : 'border-emerald-500/30 hover:border-emerald-400'
             }`}
           >
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-black text-emerald-400 uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
-                New (Green)
-              </span>
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span className="text-[10px] font-black text-emerald-400 uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                    New
+                  </span>
+                </div>
+                <div className="flex items-baseline gap-2 mt-0.5">
+                  <span className="text-xl sm:text-2xl font-black text-emerald-400" style={{ fontFamily: 'Bodoni Moda, serif' }}>
+                    {stats.newCount}
+                  </span>
+                  <span className="text-[10px] text-[#A8A29E]">Fresh leads</span>
+                </div>
+              </div>
+              <div className="w-8 h-8 rounded-lg bg-emerald-950/40 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                <span className="material-symbols-outlined text-[16px]">mark_email_unread</span>
+              </div>
             </div>
-            <div className="text-2xl sm:text-4xl font-black text-emerald-400 mt-1" style={{ fontFamily: 'Bodoni Moda, serif' }}>
-              {stats.newCount}
-            </div>
-            <span className="text-[11px] text-[#A8A29E] mt-1 block">Fresh inquiries</span>
           </div>
 
           <div
             onClick={() => setSelectedStatus('in-progress')}
-            className={`bg-[#141210] border-2 rounded-2xl p-4 sm:p-5 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.01] ${
+            className={`bg-[#141210] border-2 rounded-xl p-3 sm:p-3.5 cursor-pointer transition-all hover:scale-[1.01] ${
               selectedStatus === 'in-progress'
-                ? 'border-amber-400 ring-2 ring-amber-500/40 shadow-[0_4px_25px_rgba(245,158,11,0.25)]'
-                : 'border-amber-500/40 hover:border-amber-400'
+                ? 'border-amber-400 ring-1 ring-amber-500/40 shadow-[0_2px_15px_rgba(245,158,11,0.2)] bg-amber-950/20'
+                : 'border-amber-500/30 hover:border-amber-400'
             }`}
           >
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-black text-amber-400 uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
-                In Progress (Amber)
-              </span>
-              <span className="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                  <span className="text-[10px] font-black text-amber-400 uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                    In Progress
+                  </span>
+                </div>
+                <div className="flex items-baseline gap-2 mt-0.5">
+                  <span className="text-xl sm:text-2xl font-black text-amber-400" style={{ fontFamily: 'Bodoni Moda, serif' }}>
+                    {stats.inProgressCount}
+                  </span>
+                  <span className="text-[10px] text-[#A8A29E]">Follow-up</span>
+                </div>
+              </div>
+              <div className="w-8 h-8 rounded-lg bg-amber-950/40 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                <span className="material-symbols-outlined text-[16px]">pending_actions</span>
+              </div>
             </div>
-            <div className="text-2xl sm:text-4xl font-black text-amber-400 mt-1" style={{ fontFamily: 'Bodoni Moda, serif' }}>
-              {stats.inProgressCount}
-            </div>
-            <span className="text-[11px] text-[#A8A29E] mt-1 block">Follow-up underway</span>
           </div>
 
           <div
             onClick={() => setSelectedStatus('closed')}
-            className={`bg-[#141210] border-2 rounded-2xl p-4 sm:p-5 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.01] ${
+            className={`bg-[#141210] border-2 rounded-xl p-3 sm:p-3.5 cursor-pointer transition-all hover:scale-[1.01] ${
               selectedStatus === 'closed'
-                ? 'border-rose-400 ring-2 ring-rose-500/40 shadow-[0_4px_25px_rgba(244,63,94,0.25)]'
-                : 'border-rose-500/40 hover:border-rose-400'
+                ? 'border-rose-400 ring-1 ring-rose-500/40 shadow-[0_2px_15px_rgba(244,63,94,0.2)] bg-rose-950/20'
+                : 'border-rose-500/30 hover:border-rose-400'
             }`}
           >
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-black text-rose-400 uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
-                Closed (Red)
-              </span>
-              <span className="w-2.5 h-2.5 rounded-full bg-rose-400"></span>
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+                  <span className="text-[10px] font-black text-rose-400 uppercase tracking-wider block" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                    Closed
+                  </span>
+                </div>
+                <div className="flex items-baseline gap-2 mt-0.5">
+                  <span className="text-xl sm:text-2xl font-black text-rose-400" style={{ fontFamily: 'Bodoni Moda, serif' }}>
+                    {stats.closedCount}
+                  </span>
+                  <span className="text-[10px] text-[#A8A29E]">Resolved</span>
+                </div>
+              </div>
+              <div className="w-8 h-8 rounded-lg bg-rose-950/40 border border-rose-500/30 flex items-center justify-center text-rose-400">
+                <span className="material-symbols-outlined text-[16px]">check_circle</span>
+              </div>
             </div>
-            <div className="text-2xl sm:text-4xl font-black text-rose-400 mt-1" style={{ fontFamily: 'Bodoni Moda, serif' }}>
-              {stats.closedCount}
-            </div>
-            <span className="text-[11px] text-[#A8A29E] mt-1 block">Resolved / Completed</span>
           </div>
         </div>
 
