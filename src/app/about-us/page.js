@@ -5,64 +5,6 @@ import Navbar from '@/components/Navbar';
 import ContactFooter from '@/components/ContactFooter';
 
 export default function AboutUsPage() {
-  const keyLocations = [
-    {
-      city: 'Mumbai',
-      region: 'India Hub',
-      desc: 'Western India operations, studio recordings, celebrity events & TV commercial shoots.',
-      flag: (
-        <svg className="w-full h-full object-cover" viewBox="0 0 640 480">
-          <path fill="#f93" d="M0 0h640v160H0z"/>
-          <path fill="#fff" d="M0 160h640v160H0z"/>
-          <path fill="#128807" d="M0 320h640v160H0z"/>
-          <circle cx="320" cy="240" r="40" fill="none" stroke="#008" strokeWidth="8"/>
-          <circle cx="320" cy="240" r="8" fill="#008"/>
-        </svg>
-      ),
-    },
-    {
-      city: 'Greater Noida',
-      region: 'North India Hub',
-      desc: 'NCR headquarters, Delhi-NCR campus festivals, royal destination weddings & corporate galas.',
-      flag: (
-        <svg className="w-full h-full object-cover" viewBox="0 0 640 480">
-          <path fill="#f93" d="M0 0h640v160H0z"/>
-          <path fill="#fff" d="M0 160h640v160H0z"/>
-          <path fill="#128807" d="M0 320h640v160H0z"/>
-          <circle cx="320" cy="240" r="40" fill="none" stroke="#008" strokeWidth="8"/>
-          <circle cx="320" cy="240" r="8" fill="#008"/>
-        </svg>
-      ),
-    },
-    {
-      city: 'London',
-      region: 'UK & Europe Hub',
-      desc: 'United Kingdom arena concerts, European diaspora tours, international brand engagements.',
-      flag: (
-        <svg className="w-full h-full object-cover" viewBox="0 0 640 480">
-          <path fill="#012169" d="M0 0h640v480H0z"/>
-          <path fill="#fff" d="m75 0 245 180L565 0h75v50L440 240l200 150v90h-75L320 300 75 480H0v-50l200-150L0 90V0h75z"/>
-          <path fill="#c8102e" d="m424 281 216 159v40h-20L380 300h44zm-208-82L0 40V0h20l240 180h-44zm374-199v30L430 160h50L640 40V0h-50zM0 440v40h50L210 320h-50L0 440z"/>
-          <path fill="#fff" d="M240 0h160v480H240zM0 160h640v160H0z"/>
-          <path fill="#c8102e" d="M280 0h80v480h-80zM0 200h640v80H0z"/>
-        </svg>
-      ),
-    },
-    {
-      city: 'Dubai',
-      region: 'Middle East Hub',
-      desc: 'UAE nightclubs, mega luxury weddings, Middle Eastern arena festivals & VIP showcases.',
-      flag: (
-        <svg className="w-full h-full object-cover" viewBox="0 0 640 480">
-          <path fill="#00732f" d="M0 0h640v160H0z"/>
-          <path fill="#fff" d="M0 160h640v160H0z"/>
-          <path fill="#000" d="M0 320h640v160H0z"/>
-          <path fill="#f00" d="M0 0h160v480H0z"/>
-        </svg>
-      ),
-    },
-  ];
-
   const milestones = [
     {
       year: '2005',
@@ -711,75 +653,7 @@ export default function AboutUsPage() {
         </section>
 
         {/* ========================================================= */}
-        {/* 6. GLOBAL PRESENCE & KEY LOCATIONS                        */}
-        {/* ========================================================= */}
-        <section className="w-full py-16 md:py-20 bg-[#FFFFFF] border-b border-[#E6DFD1]">
-          <div className="max-w-[1440px] mx-auto px-4 md:px-8 lg:px-16">
-            <div className="text-center max-w-3xl mx-auto mb-12">
-              <span
-                className="text-xs uppercase tracking-[0.2em] text-[#87672D] font-extrabold block"
-                style={{ fontFamily: 'Space Grotesk, monospace' }}
-              >
-                Global Presence &amp; Touring Hubs
-              </span>
-              <h2
-                className="text-3xl sm:text-4xl lg:text-5xl text-[#141312] font-black mt-2 tracking-tight"
-                style={{ fontFamily: 'Bodoni Moda, serif' }}
-              >
-                Key Locations
-              </h2>
-              <p className="text-sm sm:text-base text-[#524E46] mt-3 max-w-xl mx-auto font-medium">
-                Direct artist bureau operations, event liaison hubs, and tour offices coordinating performances across India and internationally.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {keyLocations.map((loc) => (
-                <div
-                  key={loc.city}
-                  className="p-5 sm:p-6 rounded-2xl bg-[#FAF8F5] border border-[#E6DFD1] hover:border-[#D8AE56] hover:shadow-lg transition-all duration-300 flex flex-col justify-between group"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="w-9 h-6 rounded overflow-hidden shadow-xs shrink-0 border border-black/10">
-                        {loc.flag}
-                      </div>
-                      <span
-                        className="px-2.5 py-1 rounded bg-[#FFFFFF] border border-[#E6DFD1] text-[10px] uppercase font-bold text-[#87672D]"
-                        style={{ fontFamily: 'Space Grotesk, monospace' }}
-                      >
-                        {loc.region}
-                      </span>
-                    </div>
-
-                    <h3
-                      className="text-xl font-bold text-[#111111] tracking-wide mb-1.5"
-                      style={{ fontFamily: 'Space Grotesk, monospace' }}
-                    >
-                      {loc.city}
-                    </h3>
-                    <p className="text-xs text-[#524E46] leading-relaxed font-normal">
-                      {loc.desc}
-                    </p>
-                  </div>
-
-                  <div className="mt-5 pt-4 border-t border-[#E6DFD1] flex items-center justify-between">
-                    <span
-                      className="text-[11px] font-bold text-[#9B7018] uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                      style={{ fontFamily: 'Space Grotesk, monospace' }}
-                    >
-                      Active Base
-                    </span>
-                    <span className="material-symbols-outlined text-[#9B7018] text-[18px]">location_on</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ========================================================= */}
-        {/* 7. DIRECT BOOKING CALLOUT BANNER                          */}
+        {/* 6. DIRECT BOOKING CALLOUT BANNER                          */}
         {/* ========================================================= */}
         <section className="w-full py-16 md:py-20 bg-[#FAF8F5] relative" id="booking">
           <div className="max-w-[1440px] mx-auto px-4 md:px-8 lg:px-16">
