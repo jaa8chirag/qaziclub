@@ -131,7 +131,8 @@ export default function Hero() {
     touchEndX.current = null;
   };
 
-  const active = slides[currentIdx];
+  const safeIdx = currentIdx < slides.length ? currentIdx : 0;
+  const active = slides[safeIdx] || slides[0] || DEFAULT_SLIDES[0];
 
   return (
     <section className="relative w-full bg-[#08070B] text-white pt-24 lg:pt-28 pb-10 overflow-hidden border-b border-[#2A2418]">
@@ -299,7 +300,7 @@ export default function Hero() {
                           className="px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[11px] font-bold text-white/90 tracking-widest"
                           style={{ fontFamily: 'Space Grotesk, monospace' }}
                         >
-                          0{currentIdx + 1} / 0{slides.length}
+                          {String(safeIdx + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}
                         </div>
                       </div>
 

@@ -130,6 +130,48 @@ export default function CRMPage() {
     });
   };
 
+  const handleAddSlide = () => {
+    setHeroConfig((prev) => {
+      const newNum = prev.slides.length + 1;
+      return {
+        ...prev,
+        slides: [
+          ...prev.slides,
+          {
+            id: Date.now(),
+            caption: `Performance Moment ${newNum}`,
+            image: '/images/hero/qazi-salman-hug.jpg',
+            accentColor: '#D8AE56',
+          },
+        ],
+      };
+    });
+  };
+
+  const handleRemoveSlide = (index) => {
+    if (heroConfig.slides.length <= 1) {
+      alert('At least 1 slide is required in the hero section.');
+      return;
+    }
+    if (!window.confirm(`Are you sure you want to delete Slide ${index + 1}?`)) return;
+    setHeroConfig((prev) => ({
+      ...prev,
+      slides: prev.slides.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleMoveSlide = (index, direction) => {
+    setHeroConfig((prev) => {
+      const nextIndex = direction === 'up' ? index - 1 : index + 1;
+      if (nextIndex < 0 || nextIndex >= prev.slides.length) return prev;
+      const newSlides = [...prev.slides];
+      const temp = newSlides[index];
+      newSlides[index] = newSlides[nextIndex];
+      newSlides[nextIndex] = temp;
+      return { ...prev, slides: newSlides };
+    });
+  };
+
   const handleImageUpload = async (slideIndex, e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -1194,11 +1236,22 @@ export default function CRMPage() {
               ) : (
                 /* TAB 2: SLIDES & IMAGES */
                 <div className="space-y-6">
-                  <div className="p-3.5 rounded-xl bg-[#1C1A17] border border-[#2B2723] text-xs text-[#C2BCB0] flex items-center justify-between gap-2">
+                  <div className="p-3.5 rounded-xl bg-[#1C1A17] border border-[#2B2723] text-xs text-[#C2BCB0] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                     <div className="flex items-center gap-2">
                       <span className="material-symbols-outlined text-[#D8AE56] text-[20px] shrink-0">photo_library</span>
-                      <span>Hero section mein auto-sliding 5 luxury photos &amp; captions yahan se manage karein.</span>
+                      <span>Hero section image slider ({heroConfig.slides.length} slides active)</span>
                     </div>
+
+                    {/* Top Add New Slide Button */}
+                    <button
+                      type="button"
+                      onClick={handleAddSlide}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-[#D8AE56] to-[#B68938] hover:brightness-110 text-[#141210] font-black text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer shrink-0"
+                      style={{ fontFamily: 'Space Grotesk, monospace' }}
+                    >
+                      <span className="material-symbols-outlined text-[18px]">add_circle</span>
+                      <span>+ Add New Slide</span>
+                    </button>
                   </div>
 
                   <div className="space-y-4">
@@ -1215,34 +1268,69 @@ export default function CRMPage() {
                             <span className="text-sm font-bold text-white" style={{ fontFamily: 'Bodoni Moda, serif' }}>
                               Slide {sIdx + 1}
                             </span>
+
+                            {/* Move Up / Down Buttons */}
+                            <div className="flex items-center gap-1 ml-2">
+                              <button
+                                type="button"
+                                disabled={sIdx === 0}
+                                onClick={() => handleMoveSlide(sIdx, 'up')}
+                                className="w-7 h-7 rounded-lg bg-[#221F1C] hover:bg-[#2C2723] text-[#A8A29E] hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed border border-[#38332C]"
+                                title="Move slide up"
+                              >
+                                <span className="material-symbols-outlined text-[16px]">arrow_upward</span>
+                              </button>
+                              <button
+                                type="button"
+                                disabled={sIdx === heroConfig.slides.length - 1}
+                                onClick={() => handleMoveSlide(sIdx, 'down')}
+                                className="w-7 h-7 rounded-lg bg-[#221F1C] hover:bg-[#2C2723] text-[#A8A29E] hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed border border-[#38332C]"
+                                title="Move slide down"
+                              >
+                                <span className="material-symbols-outlined text-[16px]">arrow_downward</span>
+                              </button>
+                            </div>
                           </div>
 
-                          {/* Accent Glow Color */}
-                          <div className="flex items-center gap-2">
-                            <span className="text-[11px] uppercase font-bold text-[#A8A29E]" style={{ fontFamily: 'Space Grotesk, monospace' }}>
-                              Glow Accent:
-                            </span>
-                            <div className="flex items-center gap-1.5">
-                              {['#D8AE56', '#F59E0B', '#E63946', '#C49742', '#10B981'].map((c) => (
-                                <button
-                                  key={c}
-                                  type="button"
-                                  onClick={() => handleSlideChange(sIdx, 'accentColor', c)}
-                                  className={`w-5 h-5 rounded-full border-2 transition-transform cursor-pointer ${
-                                    slide.accentColor === c ? 'scale-125 border-white shadow-md' : 'border-transparent opacity-60 hover:opacity-100'
-                                  }`}
-                                  style={{ backgroundColor: c }}
-                                  title={`Select color ${c}`}
+                          <div className="flex items-center gap-4">
+                            {/* Accent Glow Color */}
+                            <div className="flex items-center gap-2">
+                              <span className="text-[11px] uppercase font-bold text-[#A8A29E]" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                                Glow:
+                              </span>
+                              <div className="flex items-center gap-1.5">
+                                {['#D8AE56', '#F59E0B', '#E63946', '#C49742', '#10B981'].map((c) => (
+                                  <button
+                                    key={c}
+                                    type="button"
+                                    onClick={() => handleSlideChange(sIdx, 'accentColor', c)}
+                                    className={`w-5 h-5 rounded-full border-2 transition-transform cursor-pointer ${
+                                      slide.accentColor === c ? 'scale-125 border-white shadow-md' : 'border-transparent opacity-60 hover:opacity-100'
+                                    }`}
+                                    style={{ backgroundColor: c }}
+                                    title={`Select color ${c}`}
+                                  />
+                                ))}
+                                <input
+                                  type="color"
+                                  value={slide.accentColor || '#D8AE56'}
+                                  onChange={(e) => handleSlideChange(sIdx, 'accentColor', e.target.value)}
+                                  className="w-6 h-6 rounded cursor-pointer bg-transparent border-0"
+                                  title="Custom Hex Color"
                                 />
-                              ))}
-                              <input
-                                type="color"
-                                value={slide.accentColor || '#D8AE56'}
-                                onChange={(e) => handleSlideChange(sIdx, 'accentColor', e.target.value)}
-                                className="w-6 h-6 rounded cursor-pointer bg-transparent border-0"
-                                title="Custom Hex Color"
-                              />
+                              </div>
                             </div>
+
+                            {/* Delete Slide Button */}
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveSlide(sIdx)}
+                              className="px-2.5 py-1 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/60 text-rose-300 text-xs font-bold transition-colors flex items-center gap-1 cursor-pointer"
+                              title="Delete this slide"
+                            >
+                              <span className="material-symbols-outlined text-[15px]">delete</span>
+                              <span className="hidden sm:inline">Delete</span>
+                            </button>
                           </div>
                         </div>
 
@@ -1341,6 +1429,17 @@ export default function CRMPage() {
                         </div>
                       </div>
                     ))}
+
+                    {/* Big Add Slide Card Button */}
+                    <button
+                      type="button"
+                      onClick={handleAddSlide}
+                      className="w-full py-4 border-2 border-dashed border-[#D8AE56]/40 hover:border-[#D8AE56] rounded-2xl bg-[#161412] hover:bg-[#1E1B17] text-[#D8AE56] font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-all cursor-pointer group shadow-sm"
+                      style={{ fontFamily: 'Space Grotesk, monospace' }}
+                    >
+                      <span className="material-symbols-outlined text-[20px] transition-transform group-hover:scale-125">add_circle</span>
+                      <span>+ Add Another Slide</span>
+                    </button>
                   </div>
                 </div>
               )}
