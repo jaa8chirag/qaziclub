@@ -411,27 +411,53 @@ export default function ContactPage() {
                   </h3>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-gradient-to-r from-[#D8AE56]/15 via-[#FAF8F5] to-transparent border-2 border-[#D8AE56] shadow-sm">
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <span className="material-symbols-outlined text-[#9B7018] text-[22px]">verified</span>
-                    <h4
-                      className="text-base font-bold text-[#111111] uppercase tracking-wider"
+                <div className="p-5 rounded-2xl bg-gradient-to-br from-[#D8AE56]/15 via-[#FAF8F5] to-transparent border-2 border-[#D8AE56] shadow-sm space-y-4">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-full bg-[#D8AE56]/20 border border-[#D8AE56] flex items-center justify-center shrink-0">
+                      <span className="material-symbols-outlined text-[#9B7018] text-[18px]">verified</span>
+                    </div>
+                    <div>
+                      <h4
+                        className="text-base sm:text-lg font-bold text-[#111111] uppercase tracking-wider"
+                        style={{ fontFamily: 'Space Grotesk, monospace' }}
+                      >
+                        Artist Arena
+                      </h4>
+                      <p className="text-[11px] text-[#736B5E] font-medium">
+                        Official Exclusive Artist Management
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-[#E6DFD1] space-y-1">
+                    <span
+                      className="text-[10px] uppercase font-bold tracking-wider text-[#9B7018] block"
                       style={{ fontFamily: 'Space Grotesk, monospace' }}
                     >
-                      Qazi Touqeer Management
-                    </h4>
+                      Official Inquiry Email
+                    </span>
+                    <a
+                      href="mailto:qazi@artistarena.in"
+                      className="inline-flex items-center gap-2 text-sm sm:text-base font-bold text-[#111111] hover:text-[#9B7018] transition-colors"
+                      style={{ fontFamily: 'Space Grotesk, monospace' }}
+                    >
+                      <span className="material-symbols-outlined text-[18px] text-[#9B7018]">mail</span>
+                      <span>qazi@artistarena.in</span>
+                    </a>
                   </div>
-                  <p className="text-xs text-[#524E46] mb-2 font-medium">
-                    Official Global Management &amp; Direct Artist Desk
-                  </p>
-                  <a
-                    href="mailto:info@qaziclub.com"
-                    className="inline-flex items-center gap-2 text-sm font-black text-[#9B7018] hover:underline transition-colors"
-                    style={{ fontFamily: 'Space Grotesk, monospace' }}
-                  >
-                    <span className="material-symbols-outlined text-[18px]">mail</span>
-                    <span>info@qaziclub.com</span>
-                  </a>
+
+                  <div className="pt-3 border-t border-[#E6DFD1] space-y-1">
+                    <span
+                      className="text-[10px] uppercase font-bold tracking-wider text-[#9B7018] block"
+                      style={{ fontFamily: 'Space Grotesk, monospace' }}
+                    >
+                      Office Address
+                    </span>
+                    <div className="flex items-start gap-2 text-xs sm:text-sm text-[#38342D] font-medium leading-relaxed">
+                      <span className="material-symbols-outlined text-[18px] text-[#9B7018] shrink-0 mt-0.5">location_on</span>
+                      <span>Wave One Noida Sector - 18, UP - 201301</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 

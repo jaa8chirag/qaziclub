@@ -180,7 +180,7 @@ export default function ContactFooter() {
               </h3>
               <p className="text-xs text-[#524E46] mt-1 flex items-center justify-center gap-1.5 font-medium">
                 <span className="material-symbols-outlined text-[15px] text-[#9B7018]">mail</span>
-                <a href="mailto:info@qaziclub.com" className="text-[#9B7018] hover:underline font-bold">info@qaziclub.com</a>
+                <a href="mailto:qazi@artistarena.in" className="text-[#9B7018] hover:underline font-bold">qazi@artistarena.in</a>
               </p>
             </div>
 
@@ -371,7 +371,7 @@ export default function ContactFooter() {
                   <span>Official Payment Details &amp; Transaction Security</span>
                 </h4>
                 <ul className="list-disc pl-5 space-y-1.5 text-[#443E35]">
-                  <li>All official booking discussions and payment instructions must be verified through <a href="mailto:info@qaziclub.com" className="text-[#9B7018] font-bold underline hover:text-[#B68938]">info@qaziclub.com</a>.</li>
+                  <li>All official booking discussions and payment instructions must be verified through <a href="mailto:qazi@artistarena.in" className="text-[#9B7018] font-bold underline hover:text-[#B68938]">qazi@artistarena.in</a>.</li>
                   <li>Payments must be made only to the bank account or payment details formally communicated through the official email address after discussion and mutual acceptance by both parties.</li>
                   <li>Clients are strongly advised to verify the beneficiary name, account details, amount, and payment terms before initiating a transaction.</li>
                   <li>Qazi Touqeer Management shall not be responsible for payments made to unauthorised individuals, personal accounts, unverified payment links, or third-party accounts not formally approved in writing by the authorised management.</li>
