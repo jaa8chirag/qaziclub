@@ -22,6 +22,174 @@ export default function CRMPage() {
   // Selected lead for detail modal
   const [activeLead, setActiveLead] = useState(null);
 
+  // -------------------------------------------------------------
+  // HERO SECTION LIVE EDITOR STATE & HANDLERS
+  // -------------------------------------------------------------
+  const [heroModalOpen, setHeroModalOpen] = useState(false);
+  const [heroTab, setHeroTab] = useState('texts'); // 'texts' | 'slides'
+  const [heroLoading, setHeroLoading] = useState(false);
+  const [heroSaving, setHeroSaving] = useState(false);
+  const [heroSaveSuccess, setHeroSaveSuccess] = useState('');
+  const [heroError, setHeroError] = useState('');
+  const [uploadingSlideIdx, setUploadingSlideIdx] = useState(null);
+
+  const defaultHeroState = useMemo(() => ({
+    texts: {
+      celebrityBadge: 'FAME GURUKUL WINNER • BIGG BOSS PHENOMENON • AFGHAN JALEBI FAME',
+      title: 'QAZI TOUQEER',
+      rockstarSlogan: '“I am a Rockstar Baby Auuuuu….”',
+      tagline: 'ACTOR • PERFORMER • SINGER',
+      punchline: '“Awaaz Jo Dil Se Nikle, Stage Pe Aag Laga De”',
+      bio: 'The iconic singer and powerhouse stage performer. From winning national hearts to lighting up the stage with Salman Khan, Qazi delivers an adrenaline-fueled arena experience for College Fests, Stadium Arenas, Royal Sangeets, and VIP Events.',
+      ctaText: 'BOOK AN EVENT',
+      ctaLink: '/book-me',
+    },
+    slides: [
+      {
+        id: 1,
+        caption: 'Moments of Glory with Salman Khan',
+        image: '/images/hero/qazi-salman-hug.jpg',
+        accentColor: '#D8AE56',
+      },
+      {
+        id: 2,
+        caption: 'Rockstar Live Arena & Campus Fest',
+        image: '/images/hero/qazi-mic-black.jpg',
+        accentColor: '#F59E0B',
+      },
+      {
+        id: 3,
+        caption: 'High-Voltage Entertainment with Salman Khan',
+        image: '/images/hero/qazi-salman-biggboss.jpg',
+        accentColor: '#E63946',
+      },
+      {
+        id: 4,
+        caption: 'Velvet & Regal Swag for Royal Sangeets',
+        image: '/images/hero/qazi-brown-jacket.jpg',
+        accentColor: '#C49742',
+      },
+      {
+        id: 5,
+        caption: 'Raw Acoustic Charm & VIP Connection',
+        image: '/images/hero/qazi-white-shirt.jpg',
+        accentColor: '#10B981',
+      },
+    ],
+  }), []);
+
+  const [heroConfig, setHeroConfig] = useState(defaultHeroState);
+
+  const fetchHeroConfig = async () => {
+    setHeroLoading(true);
+    setHeroError('');
+    try {
+      const res = await fetch('/api/inquiry.php?action=get_hero');
+      const data = await res.json();
+      if (data.success && data.data) {
+        setHeroConfig({
+          texts: { ...defaultHeroState.texts, ...(data.data.texts || {}) },
+          slides: Array.isArray(data.data.slides) && data.data.slides.length > 0 ? data.data.slides : defaultHeroState.slides,
+        });
+      } else {
+        const staticRes = await fetch('/data/hero_config.json');
+        const staticData = await staticRes.json();
+        if (staticData && staticData.texts) {
+          setHeroConfig({
+            texts: { ...defaultHeroState.texts, ...(staticData.texts || {}) },
+            slides: Array.isArray(staticData.slides) && staticData.slides.length > 0 ? staticData.slides : defaultHeroState.slides,
+          });
+        }
+      }
+    } catch {
+      // Keep current state
+    } finally {
+      setHeroLoading(false);
+    }
+  };
+
+  const handleOpenHeroModal = () => {
+    setHeroModalOpen(true);
+    setHeroSaveSuccess('');
+    setHeroError('');
+    fetchHeroConfig();
+  };
+
+  const handleTextChange = (field, val) => {
+    setHeroConfig((prev) => ({
+      ...prev,
+      texts: { ...prev.texts, [field]: val },
+    }));
+  };
+
+  const handleSlideChange = (index, field, val) => {
+    setHeroConfig((prev) => {
+      const nextSlides = [...prev.slides];
+      nextSlides[index] = { ...nextSlides[index], [field]: val };
+      return { ...prev, slides: nextSlides };
+    });
+  };
+
+  const handleImageUpload = async (slideIndex, e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingSlideIdx(slideIndex);
+    setHeroError('');
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+      formData.append('pin', pin);
+      const res = await fetch('/api/inquiry.php?action=upload_hero_image', {
+        method: 'POST',
+        headers: {
+          'X-Admin-Pin': pin,
+        },
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.success && data.url) {
+        handleSlideChange(slideIndex, 'image', data.url);
+      } else {
+        setHeroError(data.error || 'Failed to upload image');
+      }
+    } catch {
+      setHeroError('Failed to upload image. Please check server connection.');
+    } finally {
+      setUploadingSlideIdx(null);
+    }
+  };
+
+  const handleSaveHero = async () => {
+    setHeroSaving(true);
+    setHeroSaveSuccess('');
+    setHeroError('');
+    try {
+      const res = await fetch(`/api/inquiry.php?action=update_hero&pin=${encodeURIComponent(pin)}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Admin-Pin': pin,
+        },
+        body: JSON.stringify({
+          action: 'update_hero',
+          pin: pin,
+          hero: heroConfig,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setHeroSaveSuccess('✓ Hero Section Updated Live!');
+        setTimeout(() => setHeroSaveSuccess(''), 4000);
+      } else {
+        setHeroError(data.error || 'Failed to save changes');
+      }
+    } catch {
+      setHeroError('Could not reach backend API.');
+    } finally {
+      setHeroSaving(false);
+    }
+  };
+
   // Check stored session pin
   useEffect(() => {
     const savedPin = typeof window !== 'undefined' ? sessionStorage.getItem('qazi_crm_pin') : null;
@@ -88,7 +256,7 @@ export default function CRMPage() {
 
   const handleStatusChange = async (id, newStatus) => {
     try {
-      const res = await fetch('/api/inquiry.php', {
+      const res = await fetch(`/api/inquiry.php?action=update_status&pin=${encodeURIComponent(pin)}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -118,7 +286,7 @@ export default function CRMPage() {
   const handleDelete = async (id) => {
     if (!window.confirm(`Are you sure you want to delete inquiry #${id}?`)) return;
     try {
-      const res = await fetch('/api/inquiry.php', {
+      const res = await fetch(`/api/inquiry.php?action=delete&pin=${encodeURIComponent(pin)}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -279,6 +447,18 @@ export default function CRMPage() {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Hero Section Live Editor Button */}
+            <button
+              onClick={handleOpenHeroModal}
+              className="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#D8AE56] via-[#F3D084] to-[#B68938] hover:opacity-95 text-xs font-black text-[#141210] uppercase tracking-wider transition-all shadow-[0_2px_12px_rgba(216,174,86,0.35)] cursor-pointer"
+              style={{ fontFamily: 'Space Grotesk, monospace' }}
+              title="Edit Hero Section Images & Texts"
+            >
+              <span className="material-symbols-outlined text-[17px]">tune</span>
+              <span className="hidden sm:inline">Hero Section Editor</span>
+              <span className="inline sm:hidden">Hero Editor</span>
+            </button>
+
             {/* Refresh Button */}
             <button
               onClick={() => fetchInquiries(pin)}
@@ -798,6 +978,423 @@ export default function CRMPage() {
                   <span>Email</span>
                 </a>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ======================================================== */}
+      {/* HERO SECTION LIVE EDITOR MODAL                           */}
+      {/* ======================================================== */}
+      {heroModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-fadeIn">
+          <div className="bg-[#141210] border-2 border-[#D8AE56]/50 rounded-3xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-[0_20px_60px_rgba(0,0,0,0.9)] overflow-hidden">
+            {/* Modal Top Header */}
+            <div className="p-4 sm:p-6 border-b border-[#292520] flex items-center justify-between gap-4 bg-[#191613]">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#D8AE56] to-[#9B7018] flex items-center justify-center text-[#141210] shadow-md">
+                  <span className="material-symbols-outlined text-[22px]">tune</span>
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] uppercase tracking-widest text-[#D8AE56] font-extrabold" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                      Homepage Customizer
+                    </span>
+                    <span className="px-2 py-0.5 rounded-full bg-[#10B981]/20 border border-[#10B981]/40 text-[#10B981] text-[9px] font-bold uppercase tracking-wider">
+                      Live Sync
+                    </span>
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-black text-white" style={{ fontFamily: 'Bodoni Moda, serif' }}>
+                    Hero Section Editor
+                  </h2>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/"
+                  target="_blank"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#221F1C] hover:bg-[#2B2723] text-xs font-bold text-[#D8AE56] border border-[#38332C] transition-colors"
+                  style={{ fontFamily: 'Space Grotesk, monospace' }}
+                >
+                  <span>View Live Site</span>
+                  <span className="material-symbols-outlined text-[16px]">open_in_new</span>
+                </Link>
+                <button
+                  onClick={() => setHeroModalOpen(false)}
+                  className="w-9 h-9 rounded-full bg-[#221F1C] hover:bg-[#2F2A25] text-white flex items-center justify-center cursor-pointer transition-colors border border-[#38332C]"
+                >
+                  <span className="material-symbols-outlined text-[20px]">close</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Navigation Tabs */}
+            <div className="flex items-center border-b border-[#292520] bg-[#161412] px-4 sm:px-6">
+              <button
+                type="button"
+                onClick={() => setHeroTab('texts')}
+                className={`py-3 px-4 text-xs uppercase font-extrabold tracking-wider border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
+                  heroTab === 'texts'
+                    ? 'border-[#D8AE56] text-[#D8AE56]'
+                    : 'border-transparent text-[#A8A29E] hover:text-white'
+                }`}
+                style={{ fontFamily: 'Space Grotesk, monospace' }}
+              >
+                <span className="material-symbols-outlined text-[18px]">edit_note</span>
+                <span>Texts &amp; Headlines</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setHeroTab('slides')}
+                className={`py-3 px-4 text-xs uppercase font-extrabold tracking-wider border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
+                  heroTab === 'slides'
+                    ? 'border-[#D8AE56] text-[#D8AE56]'
+                    : 'border-transparent text-[#A8A29E] hover:text-white'
+                }`}
+                style={{ fontFamily: 'Space Grotesk, monospace' }}
+              >
+                <span className="material-symbols-outlined text-[18px]">collections</span>
+                <span>Slider Images &amp; Captions ({heroConfig.slides.length})</span>
+              </button>
+            </div>
+
+            {/* Modal Body (Scrollable) */}
+            <div className="p-4 sm:p-6 overflow-y-auto space-y-6 flex-1 text-left">
+              {heroLoading ? (
+                <div className="py-20 text-center space-y-3">
+                  <span className="material-symbols-outlined text-4xl text-[#D8AE56] animate-spin">sync</span>
+                  <p className="text-xs text-[#A8A29E] uppercase tracking-widest font-bold">Loading Hero Configuration...</p>
+                </div>
+              ) : heroTab === 'texts' ? (
+                /* TAB 1: TEXTS */
+                <div className="space-y-5">
+                  <div className="p-3.5 rounded-xl bg-[#1C1A17] border border-[#2B2723] text-xs text-[#C2BCB0] flex items-center gap-2">
+                    <span className="material-symbols-outlined text-[#D8AE56] text-[20px] shrink-0">info</span>
+                    <span>Yahan update kiya gaya text directly Homepage ke Hero section mein display hoga.</span>
+                  </div>
+
+                  {/* Celebrity Badge */}
+                  <div>
+                    <label className="block text-xs uppercase font-bold text-[#D8AE56] tracking-wider mb-1.5" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                      Celebrity Status Badge / Accolades Strip
+                    </label>
+                    <input
+                      type="text"
+                      value={heroConfig.texts.celebrityBadge || ''}
+                      onChange={(e) => handleTextChange('celebrityBadge', e.target.value)}
+                      placeholder="e.g. FAME GURUKUL WINNER • BIGG BOSS PHENOMENON • AFGHAN JALEBI FAME"
+                      className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all"
+                    />
+                    <span className="text-[11px] text-[#7A7366] mt-1 block">Desktop par golden badge aur mobile par continuous moving ticker mein yahi text show hota hai.</span>
+                  </div>
+
+                  {/* Main Title & Rockstar Slogan */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs uppercase font-bold text-[#D8AE56] tracking-wider mb-1.5" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                        Artist Main Title
+                      </label>
+                      <input
+                        type="text"
+                        value={heroConfig.texts.title || ''}
+                        onChange={(e) => handleTextChange('title', e.target.value)}
+                        placeholder="e.g. QAZI TOUQEER"
+                        className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all font-bold"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs uppercase font-bold text-[#D8AE56] tracking-wider mb-1.5" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                        Rockstar Slogan Pill (Red Badge)
+                      </label>
+                      <input
+                        type="text"
+                        value={heroConfig.texts.rockstarSlogan || ''}
+                        onChange={(e) => handleTextChange('rockstarSlogan', e.target.value)}
+                        placeholder='e.g. "I am a Rockstar Baby Auuuuu…."'
+                        className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Tagline & Hindi Punchline */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs uppercase font-bold text-[#D8AE56] tracking-wider mb-1.5" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                        Artist Tagline
+                      </label>
+                      <input
+                        type="text"
+                        value={heroConfig.texts.tagline || ''}
+                        onChange={(e) => handleTextChange('tagline', e.target.value)}
+                        placeholder="e.g. ACTOR • PERFORMER • SINGER"
+                        className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs uppercase font-bold text-[#D8AE56] tracking-wider mb-1.5" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                        Hindi Iconic Punchline
+                      </label>
+                      <input
+                        type="text"
+                        value={heroConfig.texts.punchline || ''}
+                        onChange={(e) => handleTextChange('punchline', e.target.value)}
+                        placeholder='e.g. "Awaaz Jo Dil Se Nikle, Stage Pe Aag Laga De"'
+                        className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all italic"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Bio Paragraph */}
+                  <div>
+                    <label className="block text-xs uppercase font-bold text-[#D8AE56] tracking-wider mb-1.5" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                      Hero Bio Paragraph
+                    </label>
+                    <textarea
+                      rows="3"
+                      value={heroConfig.texts.bio || ''}
+                      onChange={(e) => handleTextChange('bio', e.target.value)}
+                      placeholder="Enter description paragraph..."
+                      className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all leading-relaxed"
+                    />
+                  </div>
+
+                  {/* CTA Button Text & Link */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs uppercase font-bold text-[#D8AE56] tracking-wider mb-1.5" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                        CTA Button Label
+                      </label>
+                      <input
+                        type="text"
+                        value={heroConfig.texts.ctaText || ''}
+                        onChange={(e) => handleTextChange('ctaText', e.target.value)}
+                        placeholder="e.g. BOOK AN EVENT"
+                        className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all font-bold"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs uppercase font-bold text-[#D8AE56] tracking-wider mb-1.5" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                        CTA Button Link
+                      </label>
+                      <input
+                        type="text"
+                        value={heroConfig.texts.ctaLink || ''}
+                        onChange={(e) => handleTextChange('ctaLink', e.target.value)}
+                        placeholder="e.g. /book-me"
+                        className="w-full bg-[#1C1A17] border-2 border-[#2E2923] focus:border-[#D8AE56] text-white px-4 py-3 rounded-xl text-xs sm:text-sm outline-none transition-all"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                /* TAB 2: SLIDES & IMAGES */
+                <div className="space-y-6">
+                  <div className="p-3.5 rounded-xl bg-[#1C1A17] border border-[#2B2723] text-xs text-[#C2BCB0] flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[#D8AE56] text-[20px] shrink-0">photo_library</span>
+                      <span>Hero section mein auto-sliding 5 luxury photos &amp; captions yahan se manage karein.</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    {heroConfig.slides.map((slide, sIdx) => (
+                      <div
+                        key={slide.id || sIdx}
+                        className="bg-[#1A1815] border-2 border-[#2F2A23] hover:border-[#D8AE56]/60 rounded-2xl p-4 sm:p-5 transition-all space-y-4"
+                      >
+                        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <span className="w-8 h-8 rounded-full bg-[#2A251E] border border-[#D8AE56]/40 text-[#D8AE56] text-xs font-black flex items-center justify-center">
+                              0{sIdx + 1}
+                            </span>
+                            <span className="text-sm font-bold text-white" style={{ fontFamily: 'Bodoni Moda, serif' }}>
+                              Slide {sIdx + 1}
+                            </span>
+                          </div>
+
+                          {/* Accent Glow Color */}
+                          <div className="flex items-center gap-2">
+                            <span className="text-[11px] uppercase font-bold text-[#A8A29E]" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                              Glow Accent:
+                            </span>
+                            <div className="flex items-center gap-1.5">
+                              {['#D8AE56', '#F59E0B', '#E63946', '#C49742', '#10B981'].map((c) => (
+                                <button
+                                  key={c}
+                                  type="button"
+                                  onClick={() => handleSlideChange(sIdx, 'accentColor', c)}
+                                  className={`w-5 h-5 rounded-full border-2 transition-transform cursor-pointer ${
+                                    slide.accentColor === c ? 'scale-125 border-white shadow-md' : 'border-transparent opacity-60 hover:opacity-100'
+                                  }`}
+                                  style={{ backgroundColor: c }}
+                                  title={`Select color ${c}`}
+                                />
+                              ))}
+                              <input
+                                type="color"
+                                value={slide.accentColor || '#D8AE56'}
+                                onChange={(e) => handleSlideChange(sIdx, 'accentColor', e.target.value)}
+                                className="w-6 h-6 rounded cursor-pointer bg-transparent border-0"
+                                title="Custom Hex Color"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+                          {/* Live Thumbnail Preview */}
+                          <div className="md:col-span-3">
+                            <div className="relative w-full aspect-[4/5] rounded-xl overflow-hidden bg-[#0A090E] border-2 border-[#38332C] shadow-md group">
+                              <img
+                                src={slide.image || '/images/hero/qazi-salman-hug.jpg'}
+                                alt={slide.caption || 'Slide'}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = '/images/hero/qazi-salman-hug.jpg';
+                                }}
+                              />
+                              <div
+                                className="absolute bottom-0 inset-x-0 h-1"
+                                style={{ backgroundColor: slide.accentColor || '#D8AE56' }}
+                              />
+                            </div>
+                          </div>
+
+                          {/* Inputs & Upload Control */}
+                          <div className="md:col-span-9 space-y-3">
+                            {/* Slide Caption */}
+                            <div>
+                              <label className="block text-[11px] uppercase font-bold text-[#D8AE56] tracking-wider mb-1" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                                Slide Caption
+                              </label>
+                              <input
+                                type="text"
+                                value={slide.caption || ''}
+                                onChange={(e) => handleSlideChange(sIdx, 'caption', e.target.value)}
+                                placeholder="Enter slide caption..."
+                                className="w-full bg-[#221F1C] border border-[#38332C] focus:border-[#D8AE56] text-white px-3.5 py-2.5 rounded-xl text-xs sm:text-sm outline-none transition-all font-medium"
+                              />
+                            </div>
+
+                            {/* Image Path / URL & Upload */}
+                            <div>
+                              <label className="block text-[11px] uppercase font-bold text-[#D8AE56] tracking-wider mb-1" style={{ fontFamily: 'Space Grotesk, monospace' }}>
+                                Image Path or URL
+                              </label>
+                              <div className="flex flex-col sm:flex-row gap-2">
+                                <input
+                                  type="text"
+                                  value={slide.image || ''}
+                                  onChange={(e) => handleSlideChange(sIdx, 'image', e.target.value)}
+                                  placeholder="/images/hero/qazi-salman-hug.jpg"
+                                  className="flex-1 bg-[#221F1C] border border-[#38332C] focus:border-[#D8AE56] text-white px-3.5 py-2.5 rounded-xl text-xs outline-none transition-all font-mono"
+                                />
+
+                                {/* Upload Button */}
+                                <label className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-[#2E2820] hover:bg-[#D8AE56] text-[#D8AE56] hover:text-[#141210] font-bold text-xs uppercase tracking-wider transition-all border border-[#D8AE56]/40 cursor-pointer shrink-0">
+                                  <span className={`material-symbols-outlined text-[16px] ${uploadingSlideIdx === sIdx ? 'animate-spin' : ''}`}>
+                                    {uploadingSlideIdx === sIdx ? 'sync' : 'upload_file'}
+                                  </span>
+                                  <span>{uploadingSlideIdx === sIdx ? 'Uploading...' : 'Upload Photo'}</span>
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    className="hidden"
+                                    disabled={uploadingSlideIdx !== null}
+                                    onChange={(e) => handleImageUpload(sIdx, e)}
+                                  />
+                                </label>
+                              </div>
+                            </div>
+
+                            {/* Quick Preset Selector */}
+                            <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                              <span className="text-[10px] uppercase font-bold text-[#7A7366]">Quick Presets:</span>
+                              {[
+                                { label: 'Salman Hug', path: '/images/hero/qazi-salman-hug.jpg' },
+                                { label: 'Rockstar Mic', path: '/images/hero/qazi-mic-black.jpg' },
+                                { label: 'Bigg Boss', path: '/images/hero/qazi-salman-biggboss.jpg' },
+                                { label: 'Brown Jacket', path: '/images/hero/qazi-brown-jacket.jpg' },
+                                { label: 'White Shirt', path: '/images/hero/qazi-white-shirt.jpg' },
+                              ].map((preset) => (
+                                <button
+                                  key={preset.path}
+                                  type="button"
+                                  onClick={() => handleSlideChange(sIdx, 'image', preset.path)}
+                                  className={`px-2 py-1 rounded-lg text-[10px] font-bold transition-colors cursor-pointer border ${
+                                    slide.image === preset.path
+                                      ? 'bg-[#D8AE56] text-[#141210] border-[#D8AE56]'
+                                      : 'bg-[#221F1C] text-[#A8A29E] border-[#38332C] hover:text-white'
+                                  }`}
+                                >
+                                  {preset.label}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Bottom Footer / Action Bar */}
+            <div className="p-4 sm:p-6 border-t border-[#292520] bg-[#191613] flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                {heroSaveSuccess && (
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 bg-emerald-950/50 border border-emerald-500/40 px-3 py-1.5 rounded-xl">
+                    <span className="material-symbols-outlined text-[16px]">check_circle</span>
+                    <span>{heroSaveSuccess}</span>
+                  </span>
+                )}
+                {heroError && (
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-400 bg-rose-950/50 border border-rose-500/40 px-3 py-1.5 rounded-xl">
+                    <span className="material-symbols-outlined text-[16px]">error</span>
+                    <span>{heroError}</span>
+                  </span>
+                )}
+              </div>
+
+              <div className="flex items-center gap-2.5 w-full sm:w-auto justify-end">
+                <button
+                  type="button"
+                  onClick={() => setHeroConfig(defaultHeroState)}
+                  className="px-4 py-2.5 rounded-xl bg-[#221F1C] hover:bg-[#2C2723] text-xs font-bold text-[#A8A29E] hover:text-white border border-[#38332C] transition-colors cursor-pointer"
+                  style={{ fontFamily: 'Space Grotesk, monospace' }}
+                >
+                  Reset Defaults
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setHeroModalOpen(false)}
+                  className="px-4 py-2.5 rounded-xl bg-[#221F1C] hover:bg-[#2C2723] text-xs font-bold text-white border border-[#38332C] transition-colors cursor-pointer"
+                  style={{ fontFamily: 'Space Grotesk, monospace' }}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="button"
+                  disabled={heroSaving}
+                  onClick={handleSaveHero}
+                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#D8AE56] via-[#F3D084] to-[#B68938] hover:brightness-105 text-[#1A1203] text-xs uppercase font-black tracking-wider transition-all shadow-[0_4px_16px_rgba(216,174,86,0.35)] cursor-pointer disabled:opacity-50"
+                  style={{ fontFamily: 'Space Grotesk, monospace' }}
+                >
+                  <span className={`material-symbols-outlined text-[18px] ${heroSaving ? 'animate-spin' : ''}`}>
+                    {heroSaving ? 'sync' : 'save'}
+                  </span>
+                  <span>{heroSaving ? 'Saving Changes...' : 'Save & Publish Live'}</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>

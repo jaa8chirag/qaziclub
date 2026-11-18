@@ -1,0 +1,44 @@
+{
+    "slides": [
+        {
+            "caption": "Moments of Glory with Salman Khan",
+            "id": 1,
+            "accentColor": "#D8AE56",
+            "image": "/images/hero/qazi-salman-hug.jpg"
+        },
+        {
+            "caption": "Rockstar Live Arena & Campus Fest",
+            "id": 2,
+            "accentColor": "#F59E0B",
+            "image": "/images/hero/qazi-mic-black.jpg"
+        },
+        {
+            "caption": "High-Voltage Entertainment with Salman Khan",
+            "id": 3,
+            "accentColor": "#E63946",
+            "image": "/images/hero/qazi-salman-biggboss.jpg"
+        },
+        {
+            "caption": "Velvet & Regal Swag for Royal Sangeets",
+            "id": 4,
+            "accentColor": "#C49742",
+            "image": "/images/hero/qazi-brown-jacket.jpg"
+        },
+        {
+            "caption": "Raw Acoustic Charm & VIP Connection",
+            "id": 5,
+            "accentColor": "#10B981",
+            "image": "/images/hero/qazi-white-shirt.jpg"
+        }
+    ],
+    "texts": {
+        "ctaText": "BOOK AN EVENT",
+        "title": "QAZI TOUQEER",
+        "bio": "The iconic singer and powerhouse stage performer. From winning national hearts to lighting up the stage with Salman Khan, Qazi delivers an adrenaline-fueled arena experience for College Fests, Stadium Arenas, Royal Sangeets, and VIP Events.",
+        "tagline": "ACTOR • PERFORMER • SINGER",
+        "ctaLink": "/book-me",
+        "celebrityBadge": "FAME GURUKUL WINNER • BIGG BOSS PHENOMENON • AFGHAN JALEBI FAME",
+        "rockstarSlogan": "“I am a Rockstar Baby Auuuuu….”",
+        "punchline": "“Awaaz Jo Dil Se Nikle, Stage Pe Aag Laga De”"
+    }
+}

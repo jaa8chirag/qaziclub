@@ -173,9 +173,35 @@ HTML;
 }
 
 // -------------------------------------------------------------
+// PUBLIC ACTION: GET HERO CONFIG
+// -------------------------------------------------------------
+if ($action === 'get_hero') {
+    header('Content-Type: application/json');
+    $heroFile = $DATA_DIR . '/hero_config.json';
+    $publicHeroFile = dirname(__DIR__) . '/data/hero_config.json';
+    if (file_exists($heroFile)) {
+        $content = file_get_contents($heroFile);
+        $json = json_decode($content, true);
+        if ($json) {
+            echo json_encode(['success' => true, 'data' => $json]);
+            exit;
+        }
+    } elseif (file_exists($publicHeroFile)) {
+        $content = file_get_contents($publicHeroFile);
+        $json = json_decode($content, true);
+        if ($json) {
+            echo json_encode(['success' => true, 'data' => $json]);
+            exit;
+        }
+    }
+    echo json_encode(['success' => false, 'message' => 'Using client defaults']);
+    exit;
+}
+
+// -------------------------------------------------------------
 // 1. CRM ADMIN ACTIONS (Protected with PIN)
 // -------------------------------------------------------------
-if ($action === 'list' || $action === 'update_status' || $action === 'delete' || $action === 'export_csv' || $action === 'test_email') {
+if ($action === 'list' || $action === 'update_status' || $action === 'delete' || $action === 'export_csv' || $action === 'test_email' || $action === 'update_hero' || $action === 'upload_hero_image') {
     $providedPin = '';
     if (isset($_SERVER['HTTP_X_ADMIN_PIN'])) {
         $providedPin = $_SERVER['HTTP_X_ADMIN_PIN'];
@@ -319,6 +345,82 @@ if ($action === 'list' || $action === 'update_status' || $action === 'delete' ||
             'target' => 'info@qaziclub.com'
         ]);
         exit;
+    }
+
+    // Action: UPDATE HERO
+    if ($action === 'update_hero') {
+        header('Content-Type: application/json');
+        $heroData = $data['hero'] ?? null;
+        if (is_string($heroData)) {
+            $heroData = json_decode($heroData, true);
+        }
+        if (!$heroData && isset($data['texts'])) {
+            $heroData = $data;
+        }
+        if (!$heroData || !is_array($heroData)) {
+            echo json_encode(['success' => false, 'error' => 'Invalid hero data payload', 'received_keys' => array_keys($data ?: [])]);
+            exit;
+        }
+        $heroFile = $DATA_DIR . '/hero_config.json';
+        $publicHeroDir = dirname(__DIR__) . '/data';
+        if (!file_exists($publicHeroDir)) {
+            @mkdir($publicHeroDir, 0755, true);
+        }
+        $publicHeroFile = $publicHeroDir . '/hero_config.json';
+
+        $saved1 = @file_put_contents($heroFile, json_encode($heroData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+        $saved2 = @file_put_contents($publicHeroFile, json_encode($heroData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+
+        echo json_encode([
+            'success' => true,
+            'message' => 'Hero section settings saved successfully!',
+            'data' => $heroData
+        ]);
+        exit;
+    }
+
+    // Action: UPLOAD HERO IMAGE
+    if ($action === 'upload_hero_image') {
+        header('Content-Type: application/json');
+        if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+            echo json_encode(['success' => false, 'error' => 'No image uploaded or upload error occurred']);
+            exit;
+        }
+
+        $file = $_FILES['image'];
+        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $allowed = ['jpg', 'jpeg', 'png', 'webp', 'avif'];
+        if (!in_array($ext, $allowed)) {
+            echo json_encode(['success' => false, 'error' => 'Invalid file format. Allowed: JPG, PNG, WEBP, AVIF']);
+            exit;
+        }
+
+        if ($file['size'] > 10 * 1024 * 1024) {
+            echo json_encode(['success' => false, 'error' => 'Image size exceeds maximum limit of 10MB']);
+            exit;
+        }
+
+        $heroUploadDir = dirname(__DIR__) . '/images/hero';
+        if (!file_exists($heroUploadDir)) {
+            @mkdir($heroUploadDir, 0755, true);
+        }
+
+        $cleanName = preg_replace('/[^a-zA-Z0-9_\-]/', '', pathinfo($file['name'], PATHINFO_FILENAME));
+        $filename = 'hero_' . time() . '_' . substr($cleanName, 0, 20) . '.' . $ext;
+        $dest = $heroUploadDir . '/' . $filename;
+
+        if (move_uploaded_file($file['tmp_name'], $dest)) {
+            $webUrl = '/images/hero/' . $filename;
+            echo json_encode([
+                'success' => true,
+                'message' => 'Hero image uploaded successfully!',
+                'url' => $webUrl
+            ]);
+            exit;
+        } else {
+            echo json_encode(['success' => false, 'error' => 'Failed to save uploaded image on server disk']);
+            exit;
+        }
     }
 }
 

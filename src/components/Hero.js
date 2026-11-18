@@ -3,60 +3,88 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 
+const DEFAULT_TEXTS = {
+  celebrityBadge: 'FAME GURUKUL WINNER • BIGG BOSS PHENOMENON • AFGHAN JALEBI FAME',
+  title: 'QAZI TOUQEER',
+  rockstarSlogan: '“I am a Rockstar Baby Auuuuu….”',
+  tagline: 'ACTOR • PERFORMER • SINGER',
+  punchline: '“Awaaz Jo Dil Se Nikle, Stage Pe Aag Laga De”',
+  bio: 'The iconic singer and powerhouse stage performer. From winning national hearts to lighting up the stage with Salman Khan, Qazi delivers an adrenaline-fueled arena experience for College Fests, Stadium Arenas, Royal Sangeets, and VIP Events.',
+  ctaText: 'BOOK AN EVENT',
+  ctaLink: '/book-me',
+};
+
+const DEFAULT_SLIDES = [
+  {
+    id: 1,
+    caption: 'Moments of Glory with Salman Khan',
+    image: '/images/hero/qazi-salman-hug.jpg',
+    accentColor: '#D8AE56',
+  },
+  {
+    id: 2,
+    caption: 'Rockstar Live Arena & Campus Fest',
+    image: '/images/hero/qazi-mic-black.jpg',
+    accentColor: '#F59E0B',
+  },
+  {
+    id: 3,
+    caption: 'High-Voltage Entertainment with Salman Khan',
+    image: '/images/hero/qazi-salman-biggboss.jpg',
+    accentColor: '#E63946',
+  },
+  {
+    id: 4,
+    caption: 'Velvet & Regal Swag for Royal Sangeets',
+    image: '/images/hero/qazi-brown-jacket.jpg',
+    accentColor: '#C49742',
+  },
+  {
+    id: 5,
+    caption: 'Raw Acoustic Charm & VIP Connection',
+    image: '/images/hero/qazi-white-shirt.jpg',
+    accentColor: '#10B981',
+  },
+];
+
 export default function Hero() {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef(null);
   const touchEndX = useRef(null);
 
-  // Mobile Accolades Text Slider
-  const accolades = [
-    'FAME GURUKUL WINNER',
-    'BIGG BOSS PHENOMENON',
-    'AFGHAN JALEBI FAME',
-  ];
-  const [accoladeIdx, setAccoladeIdx] = useState(0);
+  const [heroTexts, setHeroTexts] = useState(DEFAULT_TEXTS);
+  const [slides, setSlides] = useState(DEFAULT_SLIDES);
 
+  // Fetch updated hero configuration from API or static JSON
   useEffect(() => {
-    const timer = setInterval(() => {
-      setAccoladeIdx((prev) => (prev + 1) % accolades.length);
-    }, 2800);
-    return () => clearInterval(timer);
-  }, [accolades.length]);
-
-  // 5 Edited, High-Definition Luxury Photos of Qazi & Salman Khan
-  const slides = [
-    {
-      id: 1,
-      caption: 'Moments of Glory with Salman Khan',
-      image: '/images/hero/qazi-salman-hug.jpg',
-      accentColor: '#D8AE56',
-    },
-    {
-      id: 2,
-      caption: 'Rockstar Live Arena & Campus Fest',
-      image: '/images/hero/qazi-mic-black.jpg',
-      accentColor: '#F59E0B',
-    },
-    {
-      id: 3,
-      caption: 'High-Voltage Entertainment with Salman Khan',
-      image: '/images/hero/qazi-salman-biggboss.jpg',
-      accentColor: '#E63946',
-    },
-    {
-      id: 4,
-      caption: 'Velvet & Regal Swag for Royal Sangeets',
-      image: '/images/hero/qazi-brown-jacket.jpg',
-      accentColor: '#C49742',
-    },
-    {
-      id: 5,
-      caption: 'Raw Acoustic Charm & VIP Connection',
-      image: '/images/hero/qazi-white-shirt.jpg',
-      accentColor: '#10B981',
-    },
-  ];
+    const fetchHeroConfig = async () => {
+      try {
+        const res = await fetch('/api/inquiry.php?action=get_hero');
+        const data = await res.json();
+        if (data.success && data.data) {
+          if (data.data.texts) {
+            setHeroTexts((prev) => ({ ...prev, ...data.data.texts }));
+          }
+          if (Array.isArray(data.data.slides) && data.data.slides.length > 0) {
+            setSlides(data.data.slides);
+          }
+        } else {
+          const staticRes = await fetch('/data/hero_config.json');
+          const staticData = await staticRes.json();
+          if (staticData && staticData.texts) {
+            setHeroTexts((prev) => ({ ...prev, ...staticData.texts }));
+          }
+          if (staticData && Array.isArray(staticData.slides) && staticData.slides.length > 0) {
+            setSlides(staticData.slides);
+          }
+        }
+      } catch {
+        // Fallback to defaults
+      }
+    };
+    fetchHeroConfig();
+  }, []);
 
   const handleNext = useCallback(() => {
     setCurrentIdx((prev) => (prev + 1) % slides.length);
@@ -138,7 +166,7 @@ export default function Hero() {
                 className="text-xs uppercase font-bold tracking-[0.2em] text-[#F3D084]"
                 style={{ fontFamily: 'Space Grotesk, monospace' }}
               >
-                FAME GURUKUL WINNER • BIGG BOSS PHENOMENON • AFGHAN JALEBI FAME
+                {heroTexts.celebrityBadge}
               </span>
             </div>
 
@@ -151,13 +179,13 @@ export default function Hero() {
                     className="text-[11px] uppercase font-bold tracking-[0.18em] text-[#F3D084] whitespace-nowrap"
                     style={{ fontFamily: 'Space Grotesk, monospace' }}
                   >
-                    FAME GURUKUL WINNER • BIGG BOSS PHENOMENON • AFGHAN JALEBI FAME •
+                    {heroTexts.celebrityBadge} •
                   </span>
                   <span
                     className="text-[11px] uppercase font-bold tracking-[0.18em] text-[#F3D084] whitespace-nowrap"
                     style={{ fontFamily: 'Space Grotesk, monospace' }}
                   >
-                    FAME GURUKUL WINNER • BIGG BOSS PHENOMENON • AFGHAN JALEBI FAME •
+                    {heroTexts.celebrityBadge} •
                   </span>
                 </div>
               </div>
@@ -173,47 +201,53 @@ export default function Hero() {
                     filter: 'drop-shadow(0 0 30px rgba(216,174,86,0.3))',
                   }}
                 >
-                  QAZI TOUQEER
+                  {heroTexts.title}
                 </h1>
-                <span
-                  className="text-xs sm:text-sm md:text-base font-extrabold px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-red-600 to-rose-700 text-white tracking-wider shadow-[0_0_15px_rgba(225,29,72,0.4)] inline-block"
-                  style={{ fontFamily: 'Space Grotesk, monospace' }}
-                >
-                  &ldquo;I am a Rockstar Baby Auuuuu….&rdquo;
-                </span>
+                {heroTexts.rockstarSlogan && (
+                  <span
+                    className="text-xs sm:text-sm md:text-base font-extrabold px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-red-600 to-rose-700 text-white tracking-wider shadow-[0_0_15px_rgba(225,29,72,0.4)] inline-block"
+                    style={{ fontFamily: 'Space Grotesk, monospace' }}
+                  >
+                    {heroTexts.rockstarSlogan}
+                  </span>
+                )}
               </div>
 
               {/* Tagline: ACTOR • PERFORMER • SINGER */}
-              <div
-                className="text-xs sm:text-sm md:text-base font-bold tracking-[0.32em] text-[#D8AE56] uppercase"
-                style={{ fontFamily: 'Space Grotesk, monospace' }}
-              >
-                ACTOR • PERFORMER • SINGER
-              </div>
+              {heroTexts.tagline && (
+                <div
+                  className="text-xs sm:text-sm md:text-base font-bold tracking-[0.32em] text-[#D8AE56] uppercase"
+                  style={{ fontFamily: 'Space Grotesk, monospace' }}
+                >
+                  {heroTexts.tagline}
+                </div>
+              )}
 
               {/* Hindi Iconic Punchline */}
-              <div
-                className="text-xl sm:text-2xl md:text-3xl font-bold text-[#F3D084] tracking-wide pt-1"
-                style={{ fontFamily: 'Bodoni Moda, serif', fontStyle: 'italic' }}
-              >
-                &ldquo;Awaaz Jo Dil Se Nikle, Stage Pe Aag Laga De&rdquo;
-              </div>
+              {heroTexts.punchline && (
+                <div
+                  className="text-xl sm:text-2xl md:text-3xl font-bold text-[#F3D084] tracking-wide pt-1"
+                  style={{ fontFamily: 'Bodoni Moda, serif', fontStyle: 'italic' }}
+                >
+                  {heroTexts.punchline}
+                </div>
+              )}
             </div>
 
             {/* Clean, Simple Bio (No Clutter) */}
             <p className="text-sm md:text-base text-gray-300 max-w-xl leading-relaxed mx-auto lg:mx-0">
-              The iconic singer and powerhouse stage performer. From winning national hearts to lighting up the stage with <strong className="text-white font-semibold">Salman Khan</strong>, Qazi delivers an adrenaline-fueled arena experience for College Fests, Stadium Arenas, Royal Sangeets, and VIP Events.
+              {heroTexts.bio}
             </p>
 
             {/* Primary Action Button - Centered */}
             <div className="w-full flex justify-center pt-4">
               <Link
-                href="/book-me"
+                href={heroTexts.ctaLink || '/book-me'}
                 className="inline-flex items-center gap-2.5 px-9 py-4 rounded-xl bg-gradient-to-r from-[#D8AE56] via-[#F3D084] to-[#B68938] text-[#1A1203] text-sm uppercase font-extrabold tracking-wider hover:opacity-95 transition-all duration-300 shadow-[0_8px_30px_rgba(216,174,86,0.45)] hover:shadow-[0_12px_40px_rgba(216,174,86,0.65)] hover:scale-[1.02]"
                 style={{ fontFamily: 'Space Grotesk, monospace' }}
               >
                 <span className="material-symbols-outlined text-[20px]">calendar_month</span>
-                <span>BOOK AN EVENT</span>
+                <span>{heroTexts.ctaText || 'BOOK AN EVENT'}</span>
                 <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
               </Link>
             </div>
