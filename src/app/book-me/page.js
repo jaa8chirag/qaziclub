@@ -666,7 +666,6 @@ function BookMeContent() {
                             <option value="Mumbai, Maharashtra, India" />
                             <option value="Bengaluru, Karnataka, India" />
                             <option value="Noida, Uttar Pradesh, India" />
-                            <option value="Greater Noida, Uttar Pradesh, India" />
                             <option value="Gurugram, Haryana, India" />
                             <option value="Pune, Maharashtra, India" />
                             <option value="Jaipur, Rajasthan, India" />

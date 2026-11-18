@@ -477,7 +477,7 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  {/* Greater Noida */}
+                  {/* Noida */}
                   <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E6DFD1] hover:border-[#D8AE56] transition-all duration-200">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-5 rounded overflow-hidden shadow-sm shrink-0 border border-black/10">
@@ -493,7 +493,7 @@ export default function ContactPage() {
                         className="text-base sm:text-lg font-bold text-[#111111] tracking-wide"
                         style={{ fontFamily: 'Space Grotesk, monospace' }}
                       >
-                        Greater Noida
+                        Noida
                       </h4>
                     </div>
                   </div>

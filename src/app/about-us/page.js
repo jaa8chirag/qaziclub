@@ -694,7 +694,7 @@ export default function AboutUsPage() {
                     </span>
                     <span className="flex items-center gap-1.5">
                       <span className="material-symbols-outlined text-[16px]">pin_drop</span>
-                      <span>Mumbai &bull; Greater Noida &bull; London &bull; Dubai</span>
+                      <span>Mumbai &bull; Noida &bull; London &bull; Dubai</span>
                     </span>
                   </div>
                 </div>
