@@ -131,21 +131,19 @@ export default function CRMPage() {
   };
 
   const handleAddSlide = () => {
-    setHeroConfig((prev) => {
-      const newNum = prev.slides.length + 1;
-      return {
-        ...prev,
-        slides: [
-          ...prev.slides,
-          {
-            id: Date.now(),
-            caption: `Performance Moment ${newNum}`,
-            image: '/images/hero/qazi-salman-hug.jpg',
-            accentColor: '#D8AE56',
-          },
-        ],
-      };
-    });
+    setHeroConfig((prev) => ({
+      ...prev,
+      slides: [
+        {
+          id: Date.now(),
+          caption: '',
+          image: '',
+          accentColor: '#D8AE56',
+          isNew: true,
+        },
+        ...prev.slides,
+      ],
+    }));
   };
 
   const handleRemoveSlide = (index) => {
@@ -1265,8 +1263,13 @@ export default function CRMPage() {
                             <span className="w-8 h-8 rounded-full bg-[#2A251E] border border-[#D8AE56]/40 text-[#D8AE56] text-xs font-black flex items-center justify-center">
                               0{sIdx + 1}
                             </span>
-                            <span className="text-sm font-bold text-white" style={{ fontFamily: 'Bodoni Moda, serif' }}>
-                              Slide {sIdx + 1}
+                            <span className="text-sm font-bold text-white flex items-center gap-2" style={{ fontFamily: 'Bodoni Moda, serif' }}>
+                              <span>Slide {sIdx + 1}</span>
+                              {slide.isNew && (
+                                <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-[9px] font-bold uppercase tracking-wider">
+                                  New
+                                </span>
+                              )}
                             </span>
 
                             {/* Move Up / Down Buttons */}
@@ -1337,20 +1340,33 @@ export default function CRMPage() {
                         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
                           {/* Live Thumbnail Preview */}
                           <div className="md:col-span-3">
-                            <div className="relative w-full aspect-[4/5] rounded-xl overflow-hidden bg-[#0A090E] border-2 border-[#38332C] shadow-md group">
-                              <img
-                                src={slide.image || '/images/hero/qazi-salman-hug.jpg'}
-                                alt={slide.caption || 'Slide'}
-                                className="w-full h-full object-cover"
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src = '/images/hero/qazi-salman-hug.jpg';
-                                }}
-                              />
-                              <div
-                                className="absolute bottom-0 inset-x-0 h-1"
-                                style={{ backgroundColor: slide.accentColor || '#D8AE56' }}
-                              />
+                            <div className="relative w-full aspect-[4/5] rounded-xl overflow-hidden bg-[#0A090E] border-2 border-[#38332C] shadow-md group flex items-center justify-center">
+                              {slide.image ? (
+                                <>
+                                  <img
+                                    src={slide.image}
+                                    alt={slide.caption || 'Slide'}
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                      e.target.style.display = 'none';
+                                    }}
+                                  />
+                                  <div
+                                    className="absolute bottom-0 inset-x-0 h-1.5"
+                                    style={{ backgroundColor: slide.accentColor || '#D8AE56' }}
+                                  />
+                                </>
+                              ) : (
+                                <div className="flex flex-col items-center justify-center p-3 text-center space-y-1.5">
+                                  <span className="material-symbols-outlined text-[#D8AE56] text-3xl">add_photo_alternate</span>
+                                  <span className="text-[11px] font-bold text-white uppercase tracking-wider block">No Photo</span>
+                                  <span className="text-[9px] text-[#A8A29E] block">Upload photo below</span>
+                                  <div
+                                    className="absolute bottom-0 inset-x-0 h-1.5"
+                                    style={{ backgroundColor: slide.accentColor || '#D8AE56' }}
+                                  />
+                                </div>
+                              )}
                             </div>
                           </div>
 
@@ -1365,7 +1381,7 @@ export default function CRMPage() {
                                 type="text"
                                 value={slide.caption || ''}
                                 onChange={(e) => handleSlideChange(sIdx, 'caption', e.target.value)}
-                                placeholder="Enter slide caption..."
+                                placeholder="Enter slide caption (e.g. Moments of Glory with Salman Khan)..."
                                 className="w-full bg-[#221F1C] border border-[#38332C] focus:border-[#D8AE56] text-white px-3.5 py-2.5 rounded-xl text-xs sm:text-sm outline-none transition-all font-medium"
                               />
                             </div>
@@ -1380,7 +1396,7 @@ export default function CRMPage() {
                                   type="text"
                                   value={slide.image || ''}
                                   onChange={(e) => handleSlideChange(sIdx, 'image', e.target.value)}
-                                  placeholder="/images/hero/qazi-salman-hug.jpg"
+                                  placeholder="Upload photo using button or enter path / URL..."
                                   className="flex-1 bg-[#221F1C] border border-[#38332C] focus:border-[#D8AE56] text-white px-3.5 py-2.5 rounded-xl text-xs outline-none transition-all font-mono"
                                 />
 

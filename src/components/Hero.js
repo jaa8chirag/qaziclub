@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 
 const DEFAULT_TEXTS = {
@@ -86,13 +86,18 @@ export default function Hero() {
     fetchHeroConfig();
   }, []);
 
+  const displaySlides = useMemo(() => {
+    const valid = slides.filter((s) => s && s.image && s.image.trim() !== '');
+    return valid.length > 0 ? valid : DEFAULT_SLIDES;
+  }, [slides]);
+
   const handleNext = useCallback(() => {
-    setCurrentIdx((prev) => (prev + 1) % slides.length);
-  }, [slides.length]);
+    setCurrentIdx((prev) => (prev + 1) % displaySlides.length);
+  }, [displaySlides.length]);
 
   const handlePrev = useCallback(() => {
-    setCurrentIdx((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  }, [slides.length]);
+    setCurrentIdx((prev) => (prev === 0 ? displaySlides.length - 1 : prev - 1));
+  }, [displaySlides.length]);
 
   // Auto-advance slides every 5 seconds
   useEffect(() => {
@@ -131,8 +136,8 @@ export default function Hero() {
     touchEndX.current = null;
   };
 
-  const safeIdx = currentIdx < slides.length ? currentIdx : 0;
-  const active = slides[safeIdx] || slides[0] || DEFAULT_SLIDES[0];
+  const safeIdx = currentIdx < displaySlides.length ? currentIdx : 0;
+  const active = displaySlides[safeIdx] || displaySlides[0] || DEFAULT_SLIDES[0];
 
   return (
     <section className="relative w-full bg-[#08070B] text-white pt-24 lg:pt-28 pb-10 overflow-hidden border-b border-[#2A2418]">
@@ -276,11 +281,11 @@ export default function Hero() {
               <div className="relative w-full aspect-[4/5] min-h-[480px] sm:min-h-[540px] rounded-2xl overflow-hidden bg-[#0A090E] group">
 
                 {/* Image Slides */}
-                {slides.map((slide, idx) => {
-                  const isActive = idx === currentIdx;
+                {displaySlides.map((slide, idx) => {
+                  const isActive = idx === safeIdx;
                   return (
                     <div
-                      key={slide.id}
+                      key={slide.id || idx}
                       className={`absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out ${isActive ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
                         }`}
                     >
@@ -300,7 +305,7 @@ export default function Hero() {
                           className="px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[11px] font-bold text-white/90 tracking-widest"
                           style={{ fontFamily: 'Space Grotesk, monospace' }}
                         >
-                          {String(safeIdx + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}
+                          {String(safeIdx + 1).padStart(2, '0')} / {String(displaySlides.length).padStart(2, '0')}
                         </div>
                       </div>
 
@@ -352,13 +357,13 @@ export default function Hero() {
 
             {/* Sleek Minimal Indicator Dots */}
             <div className="flex items-center justify-center gap-2 pt-4">
-              {slides.map((s, idx) => (
+              {displaySlides.map((s, idx) => (
                 <button
-                  key={s.id}
+                  key={s.id || idx}
                   type="button"
                   onClick={() => setCurrentIdx(idx)}
                   aria-label={`Go to slide ${idx + 1}`}
-                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${currentIdx === idx
+                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${safeIdx === idx
                       ? 'w-8 bg-gradient-to-r from-[#D8AE56] to-[#F3D084] shadow-[0_0_10px_rgba(216,174,86,0.8)]'
                       : 'w-2 bg-white/20 hover:bg-white/50'
                     }`}
