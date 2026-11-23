@@ -415,7 +415,7 @@ export default function ContactPage() {
                   {/* Official Artist Arena Logo */}
                   <div className="bg-white p-3 sm:p-3.5 rounded-xl border border-[#E6DFD1] shadow-xs flex items-center justify-center">
                     <img
-                      src="/images/logos/artist-arena-logo.jpg"
+                      src="/images/logos/artist-arena-logo.png"
                       alt="Artist Arena — Unleash your creativity with us"
                       className="h-10 sm:h-12 w-auto object-contain max-w-full"
                     />
